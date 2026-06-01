@@ -109,7 +109,7 @@ async function init() {
 
 async function checkAdminApi() {
   try {
-    const payload = await requestJson(`${adminApiBase}/health`, { skipAuth: true });
+    const payload = await requestJson(`${adminApiBase}/health`, { skipAuth: !state.adminPassword });
     elements.connectionState.textContent = payload.authenticated
       ? 'Hosted admin API online and unlocked'
       : 'Hosted admin API online and waiting for password';
@@ -393,7 +393,12 @@ async function validatePassword(password, { preserveInput }) {
   setAuthStatus('Checking password…', 'working');
 
   try {
-    await requestJson(`${adminApiBase}/students?query=`);
+    const payload = await requestJson(`${adminApiBase}/health`);
+    if (!payload?.authenticated) {
+      const error = new Error('Unauthorized. Enter the admin page password to continue.');
+      error.statusCode = 401;
+      throw error;
+    }
     sessionStorage.setItem(ADMIN_PASSWORD_STORAGE_KEY, password);
     unlockShell();
     setAuthStatus('Unlocked.', 'success');
