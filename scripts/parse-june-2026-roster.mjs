@@ -85,6 +85,7 @@ function parseTsv(tsv) {
       program: normaliseProgram(program),
       block_assignments: {},
       has_tok: false,
+      tok_block_code: null,
     };
 
     const cohortName = String(cohort || '').trim();
@@ -96,6 +97,7 @@ function parseTsv(tsv) {
     if (isTokBlock(block, cohortName)) {
       student.has_tok = true;
       student.tok_course = cohortName;
+      student.tok_block_code = blockCode;
     } else if (!student.block_assignments[blockCode]) {
       student.block_assignments[blockCode] = cohortName;
     }

@@ -8,9 +8,11 @@
       "B": "Economics B-2 (Summit)",
       "C": "Chemistry C-1",
       "D": "Advanced Math D (CIE)",
-      "E": "English E-1 - Honors"
+      "E": "English E-1 - Honors",
+      "F": "PE-1"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "1030",
@@ -21,9 +23,11 @@
       "B": "Economics B-2 (Summit)",
       "C": "Chemistry C-2 (Summit)",
       "D": "Chinese D-2",
-      "E": "English E-4 - L&L3"
+      "E": "English E-4 - L&L3",
+      "F": "PE-1"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "1032",
@@ -34,9 +38,11 @@
       "B": "Chinese B",
       "C": "Regular Math C-1",
       "D": "Physics D",
-      "E": "English E-6 - ESL 2"
+      "E": "English E-6 - ESL 2",
+      "F": "PE-5"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "1033",
@@ -47,9 +53,11 @@
       "B": "Economics B-1",
       "C": "Chemistry C-2 (Summit)",
       "D": "Physics D",
-      "E": "English E-4 - L&L3"
+      "E": "English E-4 - L&L3",
+      "F": "PE-1"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "1034",
@@ -60,9 +68,11 @@
       "B": "Economics B-2 (Summit)",
       "C": "Business",
       "D": "Regular Math D",
-      "E": "English E-1 - Honors"
+      "E": "English E-1 - Honors",
+      "F": "PE-1"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "1037",
@@ -77,7 +87,8 @@
       "F": "Chinese A SL"
     },
     "has_tok": true,
-    "tok_course": "TOK (English)"
+    "tok_block_code": "C",
+    "tok_course": "TOK (Group 1)"
   },
   {
     "student_id": "1114",
@@ -92,7 +103,8 @@
       "F": "Chinese A SL"
     },
     "has_tok": true,
-    "tok_course": "TOK (English)"
+    "tok_block_code": "C",
+    "tok_course": "TOK (Group 1)"
   },
   {
     "student_id": "1298",
@@ -103,9 +115,11 @@
       "B": "Economics B-2 (Summit)",
       "C": "Advanced Math C (CIE)",
       "D": "Art & Design",
-      "E": "English E-2 - L&L1"
+      "E": "English E-2 - L&L1",
+      "F": "PE-2"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "1361",
@@ -116,9 +130,11 @@
       "B": "Computer Science",
       "C": "Chemistry C-2 (Summit)",
       "D": "Advanced Math D (CIE)",
-      "E": "English E-1 - Honors"
+      "E": "English E-1 - Honors",
+      "F": "PE-1"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "139",
@@ -129,9 +145,11 @@
       "B": "Biology",
       "C": "Chemistry C-2 (Summit)",
       "D": "Advanced Math D (CIE)",
-      "E": "English E-1 - Honors"
+      "E": "English E-1 - Honors",
+      "F": "PE-1"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "157",
@@ -142,9 +160,11 @@
       "B": "Economics B-2 (Summit)",
       "C": "Chemistry C-2 (Summit)",
       "D": "Advanced Math D (CIE)",
-      "E": "English E-3 - L&L2"
+      "E": "English E-3 - L&L2",
+      "F": "PE-3"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "1583",
@@ -159,7 +179,8 @@
       "F": "Chinese A SL"
     },
     "has_tok": true,
-    "tok_course": "TOK (English)"
+    "tok_block_code": "C",
+    "tok_course": "TOK (Group 2)"
   },
   {
     "student_id": "1586",
@@ -170,9 +191,11 @@
       "B": "Biology",
       "C": "Advanced Math C (CIE)",
       "D": "Chemistry D",
-      "E": "English E-2 - L&L1"
+      "E": "English E-2 - L&L1",
+      "F": "PE-2"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "1588",
@@ -183,9 +206,11 @@
       "B": "Computer Science",
       "C": "Advanced Math C (CIE)",
       "D": "Chemistry D",
-      "E": "English E-1 - Honors"
+      "E": "English E-1 - Honors",
+      "F": "PE-1"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "1590",
@@ -196,9 +221,11 @@
       "B": "Chinese B",
       "C": "Economics C-1",
       "D": "Fast Maths D (Edexcel)",
-      "E": "English E-7 - ESL 3"
+      "E": "English E-7 - ESL 3",
+      "F": "PE-6"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "1592",
@@ -207,11 +234,13 @@
     "block_assignments": {
       "A": "Regular Math A-2",
       "B": "Physics B-2",
-      "C": "Economics C-2 (EU)",
+      "C": "Economics C-2",
       "D": "Chinese D-2",
-      "E": "English E-7 - ESL 3"
+      "E": "English E-7 - ESL 3",
+      "F": "PE-6"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "1593",
@@ -222,9 +251,11 @@
       "B": "Physics B-1",
       "C": "Advanced Math C (CIE)",
       "D": "Art & Design",
-      "E": "English E-3 - L&L2"
+      "E": "English E-3 - L&L2",
+      "F": "PE-3"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "1602",
@@ -235,9 +266,11 @@
       "B": "Economics B-2 (Summit)",
       "C": "Chemistry C-2 (Summit)",
       "D": "Advanced Math D (CIE)",
-      "E": "English E-4 - L&L3"
+      "E": "English E-4 - L&L3",
+      "F": "PE-1"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "1607",
@@ -248,9 +281,11 @@
       "B": "Physics B-1",
       "C": "Advanced Math C (CIE)",
       "D": "Art & Design",
-      "E": "English E-1 - Honors"
+      "E": "English E-1 - Honors",
+      "F": "PE-1"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "1616",
@@ -265,7 +300,8 @@
       "F": "Chinese A SL"
     },
     "has_tok": true,
-    "tok_course": "TOK (Chinese)"
+    "tok_block_code": "C",
+    "tok_course": "TOK (Group 2)"
   },
   {
     "student_id": "1618",
@@ -280,7 +316,8 @@
       "F": "Chinese A SL"
     },
     "has_tok": true,
-    "tok_course": "TOK (English)"
+    "tok_block_code": "C",
+    "tok_course": "TOK (Group 1)"
   },
   {
     "student_id": "1665",
@@ -291,9 +328,11 @@
       "B": "Theatre SL",
       "C": "Advanced Math C (CIE)",
       "D": "Art & Design",
-      "E": "English E-2 - L&L1"
+      "E": "English E-2 - L&L1",
+      "F": "PE-2"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "171",
@@ -304,9 +343,11 @@
       "B": "Biology",
       "C": "Advanced Math C (CIE)",
       "D": "Physics D",
-      "E": "English E-7 - ESL 3"
+      "E": "English E-7 - ESL 3",
+      "F": "PE-6"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "1735",
@@ -317,9 +358,11 @@
       "B": "Computer Science",
       "C": "Regular Math C-1",
       "D": "History",
-      "E": "English E-1 - Honors"
+      "E": "English E-1 - Honors",
+      "F": "PE-1"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "183",
@@ -334,7 +377,8 @@
       "F": "Chinese A SL"
     },
     "has_tok": true,
-    "tok_course": "TOK (Chinese)"
+    "tok_block_code": "C",
+    "tok_course": "TOK (Group 2)"
   },
   {
     "student_id": "1914",
@@ -345,9 +389,11 @@
       "B": "Biology",
       "C": "Advanced Math C (CIE)",
       "D": "Chemistry D",
-      "E": "English E-1 - Honors"
+      "E": "English E-1 - Honors",
+      "F": "PE-1"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "1915",
@@ -358,9 +404,11 @@
       "B": "Biology",
       "C": "Chemistry C-1",
       "D": "Fast Maths D (Edexcel)",
-      "E": "English E-7 - ESL 3"
+      "E": "English E-7 - ESL 3",
+      "F": "PE-6"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "1979",
@@ -371,9 +419,11 @@
       "B": "Physics B-1",
       "C": "Regular Math C-2",
       "D": "Chemistry D",
-      "E": "English E-2 - L&L1"
+      "E": "English E-2 - L&L1",
+      "F": "PE-2"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "2149",
@@ -382,11 +432,13 @@
     "block_assignments": {
       "A": "Chinese A",
       "B": "Music",
-      "C": "Economics C-2 (EU)",
+      "C": "Economics C-2",
       "D": "Regular Math D",
-      "E": "English E-5 - ESL 1"
+      "E": "English E-5 - ESL 1",
+      "F": "PE-4"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "2152",
@@ -397,9 +449,11 @@
       "B": "Chinese B",
       "C": "Business",
       "D": "Art & Design",
-      "E": "English E-6 - ESL 2"
+      "E": "English E-6 - ESL 2",
+      "F": "PE-5"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "2213",
@@ -410,9 +464,11 @@
       "B": "Economics B-1",
       "C": "Advanced Math C (CIE)",
       "D": "Physics D",
-      "E": "English E-7 - ESL 3"
+      "E": "English E-7 - ESL 3",
+      "F": "PE-6"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "2235",
@@ -423,9 +479,11 @@
       "B": "Physics B-2",
       "C": "Regular Math C-2",
       "D": "Chinese D-2",
-      "E": "English E-7 - ESL 3"
+      "E": "English E-7 - ESL 3",
+      "F": "PE-6"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "2330",
@@ -436,9 +494,11 @@
       "B": "Physics B-1",
       "C": "Regular Math C-1",
       "D": "Chinese D-2",
-      "E": "English E-7 - ESL 3"
+      "E": "English E-7 - ESL 3",
+      "F": "PE-6"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "243",
@@ -449,9 +509,11 @@
       "B": "Economics B-1",
       "C": "Regular Math C-2",
       "D": "Art & Design",
-      "E": "English E-5 - ESL 1"
+      "E": "English E-5 - ESL 1",
+      "F": "PE-4"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "2487",
@@ -466,7 +528,8 @@
       "F": "Chinese A SL"
     },
     "has_tok": true,
-    "tok_course": "TOK (English)"
+    "tok_block_code": "C",
+    "tok_course": "TOK (Group 1)"
   },
   {
     "student_id": "2492",
@@ -477,9 +540,11 @@
       "B": "Biology",
       "C": "Advanced Math C (CIE)",
       "D": "Physics D",
-      "E": "English E-4 - L&L3"
+      "E": "English E-4 - L&L3",
+      "F": "PE-1"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "2495",
@@ -494,7 +559,8 @@
       "F": "Chinese A SL"
     },
     "has_tok": true,
-    "tok_course": "TOK (English)"
+    "tok_block_code": "C",
+    "tok_course": "TOK (Group 2)"
   },
   {
     "student_id": "2506",
@@ -505,9 +571,11 @@
       "B": "Music",
       "C": "Regular Math C-1",
       "D": "Chinese D-2",
-      "E": "English E-4 - L&L3"
+      "E": "English E-4 - L&L3",
+      "F": "PE-1"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "2514",
@@ -518,9 +586,11 @@
       "B": "Physics B-2",
       "C": "Chemistry C-1",
       "D": "Chinese D-2",
-      "E": "English E-5 - ESL 1"
+      "E": "English E-5 - ESL 1",
+      "F": "PE-4"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "2516",
@@ -529,11 +599,13 @@
     "block_assignments": {
       "A": "Regular Math A-2",
       "B": "Chinese B",
-      "C": "Economics C-2 (EU)",
+      "C": "Economics C-2",
       "D": "Art & Design",
-      "E": "English E-7 - ESL 3"
+      "E": "English E-7 - ESL 3",
+      "F": "PE-6"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "2522",
@@ -544,9 +616,11 @@
       "B": "Biology",
       "C": "Regular Math C-1",
       "D": "Art & Design",
-      "E": "English E-2 - L&L1"
+      "E": "English E-2 - L&L1",
+      "F": "PE-2"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "2578",
@@ -555,11 +629,13 @@
     "block_assignments": {
       "A": "Regular Math A-2",
       "B": "Chinese B",
-      "C": "Economics C-2 (EU)",
+      "C": "Economics C-2",
       "D": "Art & Design",
-      "E": "English E-5 - ESL 1"
+      "E": "English E-5 - ESL 1",
+      "F": "PE-4"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "2641",
@@ -570,9 +646,11 @@
       "B": "Physics B-2",
       "C": "Regular Math C-2",
       "D": "Chinese D-2",
-      "E": "English E-6 - ESL 2"
+      "E": "English E-6 - ESL 2",
+      "F": "PE-5"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "2698",
@@ -587,7 +665,8 @@
       "F": "Chinese B SL"
     },
     "has_tok": true,
-    "tok_course": "TOK (English)"
+    "tok_block_code": "C",
+    "tok_course": "TOK (Group 1)"
   },
   {
     "student_id": "2708",
@@ -596,11 +675,13 @@
     "block_assignments": {
       "A": "Chinese A",
       "B": "Physics B-2",
-      "C": "Economics C-2 (EU)",
+      "C": "Economics C-2",
       "D": "Regular Math D",
-      "E": "English E-7 - ESL 3"
+      "E": "English E-7 - ESL 3",
+      "F": "PE-6"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "2813",
@@ -615,7 +696,8 @@
       "F": "Chinese A HL"
     },
     "has_tok": true,
-    "tok_course": "TOK (Chinese)"
+    "tok_block_code": "C",
+    "tok_course": "TOK (Group 2)"
   },
   {
     "student_id": "2815",
@@ -626,9 +708,11 @@
       "B": "Physics B-2",
       "C": "Chemistry C-1",
       "D": "Chinese D-1",
-      "E": "English E-5 - ESL 1"
+      "E": "English E-5 - ESL 1",
+      "F": "PE-4"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "2869",
@@ -639,9 +723,11 @@
       "B": "Computer Science",
       "C": "Advanced Math C (CIE)",
       "D": "Physics D",
-      "E": "English E-1 - Honors"
+      "E": "English E-1 - Honors",
+      "F": "PE-1"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "2943",
@@ -652,9 +738,11 @@
       "B": "Physics B-2",
       "C": "Regular Math C-1",
       "D": "Chinese D-2",
-      "E": "English E-7 - ESL 3"
+      "E": "English E-7 - ESL 3",
+      "F": "PE-6"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "2964",
@@ -665,9 +753,11 @@
       "B": "Chinese B",
       "C": "Regular Math C-2",
       "D": "Art & Design",
-      "E": "English E-6 - ESL 2"
+      "E": "English E-6 - ESL 2",
+      "F": "PE-5"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "2987",
@@ -678,9 +768,11 @@
       "B": "Physics B-2",
       "C": "Economics C-1",
       "D": "Regular Math D",
-      "E": "English E-3 - L&L2"
+      "E": "English E-3 - L&L2",
+      "F": "PE-3"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "3005",
@@ -691,9 +783,11 @@
       "B": "Biology",
       "C": "Advanced Math C (CIE)",
       "D": "Chemistry D",
-      "E": "English E-3 - L&L2"
+      "E": "English E-3 - L&L2",
+      "F": "PE-3"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "3056",
@@ -704,9 +798,11 @@
       "B": "Economics B-1",
       "C": "Chemistry C-1",
       "D": "Physics D",
-      "E": "English E-6 - ESL 2"
+      "E": "English E-6 - ESL 2",
+      "F": "PE-5"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "3074",
@@ -717,9 +813,11 @@
       "B": "Art & Design (Dual Dose)",
       "C": "Chinese B",
       "D": "Art & Design",
-      "E": "English E-7 - ESL 3"
+      "E": "English E-7 - ESL 3",
+      "F": "PE-6"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "3082",
@@ -730,9 +828,11 @@
       "B": "Chinese B",
       "C": "Regular Math C-1",
       "D": "Physics D",
-      "E": "English E-4 - L&L3"
+      "E": "English E-4 - L&L3",
+      "F": "PE-1"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "3086",
@@ -743,9 +843,11 @@
       "B": "Physics B-1",
       "C": "Further Math",
       "D": "Chemistry D",
-      "E": "English E-3 - L&L2"
+      "E": "English E-3 - L&L2",
+      "F": "PE-3"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "3087",
@@ -754,11 +856,13 @@
     "block_assignments": {
       "A": "Chemistry A",
       "B": "Physics B-1",
-      "C": "Economics C-2 (EU)",
+      "C": "Economics C-2",
       "D": "Regular Math D",
-      "E": "English E-5 - ESL 1"
+      "E": "English E-5 - ESL 1",
+      "F": "PE-4"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "3111",
@@ -769,9 +873,11 @@
       "B": "Chinese B",
       "C": "Business",
       "D": "Advanced Math D (CIE)",
-      "E": "English E-1 - Honors"
+      "E": "English E-1 - Honors",
+      "F": "PE-1"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "3115",
@@ -782,9 +888,11 @@
       "B": "Economics B-1",
       "C": "Regular Math C-2",
       "D": "Chemistry D",
-      "E": "English E-6 - ESL 2"
+      "E": "English E-6 - ESL 2",
+      "F": "PE-5"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "3127",
@@ -793,11 +901,13 @@
     "block_assignments": {
       "A": "Regular Math A-2",
       "B": "Physics B-2",
-      "C": "Economics C-2 (EU)",
+      "C": "Economics C-2",
       "D": "Chinese D-1",
-      "E": "English E-7 - ESL 3"
+      "E": "English E-7 - ESL 3",
+      "F": "PE-6"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "3152",
@@ -808,9 +918,11 @@
       "B": "Biology",
       "C": "Economics C-1",
       "D": "Chinese D-1",
-      "E": "English E-5 - ESL 1"
+      "E": "English E-5 - ESL 1",
+      "F": "PE-4"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "3247",
@@ -819,11 +931,13 @@
     "block_assignments": {
       "A": "Physics A-3",
       "B": "Chinese B",
-      "C": "Economics C-2 (EU)",
+      "C": "Economics C-2",
       "D": "Regular Math D",
-      "E": "English E-7 - ESL 3"
+      "E": "English E-7 - ESL 3",
+      "F": "PE-6"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "3277",
@@ -832,11 +946,13 @@
     "block_assignments": {
       "A": "Physics A-3",
       "B": "Chinese B",
-      "C": "Economics C-2 (EU)",
+      "C": "Economics C-2",
       "D": "Regular Math D",
-      "E": "English E-7 - ESL 3"
+      "E": "English E-7 - ESL 3",
+      "F": "PE-6"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "3283",
@@ -847,9 +963,11 @@
       "B": "Economics B-1",
       "C": "Business",
       "D": "Advanced Math D (CIE)",
-      "E": "English E-3 - L&L2"
+      "E": "English E-3 - L&L2",
+      "F": "PE-3"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "3291",
@@ -864,7 +982,8 @@
       "F": "Chinese AB SL"
     },
     "has_tok": true,
-    "tok_course": "TOK (Chinese)"
+    "tok_block_code": "C",
+    "tok_course": "TOK (Group 2)"
   },
   {
     "student_id": "3372",
@@ -875,9 +994,11 @@
       "B": "Biology",
       "C": "Advanced Math C (CIE)",
       "D": "Chemistry D",
-      "E": "English E-2 - L&L1"
+      "E": "English E-2 - L&L1",
+      "F": "PE-2"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "3374",
@@ -888,9 +1009,11 @@
       "B": "Economics B-2 (Summit)",
       "C": "Regular Math C-1",
       "D": "Art & Design",
-      "E": "English E-1 - Honors"
+      "E": "English E-1 - Honors",
+      "F": "PE-1"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "3465",
@@ -905,7 +1028,8 @@
       "F": "Chinese AB SL"
     },
     "has_tok": true,
-    "tok_course": "TOK (Chinese)"
+    "tok_block_code": "C",
+    "tok_course": "TOK (Group 2)"
   },
   {
     "student_id": "3469",
@@ -916,9 +1040,11 @@
       "B": "Physics B-1",
       "C": "Regular Math C-1",
       "D": "Chinese D-1",
-      "E": "English E-5 - ESL 1"
+      "E": "English E-5 - ESL 1",
+      "F": "PE-4"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "3470",
@@ -933,7 +1059,8 @@
       "F": "Chinese AB SL"
     },
     "has_tok": true,
-    "tok_course": "TOK (English)"
+    "tok_block_code": "C",
+    "tok_course": "TOK (Group 1)"
   },
   {
     "student_id": "3520",
@@ -944,9 +1071,11 @@
       "B": "Economics B-1",
       "C": "Regular Math C-1",
       "D": "Chemistry D",
-      "E": "English E-6 - ESL 2"
+      "E": "English E-6 - ESL 2",
+      "F": "PE-5"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "3536",
@@ -957,9 +1086,11 @@
       "B": "Economics B-1",
       "C": "Business",
       "D": "Chinese D-1",
-      "E": "English E-7 - ESL 3"
+      "E": "English E-7 - ESL 3",
+      "F": "PE-6"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "3544",
@@ -970,9 +1101,11 @@
       "B": "Chinese B",
       "C": "Economics C-1",
       "D": "History",
-      "E": "English E-6 - ESL 2"
+      "E": "English E-6 - ESL 2",
+      "F": "PE-5"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "3549",
@@ -983,9 +1116,11 @@
       "B": "Chinese B",
       "C": "Regular Math C-2",
       "D": "Art & Design",
-      "E": "English E-7 - ESL 3"
+      "E": "English E-7 - ESL 3",
+      "F": "PE-6"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "3554",
@@ -996,9 +1131,11 @@
       "B": "Biology",
       "C": "Advanced Math C (CIE)",
       "D": "Chinese D-2",
-      "E": "English E-7 - ESL 3"
+      "E": "English E-7 - ESL 3",
+      "F": "PE-6"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "3576",
@@ -1009,9 +1146,11 @@
       "B": "Physics B-1",
       "C": "Regular Math C-2",
       "D": "Art & Design",
-      "E": "English E-6 - ESL 2"
+      "E": "English E-6 - ESL 2",
+      "F": "PE-5"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "3577",
@@ -1022,9 +1161,11 @@
       "B": "Economics B-1",
       "C": "Business",
       "D": "Chinese D-1",
-      "E": "English E-4 - L&L3"
+      "E": "English E-4 - L&L3",
+      "F": "PE-1"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "3582",
@@ -1035,9 +1176,11 @@
       "B": "Physics B-2",
       "C": "Economics C-1",
       "D": "Regular Math D",
-      "E": "English E-6 - ESL 2"
+      "E": "English E-6 - ESL 2",
+      "F": "PE-5"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "3603",
@@ -1048,9 +1191,11 @@
       "B": "Physics B-1",
       "C": "Regular Math C-1",
       "D": "Chinese D-1",
-      "E": "English E-2 - L&L1"
+      "E": "English E-2 - L&L1",
+      "F": "PE-2"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "3627",
@@ -1061,9 +1206,11 @@
       "B": "Economics B-1",
       "C": "Regular Math C-2",
       "D": "Chemistry D",
-      "E": "English E-7 - ESL 3"
+      "E": "English E-7 - ESL 3",
+      "F": "PE-6"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "3639",
@@ -1074,9 +1221,11 @@
       "B": "Biology",
       "C": "Regular Math C-2",
       "D": "Chinese D-1",
-      "E": "English E-6 - ESL 2"
+      "E": "English E-6 - ESL 2",
+      "F": "PE-5"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "3640",
@@ -1087,9 +1236,11 @@
       "B": "Economics B-2 (Summit)",
       "C": "Chemistry C-2 (Summit)",
       "D": "Advanced Math D (CIE)",
-      "E": "English E-2 - L&L1"
+      "E": "English E-2 - L&L1",
+      "F": "PE-2"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "3643",
@@ -1104,7 +1255,8 @@
       "F": "Chinese AB SL"
     },
     "has_tok": true,
-    "tok_course": "TOK (Chinese)"
+    "tok_block_code": "C",
+    "tok_course": "TOK (Group 2)"
   },
   {
     "student_id": "3663",
@@ -1115,9 +1267,11 @@
       "B": "Physics B-2",
       "C": "Chemistry C-1",
       "D": "Chinese D-1",
-      "E": "English E-5 - ESL 1"
+      "E": "English E-5 - ESL 1",
+      "F": "PE-4"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "3677",
@@ -1132,7 +1286,8 @@
       "F": "Chinese B HL"
     },
     "has_tok": true,
-    "tok_course": "TOK (English)"
+    "tok_block_code": "C",
+    "tok_course": "TOK (Group 1)"
   },
   {
     "student_id": "3690",
@@ -1141,11 +1296,13 @@
     "block_assignments": {
       "A": "Physics A-3",
       "B": "Chinese B",
-      "C": "Economics C-2 (EU)",
+      "C": "Economics C-2",
       "D": "Fast Maths D (Edexcel)",
-      "E": "English E-7 - ESL 3"
+      "E": "English E-7 - ESL 3",
+      "F": "PE-6"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "3695",
@@ -1156,9 +1313,11 @@
       "B": "Music",
       "C": "Economics C-1",
       "D": "Art & Design",
-      "E": "English E-2 - L&L1"
+      "E": "English E-2 - L&L1",
+      "F": "PE-2"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "3697",
@@ -1169,9 +1328,11 @@
       "B": "Physics B-1",
       "C": "Regular Math C-1",
       "D": "Chemistry D",
-      "E": "English E-6 - ESL 2"
+      "E": "English E-6 - ESL 2",
+      "F": "PE-5"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "3730",
@@ -1182,9 +1343,11 @@
       "B": "Art & Design (Dual Dose)",
       "C": "Regular Math C-1",
       "D": "Art & Design",
-      "E": "English E-3 - L&L2"
+      "E": "English E-3 - L&L2",
+      "F": "PE-3"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "3744",
@@ -1195,9 +1358,11 @@
       "B": "Economics B-2 (Summit)",
       "C": "Chemistry C-2 (Summit)",
       "D": "Fast Maths D (Edexcel)",
-      "E": "English E-2 - L&L1"
+      "E": "English E-2 - L&L1",
+      "F": "PE-2"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "3759",
@@ -1208,9 +1373,11 @@
       "B": "Physics B-1",
       "C": "Regular Math C-2",
       "D": "Chinese D-2",
-      "E": "English E-4 - L&L3"
+      "E": "English E-4 - L&L3",
+      "F": "PE-1"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "3761",
@@ -1221,9 +1388,11 @@
       "B": "Economics B-1",
       "C": "Advanced Math C (CIE)",
       "D": "Chemistry D",
-      "E": "English E-4 - L&L3"
+      "E": "English E-4 - L&L3",
+      "F": "PE-1"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "3770",
@@ -1234,9 +1403,11 @@
       "B": "Biology",
       "C": "Chemistry C-2 (Summit)",
       "D": "Regular Math D",
-      "E": "English E-3 - L&L2"
+      "E": "English E-3 - L&L2",
+      "F": "PE-3"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "3776",
@@ -1247,9 +1418,11 @@
       "B": "Art & Design (Dual Dose)",
       "C": "Physics B-1",
       "D": "Art & Design",
-      "E": "English E-2 - L&L1"
+      "E": "English E-2 - L&L1",
+      "F": "PE-2"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "3794",
@@ -1260,9 +1433,11 @@
       "B": "Computer Science",
       "C": "Advanced Math C (CIE)",
       "D": "Physics D",
-      "E": "English E-3 - L&L2"
+      "E": "English E-3 - L&L2",
+      "F": "PE-3"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "3815",
@@ -1277,7 +1452,8 @@
       "F": "Chinese A SL"
     },
     "has_tok": true,
-    "tok_course": "TOK (English)"
+    "tok_block_code": "C",
+    "tok_course": "TOK (Group 1)"
   },
   {
     "student_id": "3827",
@@ -1288,9 +1464,11 @@
       "B": "Physics B-2",
       "C": "Economics C-1",
       "D": "Regular Math D",
-      "E": "English E-6 - ESL 2"
+      "E": "English E-6 - ESL 2",
+      "F": "PE-5"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "3834",
@@ -1301,9 +1479,11 @@
       "B": "Biology",
       "C": "Regular Math C-2",
       "D": "Physics D",
-      "E": "English E-3 - L&L2"
+      "E": "English E-3 - L&L2",
+      "F": "PE-3"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "3839",
@@ -1312,11 +1492,13 @@
     "block_assignments": {
       "A": "Regular Math A-2",
       "B": "Physics B-2",
-      "C": "Economics C-2 (EU)",
+      "C": "Economics C-2",
       "D": "Chinese D-1",
-      "E": "English E-7 - ESL 3"
+      "E": "English E-7 - ESL 3",
+      "F": "PE-6"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "3854",
@@ -1327,9 +1509,11 @@
       "B": "Physics B-1",
       "C": "Regular Math C-2",
       "D": "Chinese D-1",
-      "E": "English E-6 - ESL 2"
+      "E": "English E-6 - ESL 2",
+      "F": "PE-5"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "3862",
@@ -1340,9 +1524,11 @@
       "B": "Economics B-2 (Summit)",
       "C": "Business",
       "D": "Physics D",
-      "E": "English E-2 - L&L1"
+      "E": "English E-2 - L&L1",
+      "F": "PE-2"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "3880",
@@ -1353,9 +1539,11 @@
       "B": "Music",
       "C": "Economics C-1",
       "D": "Physics D",
-      "E": "English E-6 - ESL 2"
+      "E": "English E-6 - ESL 2",
+      "F": "PE-5"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "3899",
@@ -1364,11 +1552,13 @@
     "block_assignments": {
       "A": "Physics A-3",
       "B": "Chinese B",
-      "C": "Economics C-2 (EU)",
+      "C": "Economics C-2",
       "D": "Regular Math D",
-      "E": "English E-7 - ESL 3"
+      "E": "English E-7 - ESL 3",
+      "F": "PE-6"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "3911",
@@ -1379,9 +1569,11 @@
       "B": "Physics B-1",
       "C": "Regular Math C-1",
       "D": "Art & Design",
-      "E": "English E-3 - L&L2"
+      "E": "English E-3 - L&L2",
+      "F": "PE-3"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "3958",
@@ -1396,7 +1588,8 @@
       "F": "Chinese A SL"
     },
     "has_tok": true,
-    "tok_course": "TOK (English)"
+    "tok_block_code": "C",
+    "tok_course": "TOK (Group 1)"
   },
   {
     "student_id": "3959",
@@ -1407,9 +1600,11 @@
       "B": "Music",
       "C": "Economics C-1",
       "D": "Fast Maths D (Edexcel)",
-      "E": "English E-3 - L&L2"
+      "E": "English E-3 - L&L2",
+      "F": "PE-3"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "3969",
@@ -1418,11 +1613,13 @@
     "block_assignments": {
       "A": "Regular Math A-2",
       "B": "Chinese B",
-      "C": "Economics C-2 (EU)",
+      "C": "Economics C-2",
       "D": "Art & Design",
-      "E": "English E-6 - ESL 2"
+      "E": "English E-6 - ESL 2",
+      "F": "PE-5"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "3981",
@@ -1431,11 +1628,13 @@
     "block_assignments": {
       "A": "Regular Math A-1",
       "B": "Physics B-2",
-      "C": "Economics C-2 (EU)",
+      "C": "Economics C-2",
       "D": "Chinese D-2",
-      "E": "English E-6 - ESL 2"
+      "E": "English E-6 - ESL 2",
+      "F": "PE-5"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "3988",
@@ -1446,9 +1645,11 @@
       "B": "Economics B-2 (Summit)",
       "C": "Chemistry C-1",
       "D": "Fast Maths D (Edexcel)",
-      "E": "English E-4 - L&L3"
+      "E": "English E-4 - L&L3",
+      "F": "PE-1"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "3991",
@@ -1463,7 +1664,8 @@
       "F": "Chinese A SL"
     },
     "has_tok": true,
-    "tok_course": "TOK (English)"
+    "tok_block_code": "C",
+    "tok_course": "TOK (Group 2)"
   },
   {
     "student_id": "3998",
@@ -1474,9 +1676,11 @@
       "B": "Art & Design (Dual Dose)",
       "C": "Physics B-1",
       "D": "Art & Design",
-      "E": "English E-3 - L&L2"
+      "E": "English E-3 - L&L2",
+      "F": "PE-3"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "4002",
@@ -1485,11 +1689,13 @@
     "block_assignments": {
       "A": "Regular Math A-2",
       "B": "Chinese B",
-      "C": "Economics C-2 (EU)",
+      "C": "Economics C-2",
       "D": "Art & Design",
-      "E": "English E-7 - ESL 3"
+      "E": "English E-7 - ESL 3",
+      "F": "PE-6"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "4012",
@@ -1500,9 +1706,11 @@
       "B": "Chinese B",
       "C": "Regular Math C-2",
       "D": "Art & Design",
-      "E": "English E-5 - ESL 1"
+      "E": "English E-5 - ESL 1",
+      "F": "PE-4"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "4013",
@@ -1513,9 +1721,11 @@
       "B": "Chinese B",
       "C": "Advanced Math C (CIE)",
       "D": "Chemistry D",
-      "E": "English E-6 - ESL 2"
+      "E": "English E-6 - ESL 2",
+      "F": "PE-5"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "4022",
@@ -1530,7 +1740,8 @@
       "F": "Chinese A HL"
     },
     "has_tok": true,
-    "tok_course": "TOK (English)"
+    "tok_block_code": "C",
+    "tok_course": "TOK (Group 1)"
   },
   {
     "student_id": "4026",
@@ -1539,11 +1750,13 @@
     "block_assignments": {
       "A": "Physics A-3",
       "B": "Chinese B",
-      "C": "Economics C-2 (EU)",
+      "C": "Economics C-2",
       "D": "Regular Math D",
-      "E": "English E-7 - ESL 3"
+      "E": "English E-7 - ESL 3",
+      "F": "PE-6"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "4040",
@@ -1554,9 +1767,11 @@
       "B": "Biology",
       "C": "Chemistry C-1",
       "D": "Physics D",
-      "E": "English E-4 - L&L3"
+      "E": "English E-4 - L&L3",
+      "F": "PE-1"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "4050",
@@ -1567,9 +1782,11 @@
       "B": "Physics B-2",
       "C": "Regular Math C-2",
       "D": "Chinese D-1",
-      "E": "English E-7 - ESL 3"
+      "E": "English E-7 - ESL 3",
+      "F": "PE-3"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "4052",
@@ -1580,9 +1797,11 @@
       "B": "Economics B-2 (Summit)",
       "C": "Further Math",
       "D": "Physics D",
-      "E": "English E-3 - L&L2"
+      "E": "English E-3 - L&L2",
+      "F": "PE-3"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "4056",
@@ -1593,9 +1812,11 @@
       "B": "Physics B-1",
       "C": "Economics C-1",
       "D": "Regular Math D",
-      "E": "English E-3 - L&L2"
+      "E": "English E-3 - L&L2",
+      "F": "PE-3"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "4066",
@@ -1606,9 +1827,11 @@
       "B": "Physics B-1",
       "C": "Further Math",
       "D": "Art & Design",
-      "E": "English E-4 - L&L3"
+      "E": "English E-4 - L&L3",
+      "F": "PE-1"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "4067",
@@ -1619,9 +1842,11 @@
       "B": "Biology",
       "C": "Chemistry C-1",
       "D": "Physics D",
-      "E": "English E-7 - ESL 3"
+      "E": "English E-7 - ESL 3",
+      "F": "PE-3"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "4070",
@@ -1636,7 +1861,8 @@
       "F": "Chinese A SL"
     },
     "has_tok": true,
-    "tok_course": "TOK (English)"
+    "tok_block_code": "C",
+    "tok_course": "TOK (Group 1)"
   },
   {
     "student_id": "4071",
@@ -1651,7 +1877,8 @@
       "F": "Chinese A SL"
     },
     "has_tok": true,
-    "tok_course": "TOK (English)"
+    "tok_block_code": "C",
+    "tok_course": "TOK (Group 1)"
   },
   {
     "student_id": "4074",
@@ -1662,9 +1889,11 @@
       "B": "Physics B-1",
       "C": "Economics C-1",
       "D": "Regular Math D",
-      "E": "English E-5 - ESL 1"
+      "E": "English E-5 - ESL 1",
+      "F": "PE-4"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "4077",
@@ -1675,9 +1904,11 @@
       "B": "Physics B-2",
       "C": "Regular Math C-2",
       "D": "Chinese D-1",
-      "E": "English E-6 - ESL 2"
+      "E": "English E-6 - ESL 2",
+      "F": "PE-5"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "4085",
@@ -1688,9 +1919,11 @@
       "B": "Biology",
       "C": "Advanced Math C (CIE)",
       "D": "Chemistry D",
-      "E": "English E-4 - L&L3"
+      "E": "English E-4 - L&L3",
+      "F": "PE-1"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "4106",
@@ -1701,9 +1934,11 @@
       "B": "Physics B-1",
       "C": "Regular Math C-1",
       "D": "Chemistry D",
-      "E": "English E-5 - ESL 1"
+      "E": "English E-5 - ESL 1",
+      "F": "PE-4"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "4108",
@@ -1714,10 +1949,12 @@
       "B": "Physics HL",
       "C": "Chemistry SL",
       "D": "English B HL",
-      "E": "Economics HL"
+      "E": "Economics HL",
+      "F": "PE-7"
     },
     "has_tok": true,
-    "tok_course": "TOK (English)"
+    "tok_block_code": "C",
+    "tok_course": "TOK (Group 1)"
   },
   {
     "student_id": "4116",
@@ -1728,9 +1965,11 @@
       "B": "Economics B-1",
       "C": "Business",
       "D": "Physics D",
-      "E": "English E-5 - ESL 1"
+      "E": "English E-5 - ESL 1",
+      "F": "PE-4"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "4123",
@@ -1745,7 +1984,8 @@
       "F": "Chinese A SL"
     },
     "has_tok": true,
-    "tok_course": "TOK (Chinese)"
+    "tok_block_code": "C",
+    "tok_course": "TOK (Group 2)"
   },
   {
     "student_id": "4126",
@@ -1760,7 +2000,8 @@
       "F": "Chinese A SL"
     },
     "has_tok": true,
-    "tok_course": "TOK (English)"
+    "tok_block_code": "C",
+    "tok_course": "TOK (Group 2)"
   },
   {
     "student_id": "4127",
@@ -1771,9 +2012,11 @@
       "B": "Chinese B",
       "C": "Regular Math C-2",
       "D": "History",
-      "E": "English E-5 - ESL 1"
+      "E": "English E-5 - ESL 1",
+      "F": "PE-4"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "4146",
@@ -1784,9 +2027,11 @@
       "B": "Economics B-2 (Summit)",
       "C": "Chemistry C-2 (Summit)",
       "D": "Fast Maths D (Edexcel)",
-      "E": "English E-1 - Honors"
+      "E": "English E-1 - Honors",
+      "F": "PE-1"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "4159",
@@ -1797,9 +2042,11 @@
       "B": "Economics B-1",
       "C": "Chemistry C-1",
       "D": "Chinese D-2",
-      "E": "English E-3 - L&L2"
+      "E": "English E-3 - L&L2",
+      "F": "PE-3"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "4187",
@@ -1810,9 +2057,11 @@
       "B": "Economics B-2 (Summit)",
       "C": "Business",
       "D": "Chemistry D",
-      "E": "English E-2 - L&L1"
+      "E": "English E-2 - L&L1",
+      "F": "PE-2"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "4192",
@@ -1827,7 +2076,8 @@
       "F": "Chinese A SL"
     },
     "has_tok": true,
-    "tok_course": "TOK (Chinese)"
+    "tok_block_code": "C",
+    "tok_course": "TOK (Group 2)"
   },
   {
     "student_id": "4195",
@@ -1838,9 +2088,11 @@
       "B": "Physics B-2",
       "C": "Economics C-1",
       "D": "Regular Math D",
-      "E": "English E-7 - ESL 3"
+      "E": "English E-7 - ESL 3",
+      "F": "PE-3"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "4196",
@@ -1855,7 +2107,8 @@
       "F": "Chinese A HL"
     },
     "has_tok": true,
-    "tok_course": "TOK (Chinese)"
+    "tok_block_code": "C",
+    "tok_course": "TOK (Group 2)"
   },
   {
     "student_id": "4213",
@@ -1866,9 +2119,11 @@
       "B": "Physics B-2",
       "C": "Economics C-1",
       "D": "Regular Math D",
-      "E": "English E-5 - ESL 1"
+      "E": "English E-5 - ESL 1",
+      "F": "PE-4"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "4214",
@@ -1879,9 +2134,11 @@
       "B": "Physics B-2",
       "C": "Regular Math C-2",
       "D": "Chinese D-2",
-      "E": "English E-7 - ESL 3"
+      "E": "English E-7 - ESL 3",
+      "F": "PE-3"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "4215",
@@ -1896,7 +2153,8 @@
       "F": "Chinese A HL"
     },
     "has_tok": true,
-    "tok_course": "TOK (English)"
+    "tok_block_code": "C",
+    "tok_course": "TOK (Group 1)"
   },
   {
     "student_id": "4216",
@@ -1907,9 +2165,11 @@
       "B": "Physics B-1",
       "C": "Economics C-1",
       "D": "Regular Math D",
-      "E": "English E-5 - ESL 1"
+      "E": "English E-5 - ESL 1",
+      "F": "PE-4"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "4220",
@@ -1924,7 +2184,8 @@
       "F": "Chinese AB SL"
     },
     "has_tok": true,
-    "tok_course": "TOK (English)"
+    "tok_block_code": "C",
+    "tok_course": "TOK (Group 1)"
   },
   {
     "student_id": "4222",
@@ -1935,9 +2196,11 @@
       "B": "Biology",
       "C": "Chemistry C-2 (Summit)",
       "D": "Regular Math D",
-      "E": "English E-3 - L&L2"
+      "E": "English E-3 - L&L2",
+      "F": "PE-3"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "4223",
@@ -1948,9 +2211,11 @@
       "B": "Economics B-2 (Summit)",
       "C": "Business",
       "D": "Chinese D-1",
-      "E": "English E-5 - ESL 1"
+      "E": "English E-5 - ESL 1",
+      "F": "PE-4"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "4242",
@@ -1959,11 +2224,13 @@
     "block_assignments": {
       "A": "Physics A-3",
       "B": "Chinese B",
-      "C": "Economics C-2 (EU)",
+      "C": "Economics C-2",
       "D": "Regular Math D",
-      "E": "English E-6 - ESL 2"
+      "E": "English E-6 - ESL 2",
+      "F": "PE-5"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "4243",
@@ -1974,9 +2241,11 @@
       "B": "Physics B-2",
       "C": "Further Math",
       "D": "Chinese D-2",
-      "E": "English E-6 - ESL 2"
+      "E": "English E-6 - ESL 2",
+      "F": "PE-5"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "4244",
@@ -1987,9 +2256,11 @@
       "B": "Economics B-2 (Summit)",
       "C": "Chemistry C-2 (Summit)",
       "D": "History",
-      "E": "English E-5 - ESL 1"
+      "E": "English E-5 - ESL 1",
+      "F": "PE-4"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "4252",
@@ -2000,9 +2271,11 @@
       "B": "Physics B-1",
       "C": "Regular Math C-1",
       "D": "Chinese D-2",
-      "E": "English E-5 - ESL 1"
+      "E": "English E-5 - ESL 1",
+      "F": "PE-4"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "4260",
@@ -2017,7 +2290,8 @@
       "F": "Chinese A SL"
     },
     "has_tok": true,
-    "tok_course": "TOK (Chinese)"
+    "tok_block_code": "C",
+    "tok_course": "TOK (Group 2)"
   },
   {
     "student_id": "4293",
@@ -2028,9 +2302,11 @@
       "B": "Economics B-2 (Summit)",
       "C": "Further Math",
       "D": "Physics D",
-      "E": "English E-2 - L&L1"
+      "E": "English E-2 - L&L1",
+      "F": "PE-2"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "4304",
@@ -2041,9 +2317,11 @@
       "B": "Biology",
       "C": "Regular Math C-2",
       "D": "History",
-      "E": "English E-5 - ESL 1"
+      "E": "English E-5 - ESL 1",
+      "F": "PE-4"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "4305",
@@ -2054,9 +2332,11 @@
       "B": "Physics B-2",
       "C": "Regular Math C-1",
       "D": "Chinese D-1",
-      "E": "English E-5 - ESL 1"
+      "E": "English E-5 - ESL 1",
+      "F": "PE-4"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "4316",
@@ -2067,9 +2347,11 @@
       "B": "Physics B-2",
       "C": "Regular Math C-2",
       "D": "Chinese D-2",
-      "E": "English E-5 - ESL 1"
+      "E": "English E-5 - ESL 1",
+      "F": "PE-4"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "4318",
@@ -2078,11 +2360,13 @@
     "block_assignments": {
       "A": "Physics A-3",
       "B": "Chinese B",
-      "C": "Economics C-2 (EU)",
+      "C": "Economics C-2",
       "D": "Regular Math D",
-      "E": "English E-5 - ESL 1"
+      "E": "English E-5 - ESL 1",
+      "F": "PE-4"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "4393",
@@ -2093,9 +2377,11 @@
       "B": "Computer Science",
       "C": "Chemistry C-1",
       "D": "Physics D",
-      "E": "English E-7 - ESL 3"
+      "E": "English E-7 - ESL 3",
+      "F": "PE-3"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "4398",
@@ -2106,9 +2392,11 @@
       "B": "Art & Design (Dual Dose)",
       "C": "Chinese B",
       "D": "Art & Design",
-      "E": "English E-2 - L&L1"
+      "E": "English E-2 - L&L1",
+      "F": "PE-2"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "440",
@@ -2119,9 +2407,11 @@
       "B": "Economics B-2 (Summit)",
       "C": "Chemistry C-2 (Summit)",
       "D": "Advanced Math D (CIE)",
-      "E": "English E-3 - L&L2"
+      "E": "English E-3 - L&L2",
+      "F": "PE-3"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "4424",
@@ -2132,9 +2422,11 @@
       "B": "Biology",
       "C": "Business",
       "D": "Regular Math D",
-      "E": "English E-5 - ESL 1"
+      "E": "English E-5 - ESL 1",
+      "F": "PE-4"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "445",
@@ -2145,9 +2437,11 @@
       "B": "Economics B-1",
       "C": "Regular Math C-2",
       "D": "Chinese D-2",
-      "E": "English E-3 - L&L2"
+      "E": "English E-3 - L&L2",
+      "F": "PE-3"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "449",
@@ -2158,9 +2452,11 @@
       "B": "Economics B-1",
       "C": "Advanced Math C (CIE)",
       "D": "Chinese D-2",
-      "E": "English E-6 - ESL 2"
+      "E": "English E-6 - ESL 2",
+      "F": "PE-5"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "626",
@@ -2175,7 +2471,8 @@
       "F": "Chinese B SL"
     },
     "has_tok": true,
-    "tok_course": "TOK (English)"
+    "tok_block_code": "C",
+    "tok_course": "TOK (Group 1)"
   },
   {
     "student_id": "629",
@@ -2186,9 +2483,11 @@
       "B": "Physics B-1",
       "C": "Advanced Math C (CIE)",
       "D": "Art & Design",
-      "E": "English E-1 - Honors"
+      "E": "English E-1 - Honors",
+      "F": "PE-1"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "644",
@@ -2199,9 +2498,11 @@
       "B": "Physics B-2",
       "C": "Regular Math C-2",
       "D": "Chinese D-2",
-      "E": "English E-6 - ESL 2"
+      "E": "English E-6 - ESL 2",
+      "F": "PE-5"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "652",
@@ -2212,9 +2513,11 @@
       "B": "Physics B-1",
       "C": "Advanced Math C (CIE)",
       "D": "History",
-      "E": "English E-1 - Honors"
+      "E": "English E-1 - Honors",
+      "F": "PE-1"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "653",
@@ -2229,7 +2532,8 @@
       "F": "Chinese B SL"
     },
     "has_tok": true,
-    "tok_course": "TOK (Chinese)"
+    "tok_block_code": "C",
+    "tok_course": "TOK (Group 2)"
   },
   {
     "student_id": "793",
@@ -2240,9 +2544,11 @@
       "B": "Economics B-1",
       "C": "Business",
       "D": "Physics D",
-      "E": "English E-2 - L&L1"
+      "E": "English E-2 - L&L1",
+      "F": "PE-2"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "812",
@@ -2253,9 +2559,11 @@
       "B": "Physics B-1",
       "C": "Chemistry C-1",
       "D": "Chinese D-2",
-      "E": "English E-7 - ESL 3"
+      "E": "English E-7 - ESL 3",
+      "F": "PE-6"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "824",
@@ -2266,9 +2574,11 @@
       "B": "Economics B-2 (Summit)",
       "C": "Advanced Math C (CIE)",
       "D": "Art & Design",
-      "E": "English E-2 - L&L1"
+      "E": "English E-2 - L&L1",
+      "F": "PE-2"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "847",
@@ -2279,9 +2589,11 @@
       "B": "Economics B-1",
       "C": "Chemistry C-1",
       "D": "Physics D",
-      "E": "English E-7 - ESL 3"
+      "E": "English E-7 - ESL 3",
+      "F": "PE-6"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "871",
@@ -2292,9 +2604,11 @@
       "B": "Economics B-2 (Summit)",
       "C": "Chemistry C-1",
       "D": "Fast Maths D (Edexcel)",
-      "E": "English E-3 - L&L2"
+      "E": "English E-3 - L&L2",
+      "F": "PE-3"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "926",
@@ -2305,9 +2619,11 @@
       "B": "Art & Design (Dual Dose)",
       "C": "Physics B-1",
       "D": "Art & Design",
-      "E": "English E-2 - L&L1"
+      "E": "English E-2 - L&L1",
+      "F": "PE-2"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   },
   {
     "student_id": "974",
@@ -2318,8 +2634,10 @@
       "B": "Economics B-2 (Summit)",
       "C": "Chemistry C-2 (Summit)",
       "D": "Advanced Math D (CIE)",
-      "E": "English E-2 - L&L1"
+      "E": "English E-2 - L&L1",
+      "F": "PE-2"
     },
-    "has_tok": false
+    "has_tok": false,
+    "tok_block_code": null
   }
 ]

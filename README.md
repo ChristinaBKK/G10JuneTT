@@ -62,13 +62,13 @@ export SUPABASE_URL="https://aleqesajbbcmufcydgqy.supabase.co"
 export SUPABASE_SERVICE_ROLE_KEY="<your-service-role-key>"
 ```
 
-Upsert students and their enrollments from a JSON file:
+Preferred: import students and enrollments directly from the raw TSV into Supabase staging tables, then let the database build the normalized rows:
 
 ```bash
-node scripts/supabase-admin-sync.mjs students ./path/to/students.json
+node scripts/supabase-admin-sync.mjs students-tsv ./examples/students.june-2026.raw.tsv
 ```
 
-For the June 2026 model, this command also stores student scheduling metadata and block-aware enrollment rows.
+This path keeps the roster import database-driven. The TSV is staged in Supabase and the database function updates `public.students`, `public.student_enrollments`, and trigger-driven `public.student_slot_assignments`.
 Changing a student's enrollment row in `public.student_enrollments` now automatically regenerates that student's `public.student_slot_assignments` records.
 
 For block-based schedules, set `block_code` on the enrollment row so the sync can map the course back to `Block A` through `Block F` slots.
@@ -93,7 +93,7 @@ Use `all` after changing timetable slot definitions for a whole term structure s
 Ready-to-run sample:
 
 ```bash
-node scripts/supabase-admin-sync.mjs students ./examples/students.sample.json
+node scripts/supabase-admin-sync.mjs students-tsv ./examples/students.june-2026.raw.tsv
 ```
 
 Upsert timetable periods, courses, slots, and slot-course rows from a JSON file:
@@ -108,65 +108,11 @@ Ready-to-run sample:
 node scripts/supabase-admin-sync.mjs timetable ./examples/timetable.sample.json
 ```
 
-Generate explicit student-to-slot assignments for a June 2026 roster file:
+Optional: generate explicit student-to-slot assignments for debugging or one-off imports:
 
 ```bash
 node scripts/generate-june-2026-block-assignments.mjs ./examples/students.june-2026.sample.json
-node scripts/supabase-admin-sync.mjs students ./examples/students.june-2026.sample.json
 node scripts/supabase-admin-sync.mjs slot-assignments ./examples/student-slot-assignments.june-2026.json
-```
-
-Roster format:
-
-```json
-[
-	{
-		"student_id": "J26001",
-		"full_name": "Avery Chen",
-		"track": "CIE"
-	},
-	{
-		"student_id": "J26003",
-		"full_name": "Isla Wong",
-		"track": "IB",
-		"has_tok": true,
-		"slot_overrides": {
-			"6124": "CAS-1"
-		}
-	}
-]
-```
-
-Student JSON shape:
-
-```json
-[
-	{
-		"student_id": "1154",
-		"full_name": "Lu, Mengyao 陆孟瑶 (Yome)",
-		"enrollments": ["Business 1", "Chemistry 3", "Geography"]
-	}
-]
-```
-
-June 2026 block-aware student JSON shape:
-
-```json
-[
-	{
-		"student_id": "4393",
-		"full_name": "ZHANG ZICHEN (John)",
-		"program": "CAIE",
-		"block_assignments": {
-			"A": "Regular Math A-2",
-			"B": "Computer Science",
-			"C": "Chemistry C-1",
-			"D": "Physics D",
-			"E": "English E-7 - ESL 3"
-		},
-		"has_tok": false
-	}
-]
 ```
 
 Timetable JSON shape:

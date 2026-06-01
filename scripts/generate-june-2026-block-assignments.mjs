@@ -18,6 +18,7 @@ function chooseCourse(student, slot) {
   const track = normaliseTrack(student.track || student.program);
   const hasTok = student.has_tok !== false;
   const tokCourse = student.tok_course || 'IB - TOK';
+  const tokBlockCode = String(student.tok_block_code || 'C').trim().toUpperCase();
   const slotOverrides = student.slot_overrides || {};
   const slotOverride = slotOverrides[String(slot.slot_order)];
   const blockAssignments = student.block_assignments || {};
@@ -38,12 +39,13 @@ function chooseCourse(student, slot) {
   }
 
   if (offeredCourses.includes('IB - TOK')) {
-    if (track === 'IB' && hasTok) {
+    const nonTokBlock = offeredCourses.find((course) => blockCodeForCourseName(course));
+    const nonTokBlockCode = nonTokBlock ? blockCodeForCourseName(nonTokBlock) : null;
+
+    if (track === 'IB' && hasTok && (!nonTokBlockCode || nonTokBlockCode === tokBlockCode)) {
       return tokCourse;
     }
 
-    const nonTokBlock = offeredCourses.find((course) => blockCodeForCourseName(course));
-    const nonTokBlockCode = nonTokBlock ? blockCodeForCourseName(nonTokBlock) : null;
     if (nonTokBlockCode && blockAssignments[nonTokBlockCode]) {
       return blockAssignments[nonTokBlockCode];
     }
