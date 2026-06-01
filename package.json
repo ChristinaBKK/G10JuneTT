@@ -6,7 +6,10 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "audit:timetable": "node scripts/audit-live-timetable.mjs",
+    "audit:admin-options": "node scripts/audit-admin-course-options.mjs",
+    "audit": "node scripts/run-audits.mjs"
   },
   "devDependencies": {
     "vite": "^5.4.19"
