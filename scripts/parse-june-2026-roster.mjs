@@ -34,6 +34,14 @@ function isTokBlock(rawBlock, cohort) {
   return /^C\/3(?:-[12])?$/i.test(String(rawBlock || '').trim()) && /TOK/i.test(String(cohort || ''));
 }
 
+function shouldCreateScheduledBlockAssignment(rawBlock, program, cohort) {
+  const blockValue = String(rawBlock || '').trim();
+  const programValue = normaliseProgram(program);
+  const cohortValue = String(cohort || '').trim();
+
+  return !(programValue === 'IB' && /^F\/6$/i.test(blockValue) && !/^PE-/i.test(cohortValue));
+}
+
 function parseStudentName(studentCell, sid) {
   const raw = String(studentCell || '').trim();
   if (!raw) {
@@ -98,7 +106,7 @@ function parseTsv(tsv) {
       student.has_tok = true;
       student.tok_course = cohortName;
       student.tok_block_code = blockCode;
-    } else if (!student.block_assignments[blockCode]) {
+    } else if (shouldCreateScheduledBlockAssignment(block, program, cohortName) && !student.block_assignments[blockCode]) {
       student.block_assignments[blockCode] = cohortName;
     }
 

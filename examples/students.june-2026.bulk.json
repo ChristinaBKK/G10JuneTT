@@ -84,7 +84,7 @@
       "C": "Chemistry HL",
       "D": "English B SL",
       "E": "Economics SL",
-      "F": "Chinese A SL"
+      "F": "PE-7"
     },
     "has_tok": true,
     "tok_block_code": "C",
@@ -100,7 +100,7 @@
       "C": "Biology SL",
       "D": "English B HL",
       "E": "Philosophy HL",
-      "F": "Chinese A SL"
+      "F": "PE-7"
     },
     "has_tok": true,
     "tok_block_code": "C",
@@ -176,7 +176,7 @@
       "C": "Chemistry HL",
       "D": "English B HL",
       "E": "Economics SL",
-      "F": "Chinese A SL"
+      "F": "PE-7"
     },
     "has_tok": true,
     "tok_block_code": "C",
@@ -297,7 +297,7 @@
       "C": "Physics HL",
       "D": "English B HL",
       "E": "Philosophy SL",
-      "F": "Chinese A SL"
+      "F": "PE-2"
     },
     "has_tok": true,
     "tok_block_code": "C",
@@ -313,7 +313,7 @@
       "C": "Chemistry HL",
       "D": "English B SL",
       "E": "Business SL",
-      "F": "Chinese A SL"
+      "F": "PE-7"
     },
     "has_tok": true,
     "tok_block_code": "C",
@@ -374,7 +374,7 @@
       "C": "Physics HL",
       "D": "English B HL",
       "E": "Philosophy SL",
-      "F": "Chinese A SL"
+      "F": "PE-7"
     },
     "has_tok": true,
     "tok_block_code": "C",
@@ -525,7 +525,7 @@
       "C": "Biology HL",
       "D": "English B SL",
       "E": "Economics HL",
-      "F": "Chinese A SL"
+      "F": "PE-7"
     },
     "has_tok": true,
     "tok_block_code": "C",
@@ -556,7 +556,7 @@
       "C": "Chemistry SL",
       "D": "English B SL",
       "E": "Economics HL",
-      "F": "Chinese A SL"
+      "F": "PE-7"
     },
     "has_tok": true,
     "tok_block_code": "C",
@@ -662,7 +662,7 @@
       "C": "Biology SL",
       "D": "English A HL",
       "E": "Philosophy HL",
-      "F": "Chinese B SL"
+      "F": "PE-7"
     },
     "has_tok": true,
     "tok_block_code": "C",
@@ -693,7 +693,7 @@
       "C": "Physics SL",
       "D": "English B SL",
       "E": "Philosophy HL",
-      "F": "Chinese A HL"
+      "F": "PE-2"
     },
     "has_tok": true,
     "tok_block_code": "C",
@@ -979,7 +979,7 @@
       "C": "Physics SL",
       "D": "English A HL",
       "E": "Business HL",
-      "F": "Chinese AB SL"
+      "F": "PE-7"
     },
     "has_tok": true,
     "tok_block_code": "C",
@@ -1025,7 +1025,7 @@
       "C": "Physics HL",
       "D": "English A HL",
       "E": "Philosophy HL",
-      "F": "Chinese AB SL"
+      "F": "PE-7"
     },
     "has_tok": true,
     "tok_block_code": "C",
@@ -1056,7 +1056,7 @@
       "C": "Chemistry HL",
       "D": "English A HL",
       "E": "Philosophy SL",
-      "F": "Chinese AB SL"
+      "F": "PE-7"
     },
     "has_tok": true,
     "tok_block_code": "C",
@@ -1252,7 +1252,7 @@
       "C": "Physics HL",
       "D": "English A HL",
       "E": "Philosophy HL",
-      "F": "Chinese AB SL"
+      "F": "PE-2"
     },
     "has_tok": true,
     "tok_block_code": "C",
@@ -1283,7 +1283,7 @@
       "C": "Chemistry SL",
       "D": "English A SL",
       "E": "Economics SL",
-      "F": "Chinese B HL"
+      "F": "PE-7"
     },
     "has_tok": true,
     "tok_block_code": "C",
@@ -1449,7 +1449,7 @@
       "C": "Biology SL",
       "D": "English B SL",
       "E": "Philosophy HL",
-      "F": "Chinese A SL"
+      "F": "PE-7"
     },
     "has_tok": true,
     "tok_block_code": "C",
@@ -1585,7 +1585,7 @@
       "C": "Chemistry HL",
       "D": "English B SL",
       "E": "Economics SL",
-      "F": "Chinese A SL"
+      "F": "PE-7"
     },
     "has_tok": true,
     "tok_block_code": "C",
@@ -1661,7 +1661,7 @@
       "C": "Chemistry HL",
       "D": "English B HL",
       "E": "Economics SL",
-      "F": "Chinese A SL"
+      "F": "PE-7"
     },
     "has_tok": true,
     "tok_block_code": "C",
@@ -1737,7 +1737,7 @@
       "C": "Chemistry HL",
       "D": "English B SL",
       "E": "Economics SL",
-      "F": "Chinese A HL"
+      "F": "PE-7"
     },
     "has_tok": true,
     "tok_block_code": "C",
@@ -1858,7 +1858,7 @@
       "C": "Chemistry SL",
       "D": "English B SL",
       "E": "Philosophy SL",
-      "F": "Chinese A SL"
+      "F": "PE-7"
     },
     "has_tok": true,
     "tok_block_code": "C",
@@ -1874,7 +1874,7 @@
       "C": "Biology HL",
       "D": "English B SL",
       "E": "Philosophy SL",
-      "F": "Chinese A SL"
+      "F": "PE-7"
     },
     "has_tok": true,
     "tok_block_code": "C",
@@ -1981,7 +1981,7 @@
       "C": "Physics SL",
       "D": "English B HL",
       "E": "Economics HL",
-      "F": "Chinese A SL"
+      "F": "PE-2"
     },
     "has_tok": true,
     "tok_block_code": "C",
@@ -1997,7 +1997,7 @@
       "C": "Chemistry SL",
       "D": "English B HL",
       "E": "Economics HL",
-      "F": "Chinese A SL"
+      "F": "PE-7"
     },
     "has_tok": true,
     "tok_block_code": "C",
@@ -2073,7 +2073,7 @@
       "C": "Chemistry HL",
       "D": "English B SL",
       "E": "Economics SL",
-      "F": "Chinese A SL"
+      "F": "PE-7"
     },
     "has_tok": true,
     "tok_block_code": "C",
@@ -2104,7 +2104,7 @@
       "C": "Physics SL",
       "D": "English B SL",
       "E": "Economics HL",
-      "F": "Chinese A HL"
+      "F": "PE-2"
     },
     "has_tok": true,
     "tok_block_code": "C",
@@ -2150,7 +2150,7 @@
       "C": "Chemistry SL",
       "D": "English B SL",
       "E": "Economics SL",
-      "F": "Chinese A HL"
+      "F": "PE-7"
     },
     "has_tok": true,
     "tok_block_code": "C",
@@ -2181,7 +2181,7 @@
       "C": "Biology HL",
       "D": "English A HL",
       "E": "Philosophy HL",
-      "F": "Chinese AB SL"
+      "F": "PE-7"
     },
     "has_tok": true,
     "tok_block_code": "C",
@@ -2287,7 +2287,7 @@
       "C": "Physics SL",
       "D": "English B HL",
       "E": "Philosophy SL",
-      "F": "Chinese A SL"
+      "F": "PE-2"
     },
     "has_tok": true,
     "tok_block_code": "C",
@@ -2468,7 +2468,7 @@
       "C": "Chemistry HL",
       "D": "English A HL",
       "E": "Philosophy SL",
-      "F": "Chinese B SL"
+      "F": "PE-7"
     },
     "has_tok": true,
     "tok_block_code": "C",
@@ -2529,7 +2529,7 @@
       "C": "Physics HL",
       "D": "English A SL",
       "E": "Business SL",
-      "F": "Chinese B SL"
+      "F": "PE-7"
     },
     "has_tok": true,
     "tok_block_code": "C",
