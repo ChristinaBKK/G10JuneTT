@@ -68,6 +68,28 @@ Upsert students and their enrollments from a JSON file:
 node scripts/supabase-admin-sync.mjs students ./path/to/students.json
 ```
 
+For the June 2026 model, this command also stores student scheduling metadata and block-aware enrollment rows.
+Changing a student's enrollment row in `public.student_enrollments` now automatically regenerates that student's `public.student_slot_assignments` records.
+
+For block-based schedules, set `block_code` on the enrollment row so the sync can map the course back to `Block A` through `Block F` slots.
+
+Update one student's block assignment from the terminal:
+
+```bash
+node scripts/supabase-admin-sync.mjs set-block-enrollment 4393 E "English E-7 - ESL 3"
+```
+
+This updates `public.student_enrollments`, then the trigger immediately regenerates that student's timetable rows.
+
+Resync derived slot assignments after a timetable change:
+
+```bash
+node scripts/supabase-admin-sync.mjs sync-slot-assignments 4393
+node scripts/supabase-admin-sync.mjs sync-slot-assignments all
+```
+
+Use `all` after changing timetable slot definitions for a whole term structure so every student's derived timetable is rebuilt from the latest enrollment data.
+
 Ready-to-run sample:
 
 ```bash
@@ -123,6 +145,26 @@ Student JSON shape:
 		"student_id": "1154",
 		"full_name": "Lu, Mengyao 陆孟瑶 (Yome)",
 		"enrollments": ["Business 1", "Chemistry 3", "Geography"]
+	}
+]
+```
+
+June 2026 block-aware student JSON shape:
+
+```json
+[
+	{
+		"student_id": "4393",
+		"full_name": "ZHANG ZICHEN (John)",
+		"program": "CAIE",
+		"block_assignments": {
+			"A": "Regular Math A-2",
+			"B": "Computer Science",
+			"C": "Chemistry C-1",
+			"D": "Physics D",
+			"E": "English E-7 - ESL 3"
+		},
+		"has_tok": false
 	}
 ]
 ```
