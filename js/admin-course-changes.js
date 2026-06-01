@@ -152,7 +152,7 @@ function renderSearchResults(students) {
   const markup = students.map((student) => {
     const meta = [student.studentId];
     if (student.program) {
-      meta.push(student.program);
+      meta.push(formatProgramLabel(student.program));
     }
     return `
       <button class="student-result${student.studentId === state.currentStudentId ? ' is-active' : ''}" type="button" data-student-id="${escapeHtml(student.studentId)}">
@@ -173,6 +173,10 @@ function renderSearchResults(students) {
 
 function setSearchPrompt() {
   elements.studentSearchResults.innerHTML = '<p class="search-feedback">Enter a student ID or name to search.</p>';
+}
+
+function formatProgramLabel(program) {
+  return program === 'CAIE' ? 'A Level' : (program || '');
 }
 
 async function loadStudent(studentId) {
@@ -206,7 +210,7 @@ function renderEditor(editorData) {
 
   const metaParts = [];
   if (student.program) {
-    metaParts.push(`Program: ${student.program}`);
+    metaParts.push(`Program: ${formatProgramLabel(student.program)}`);
   }
   if (student.tokCourse) {
     metaParts.push(`TOK: ${student.tokCourse}${student.tokBlockCode ? ` (${student.tokBlockCode})` : ''}`);
