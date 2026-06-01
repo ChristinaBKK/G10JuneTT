@@ -105,14 +105,7 @@ node scripts/supabase-admin-sync.mjs timetable ./path/to/timetable.json
 Ready-to-run sample:
 
 ```bash
-node scripts/supabase-admin-sync.mjs timetable ./examples/timetable.sample.json
-```
-
-Optional: generate explicit student-to-slot assignments for debugging or one-off imports:
-
-```bash
-node scripts/generate-june-2026-block-assignments.mjs ./examples/students.june-2026.sample.json
-node scripts/supabase-admin-sync.mjs slot-assignments ./examples/student-slot-assignments.june-2026.json
+node scripts/supabase-admin-sync.mjs timetable ./examples/timetable.june-2026-slots.json
 ```
 
 Timetable JSON shape:
