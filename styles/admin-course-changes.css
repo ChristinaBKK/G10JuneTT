@@ -187,8 +187,8 @@ select {
   flex-direction: column;
   justify-content: flex-start;
   align-self: start;
-  gap: 14px;
-  padding: 22px;
+  gap: 12px;
+  padding: 18px;
   border-radius: var(--radius-lg);
   background: linear-gradient(180deg, rgba(231, 239, 225, 0.96), rgba(245, 238, 219, 0.96));
 }
@@ -199,7 +199,7 @@ select {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 46px;
+  min-height: 44px;
   padding: 0 18px;
   border-radius: 999px;
   border: 1px solid transparent;
@@ -231,6 +231,32 @@ select {
   padding: 12px 14px;
   border-radius: var(--radius-md);
   font-weight: 600;
+  line-height: 1.4;
+}
+
+.api-target {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.44);
+}
+
+.meta-label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--text-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.api-url {
+  display: block;
+  color: var(--text-muted);
+  font-size: 0.96rem;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
 }
 
 .connection-state.is-online {
@@ -518,6 +544,10 @@ select {
   .auth-card {
     padding: 22px;
     border-radius: 22px;
+  }
+
+  .hero-meta {
+    padding: 16px;
   }
 
   .search-row {
