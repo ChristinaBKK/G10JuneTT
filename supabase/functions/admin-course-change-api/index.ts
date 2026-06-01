@@ -129,7 +129,7 @@ async function searchStudents(query: string) {
 }
 
 async function loadStudentEditorData(studentId: string) {
-  const [studentResult, enrollmentResult, optionBuckets, timetableResult] = await Promise.all([
+  const [studentResult, enrollmentResult, optionBuckets, optionTeacherByCourseName, timetableResult] = await Promise.all([
     supabase
       .from('students')
       .select('student_id,full_name,program,has_tok,tok_course,tok_block_code')
@@ -142,6 +142,7 @@ async function loadStudentEditorData(studentId: string) {
       .eq('student_id', studentId)
       .limit(200),
     loadOptionBuckets(),
+    loadOptionTeacherByCourseName(),
     supabase.rpc('get_student_timetable_payload', { p_student_id: studentId }),
   ]);
 
@@ -162,7 +163,17 @@ async function loadStudentEditorData(studentId: string) {
   }
 
   const currentByBlock = new Map<string, string>();
+  const currentTeacherByBlock = new Map<string, string>();
   const currentUnblocked: string[] = [];
+  const timetableTeacherByCourseName = new Map<string, string>();
+
+  for (const entry of timetableResult.data?.entries || []) {
+    if (!entry?.course_name || !entry?.teacher || timetableTeacherByCourseName.has(entry.course_name)) {
+      continue;
+    }
+    timetableTeacherByCourseName.set(entry.course_name, entry.teacher);
+  }
+
   for (const row of enrollmentResult.data || []) {
     const courseName = row.course?.name;
     if (!courseName) {
@@ -173,6 +184,10 @@ async function loadStudentEditorData(studentId: string) {
 
     if (effectiveBlockCode) {
       currentByBlock.set(effectiveBlockCode, courseName);
+      currentTeacherByBlock.set(
+        effectiveBlockCode,
+        timetableTeacherByCourseName.get(courseName) || optionTeacherByCourseName.get(courseName) || '',
+      );
       if (!optionBuckets.blocks[effectiveBlockCode].includes(courseName)) {
         optionBuckets.blocks[effectiveBlockCode].push(courseName);
       }
@@ -196,7 +211,11 @@ async function loadStudentEditorData(studentId: string) {
       blockCode,
       label: `Block ${blockCode}`,
       currentCourseName: currentByBlock.get(blockCode) || '',
-      options: optionBuckets.blocks[blockCode],
+      currentTeacher: currentTeacherByBlock.get(blockCode) || '',
+      options: optionBuckets.blocks[blockCode].map((courseName) => ({
+        courseName,
+        teacher: optionTeacherByCourseName.get(courseName) || '',
+      })),
     })),
     unblocked: {
       label: 'No block / additional courses',
@@ -245,6 +264,29 @@ async function loadOptionBuckets() {
     blocks,
     unblocked: [...unblockedSet].sort((left, right) => left.localeCompare(right)),
   };
+}
+
+async function loadOptionTeacherByCourseName() {
+  const { data, error } = await supabase
+    .from('timetable_slot_courses')
+    .select('override_teacher,course:courses(name,default_teacher)')
+    .limit(5000);
+
+  if (error) {
+    throw wrapSupabaseError(error);
+  }
+
+  const teacherByCourseName = new Map<string, string>();
+  for (const row of data || []) {
+    const courseName = row.course?.name;
+    const teacher = row.override_teacher || row.course?.default_teacher || '';
+    if (!courseName || !teacher || teacherByCourseName.has(courseName)) {
+      continue;
+    }
+    teacherByCourseName.set(courseName, teacher);
+  }
+
+  return teacherByCourseName;
 }
 
 async function replaceStudentEnrollments(studentId: string, payload: Record<string, unknown>) {

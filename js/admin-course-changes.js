@@ -214,16 +214,22 @@ function renderEditor(editorData) {
       <div class="selection-card-head">
         <h4>${escapeHtml(block.label)}</h4>
         <p>${block.currentCourseName ? `Current: ${escapeHtml(block.currentCourseName)}` : 'Currently empty'}</p>
+        <p>${block.currentTeacher ? `Teacher: ${escapeHtml(block.currentTeacher)}` : 'Teacher: Not set'}</p>
       </div>
       <label class="field-label" for="block-${escapeHtml(block.blockCode)}">Choose course</label>
       <select class="block-select" id="block-${escapeHtml(block.blockCode)}" name="block-${escapeHtml(block.blockCode)}" data-block-code="${escapeHtml(block.blockCode)}">
         <option value="">Clear this block</option>
-        ${block.options.map((courseName) => `
-          <option value="${escapeHtml(courseName)}"${courseName === block.currentCourseName ? ' selected' : ''}>${escapeHtml(courseName)}</option>
+        ${block.options.map((option) => `
+          <option value="${escapeHtml(option.courseName)}" data-teacher="${escapeHtml(option.teacher || '')}"${option.courseName === block.currentCourseName ? ' selected' : ''}>${escapeHtml(option.courseName)}${option.teacher ? ` - ${escapeHtml(option.teacher)}` : ''}</option>
         `).join('')}
       </select>
+      <p class="selection-card-choice-teacher" data-block-choice-teacher="${escapeHtml(block.blockCode)}">${renderSelectedTeacherText(block)}</p>
     </article>
   `).join('');
+
+  elements.blockSelections.querySelectorAll('[data-block-code]').forEach((select) => {
+    select.addEventListener('change', () => updateSelectedTeacher(select));
+  });
 
   const selectedUnblocked = new Set(editorData.unblocked?.currentCourseNames || []);
   const unblockedOptions = editorData.unblocked?.options || [];
@@ -237,6 +243,26 @@ function renderEditor(editorData) {
     : '<p class="search-feedback">No non-block course options were found in student_enrollments.</p>';
 
   renderTimetable(editorData.timetable || {});
+}
+
+function renderSelectedTeacherText(block) {
+  const selectedOption = (block.options || []).find((option) => option.courseName === block.currentCourseName);
+  if (!selectedOption?.teacher) {
+    return 'Selected teacher: Not set';
+  }
+  return `Selected teacher: ${selectedOption.teacher}`;
+}
+
+function updateSelectedTeacher(selectElement) {
+  const blockCode = selectElement.dataset.blockCode;
+  const teacherElement = elements.blockSelections.querySelector(`[data-block-choice-teacher="${blockCode}"]`);
+  if (!teacherElement) {
+    return;
+  }
+
+  const selectedOption = selectElement.options[selectElement.selectedIndex];
+  const teacher = selectedOption?.dataset?.teacher || '';
+  teacherElement.textContent = teacher ? `Selected teacher: ${teacher}` : 'Selected teacher: Not set';
 }
 
 function renderTimetable(timetable) {
