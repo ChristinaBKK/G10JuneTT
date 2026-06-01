@@ -40,13 +40,14 @@ const rooming = [
   { coursePatterns: ['Geography'], slotOrders: slotGroups.blockA, teacher: 'Keith Seeley / Alex Oniango', room: 'B2039' },
 
   { coursePatterns: ['Physics B-1'], slotOrders: slotGroups.blockBCie, teacher: 'Chester Lim', room: 'B3005' },
+  { coursePatterns: ['Physics B-1'], slotOrders: slotGroups.blockC, teacher: 'Chester Lim', room: 'B3005' },
   { coursePatterns: ['Physics B-2'], slotOrders: slotGroups.blockBCie, teacher: 'Evelyn Yang', room: 'B3004' },
   {
     coursePatterns: ['Biology'],
     teacher: 'Ambily Biju',
     roomsBySlotOrder: {
         6105: 'B4004, B4007', 6106: 'B4004, B4007', 6107: 'B4004, B4007',
-        6118: 'B4004, B4007', 6119: 'B4004, B4007', 6123: 'B4004, B4007',
+        6118: 'B4004, B4007', 6119: 'B4004, B4007', 6123: 'B4004, B4007', 6124: 'B4004, B4007',
         6158: 'B4004, B4007', 6159: 'B4004, B4007',
         6175: 'B4004, B4007', 6176: 'B4004, B4007', 6177: 'B4004, B4007',
         6188: 'B4004, B4007', 6189: 'B4004, B4007', 6298: 'B4004, B4007', 6299: 'B4004, B4007',
@@ -56,20 +57,25 @@ const rooming = [
   { coursePatterns: ['Computer Science'], slotOrders: slotGroups.blockBCie, teacher: 'Bill Jiang', room: 'B1029' },
   { coursePatterns: ['Music'], slotOrders: slotGroups.blockBCie, teacher: 'Andy Clark', room: 'B2004' },
   { coursePatterns: ['Chinese B'], slotOrders: slotGroups.blockBCie, teacher: 'Ivy Zhu', room: 'B3009' },
+  { coursePatterns: ['Chinese B'], slotOrders: slotGroups.blockC, teacher: 'Ivy Zhu', room: 'B3009' },
   { coursePatterns: ['Economics B-2 (Summit)'], slotOrders: slotGroups.blockBCie, teacher: 'Fahran Nzamy', room: 'B4011' },
   { coursePatterns: ['Art & Design (Dual Dose)'], slotOrders: slotGroups.blockBCie, teacher: 'Mark Ford', room: 'B3028' },
 
-  { coursePatterns: ['Economics HL', 'Economics SL'], slotOrders: slotGroups.blockB1Ib, teacher: 'Chaminda Marasinghe', room: 'B3010' },
-  { coursePatterns: ['Biology HL', 'Biology SL'], slotOrders: slotGroups.blockB1Ib, teacher: 'Fisher Yu', room: 'B3012' },
-  { coursePatterns: ['Theatre HL', 'Theatre SL'], slotOrders: slotGroups.blockB1Ib, teacher: 'Chalice Rakgoale', room: 'B2003' },
-  { coursePatterns: ['Physics HL', 'Physics SL'], slotOrders: slotGroups.blockB1Ib, teacher: 'Logan Tian', room: 'B4012' },
+  { coursePatterns: ['Economics HL/SL'], slotOrders: slotGroups.blockB1Ib, teacher: 'Chaminda Marasinghe', room: 'B3010' },
+  { coursePatterns: ['Biology HL/SL'], slotOrders: slotGroups.blockB1Ib, teacher: 'Fisher Yu', room: 'B3012' },
+  { coursePatterns: ['Theatre HL/SL'], slotOrders: slotGroups.blockB1Ib, teacher: 'Chalice Rakgoale', room: 'B2003' },
+  { coursePatterns: ['Physics HL/SL'], slotOrders: slotGroups.blockB1Ib, teacher: 'Logan Tian', room: 'B4012' },
+  { coursePatterns: ['Economics HL/SL'], slotOrders: [...slotGroups.blockB2Ib, 6124], teacher: 'Chaminda Marasinghe', room: 'B3010' },
+  { coursePatterns: ['Biology HL/SL'], slotOrders: [...slotGroups.blockB2Ib, 6124], teacher: 'Fisher Yu', room: 'B3012' },
+  { coursePatterns: ['Theatre HL/SL'], slotOrders: [...slotGroups.blockB2Ib, 6124], teacher: 'Chalice Rakgoale', room: 'B2003' },
+  { coursePatterns: ['Physics HL/SL'], slotOrders: [...slotGroups.blockB2Ib, 6124], teacher: 'Logan Tian', room: 'B4012' },
 
-  { coursePatterns: ['Chinese A HL', 'Chinese A SL'], slotOrders: slotGroups.blockB2Ib, teacher: 'Melody Chen', room: 'B4010' },
+  { coursePatterns: ['Chinese A HL/SL'], slotOrders: slotGroups.blockB2Ib, teacher: 'Melody Chen', room: 'B4010' },
   { coursePatterns: ['Chinese B HL', 'Chinese B SL', 'Chinese AB SL'], slotOrders: slotGroups.blockB2Ib, teacher: 'Jenny Li/Ann Yang', room: 'B4009' },
 
-  { coursePatterns: ['Physics HL', 'Physics SL'], slotOrders: slotGroups.blockC, teacher: 'Logan Tian', room: 'B3005' },
-  { coursePatterns: ['Chemistry HL', 'Chemistry SL'], slotOrders: slotGroups.blockC, teacher: 'Judy Zhu', room: 'B3004' },
-  { coursePatterns: ['Biology HL', 'Biology SL'], slotOrders: slotGroups.blockC, teacher: 'Lily Hung', room: 'B3007' },
+  { coursePatterns: ['Physics HL/SL'], slotOrders: slotGroups.blockC, teacher: 'Logan Tian', room: 'B3005' },
+  { coursePatterns: ['Chemistry HL/SL'], slotOrders: slotGroups.blockC, teacher: 'Judy Zhu', room: 'B3004' },
+  { coursePatterns: ['Biology HL/SL'], slotOrders: slotGroups.blockC, teacher: 'Lily Hung', room: 'B3007' },
   { coursePatterns: ['Regular Math C-1'], slotOrders: slotGroups.blockC, teacher: 'Narmina Magsudova', room: 'B3040' },
   { coursePatterns: ['Regular Math C-2'], slotOrders: slotGroups.blockC, teacher: 'Shaun Yang', room: 'B3009' },
   { coursePatterns: ['Further Math'], slotOrders: slotGroups.blockC, teacher: 'Rajesh', room: 'B3011' },
@@ -132,13 +138,13 @@ const rooming = [
       6183: 'B3010', 6184: 'B3010', 6295: 'B3010',
     },
   },
-  { coursePatterns: ['English A HL', 'English A SL'], slotOrders: slotGroups.blockD, teacher: 'Warwick Midlane', room: 'B2039' },
+  { coursePatterns: ['English A HL/SL'], slotOrders: slotGroups.blockD, teacher: 'Warwick Midlane', room: 'B2039' },
   { coursePatterns: ['English B HL'], slotOrders: slotGroups.blockD, teacher: 'Donald Meyer', room: 'B2040' },
   { coursePatterns: ['English B SL'], slotOrders: slotGroups.blockD, teacher: 'Darren McQuay', room: 'B2043' },
 
-  { coursePatterns: ['Economics HL', 'Economics SL'], slotOrders: slotGroups.blockE, teacher: 'Chaminda Marasinghe', room: 'B3011' },
-  { coursePatterns: ['Business HL', 'Business SL'], slotOrders: slotGroups.blockE, teacher: 'Jennifer Jacobs-Kraft', room: 'B3043' },
-  { coursePatterns: ['Philosophy HL', 'Philosophy SL'], slotOrders: slotGroups.blockE, teacher: 'Matthew Peatman', room: 'B2036' },
+  { coursePatterns: ['Economics HL/SL'], slotOrders: slotGroups.blockE, teacher: 'Chaminda Marasinghe', room: 'B3011' },
+  { coursePatterns: ['Business HL/SL'], slotOrders: slotGroups.blockE, teacher: 'Jennifer Jacobs-Kraft', room: 'B3043' },
+  { coursePatterns: ['Philosophy HL/SL'], slotOrders: slotGroups.blockE, teacher: 'Matthew Peatman', room: 'B2036' },
   { coursePatterns: ['English E-1*'], slotOrders: slotGroups.blockE, teacher: 'Kurt Shelton', room: 'B4038' },
   { coursePatterns: ['English E-2*'], slotOrders: slotGroups.blockE, teacher: 'Jenna Wade Dunn', room: 'B1029' },
   { coursePatterns: ['English E-3*'], slotOrders: slotGroups.blockE, teacher: 'Lim Wan', room: 'B4009' },
@@ -150,7 +156,7 @@ const rooming = [
     roomsBySlotOrder: {
       6111: 'B3010', 6112: 'B3010', 6121: 'B3010',
       6151: 'B3012', 6152: 'B3012', 6165: 'B3012',
-      6181: 'B3012', 6182: 'B3012', 6291: 'B3012', 6292: 'B3012',
+      6181: 'B3012', 6182: 'B3012', 6185: 'B3012', 6291: 'B3012', 6292: 'B3012',
     },
   },
 
@@ -167,7 +173,7 @@ const rooming = [
     roomsBySlotOrder: {
       6111: 'B4011', 6112: 'B4011', 6121: 'B4011',
       6151: 'B4011', 6152: 'B4011', 6165: 'B4011',
-      6181: 'B4041', 6182: 'B4041', 6291: 'B4041', 6292: 'B4041',
+      6181: 'B4041', 6182: 'B4041', 6185: 'B4041', 6291: 'B4041', 6292: 'B4041',
     },
   },
 ];
@@ -230,21 +236,39 @@ async function request(endpoint, options = {}) {
 function resolveCourses(patterns, courses) {
   const resolved = new Map();
 
+  function addExactOrTrimmedMatches(pattern) {
+    const normalizedPattern = pattern.trim();
+    for (const course of courses) {
+      if (course.name.trim() === normalizedPattern) {
+        resolved.set(course.id, course);
+      }
+    }
+  }
+
   for (const pattern of patterns) {
     if (pattern.endsWith('*')) {
-      const prefix = pattern.slice(0, -1).toLowerCase();
+      const prefix = pattern.slice(0, -1).trim().toLowerCase();
       for (const course of courses) {
-        if (course.name.toLowerCase().startsWith(prefix)) {
+        if (course.name.trim().toLowerCase().startsWith(prefix)) {
           resolved.set(course.id, course);
         }
       }
       continue;
     }
 
-    const course = courses.find((candidate) => candidate.name === pattern);
-    if (course) {
-      resolved.set(course.id, course);
+    if (pattern.includes('HL/SL')) {
+      addExactOrTrimmedMatches(pattern.replace('HL/SL', 'HL'));
+      addExactOrTrimmedMatches(pattern.replace('HL/SL', 'SL'));
+      continue;
     }
+
+    if (pattern.includes('H/SL')) {
+      addExactOrTrimmedMatches(pattern.replace('H/SL', 'HL'));
+      addExactOrTrimmedMatches(pattern.replace('H/SL', 'SL'));
+      continue;
+    }
+
+    addExactOrTrimmedMatches(pattern);
   }
 
   return [...resolved.values()];
