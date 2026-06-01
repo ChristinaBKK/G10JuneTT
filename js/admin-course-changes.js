@@ -292,6 +292,7 @@ function buildDraftTimetable(editorData, selections) {
   const baseTimetable = editorData.timetable || { periods: [], entries: [] };
   const coursePreviewByName = editorData.coursePreviewByName || {};
   const editableCourseNames = new Set(editorData.editableCourseNames || []);
+  const blockPreviewSlotSignatureByCode = editorData.blockPreviewSlotSignatureByCode || {};
 
   const preservedEntries = (baseTimetable.entries || []).filter((entry) => !editableCourseNames.has(entry.course_name));
   const nextEntries = [];
@@ -301,11 +302,11 @@ function buildDraftTimetable(editorData, selections) {
     if (!courseName) {
       continue;
     }
-    nextEntries.push(...clonePreviewEntries(coursePreviewByName[courseName] || []));
+    nextEntries.push(...resolvePreviewEntries(coursePreviewByName, courseName, blockPreviewSlotSignatureByCode[blockCode] || ''));
   }
 
   for (const courseName of selections.unblockedCourseNames || []) {
-    nextEntries.push(...clonePreviewEntries(coursePreviewByName[courseName] || []));
+    nextEntries.push(...resolvePreviewEntries(coursePreviewByName, courseName, ''));
   }
 
   return {
@@ -316,6 +317,52 @@ function buildDraftTimetable(editorData, selections) {
 
 function clonePreviewEntries(entries) {
   return entries.map((entry) => ({ ...entry }));
+}
+
+function resolvePreviewEntries(coursePreviewByName, courseName, preferredSlotSignature) {
+  const previewVariants = coursePreviewByName[courseName];
+  if (!previewVariants) {
+    return [];
+  }
+
+  if (Array.isArray(previewVariants)) {
+    return clonePreviewEntries(previewVariants);
+  }
+
+  if (preferredSlotSignature && Array.isArray(previewVariants[preferredSlotSignature])) {
+    return clonePreviewEntries(previewVariants[preferredSlotSignature]);
+  }
+
+  const rankedVariants = Object.entries(previewVariants)
+    .filter(([, entries]) => Array.isArray(entries) && entries.length)
+    .sort(([leftSignature, leftEntries], [rightSignature, rightEntries]) => {
+      const overlapDelta = countSlotSignatureOverlap(rightSignature, preferredSlotSignature)
+        - countSlotSignatureOverlap(leftSignature, preferredSlotSignature);
+      if (overlapDelta !== 0) {
+        return overlapDelta;
+      }
+
+      const entryDelta = rightEntries.length - leftEntries.length;
+      if (entryDelta !== 0) {
+        return entryDelta;
+      }
+
+      return leftSignature.localeCompare(rightSignature);
+    });
+
+  return clonePreviewEntries(rankedVariants[0]?.[1] || []);
+}
+
+function countSlotSignatureOverlap(leftSignature, rightSignature) {
+  if (!leftSignature || !rightSignature) {
+    return 0;
+  }
+
+  const rightSlots = new Set(String(rightSignature).split(',').filter(Boolean));
+  return String(leftSignature)
+    .split(',')
+    .filter((slotOrder) => rightSlots.has(slotOrder))
+    .length;
 }
 
 function renderSelectedTeacherText(block) {

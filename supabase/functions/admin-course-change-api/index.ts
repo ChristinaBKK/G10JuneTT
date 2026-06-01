@@ -135,7 +135,7 @@ async function searchStudents(query: string) {
 }
 
 async function loadStudentEditorData(studentId: string) {
-  const [studentResult, enrollmentResult, optionBuckets, optionTeacherByCourseName, coursePreviewByName, timetableResult] = await Promise.all([
+  const [studentResult, enrollmentResult, optionBuckets, optionTeacherByCourseName, timetableResult] = await Promise.all([
     supabase
       .from('students')
       .select('student_id,full_name,program,has_tok,tok_course,tok_block_code')
@@ -149,7 +149,6 @@ async function loadStudentEditorData(studentId: string) {
       .limit(200),
     loadOptionBuckets(),
     loadOptionTeacherByCourseName(),
-    loadCoursePreviewByName(),
     supabase.rpc('get_student_timetable_payload', { p_student_id: studentId }),
   ]);
 
@@ -212,12 +211,25 @@ async function loadStudentEditorData(studentId: string) {
     optionBuckets.blocks[blockCode].sort((left, right) => left.localeCompare(right));
   }
 
+  const editableCourseNames = [...new Set([
+    ...BLOCK_CODES.flatMap((blockCode) => optionBuckets.blocks[blockCode]),
+    ...optionBuckets.unblocked,
+  ])].sort((left, right) => left.localeCompare(right));
+
+  const blockPreviewSlotSignatureByCode = Object.fromEntries(
+    BLOCK_CODES.map((blockCode) => {
+      const currentCourseName = currentByBlock.get(blockCode) || '';
+      const currentEntries = (timetableResult.data?.entries || []).filter((entry) => entry?.course_name === currentCourseName);
+      return [blockCode, buildSlotSignature(currentEntries)];
+    }),
+  );
+
+  const coursePreviewByName = await loadCoursePreviewByName(editableCourseNames);
+
   return {
     student: normalizeStudent(studentResult.data),
-    editableCourseNames: [...new Set([
-      ...BLOCK_CODES.flatMap((blockCode) => optionBuckets.blocks[blockCode]),
-      ...optionBuckets.unblocked,
-    ])].sort((left, right) => left.localeCompare(right)),
+    editableCourseNames,
+    blockPreviewSlotSignatureByCode,
     blocks: BLOCK_CODES.map((blockCode) => ({
       blockCode,
       label: `Block ${blockCode}`,
@@ -320,24 +332,31 @@ async function loadOptionTeacherByCourseName() {
   return teacherByCourseName;
 }
 
-async function loadCoursePreviewByName() {
-  const [{ data: courseData, error: courseError }, { data, error }] = await Promise.all([
+async function loadCoursePreviewByName(courseNames: string[]) {
+  if (!courseNames.length) {
+    return {};
+  }
+
+  const [{ data: courseData, error: courseError }, { data: slotCourseData, error: slotCourseError }, studentPreviewData] = await Promise.all([
     supabase
       .from('courses')
       .select('name,default_teacher,default_room')
+      .in('name', courseNames)
       .limit(5000),
     supabase
       .from('timetable_slot_courses')
       .select('override_teacher,override_room,course:courses(name,default_teacher,default_room),slot:timetable_slots(day_name,slot_order,start_period_id,end_period_id)')
+      .in('course.name', courseNames)
       .limit(5000),
+    loadStudentTimetablePreviewEntries(courseNames),
   ]);
 
   if (courseError) {
     throw wrapSupabaseError(courseError);
   }
 
-  if (error) {
-    throw wrapSupabaseError(error);
+  if (slotCourseError) {
+    throw wrapSupabaseError(slotCourseError);
   }
 
   const courseDefaultsByName = new Map<string, { teacher: string; room: string }>();
@@ -348,8 +367,49 @@ async function loadCoursePreviewByName() {
     });
   }
 
-  const previewByCourseName = new Map<string, Array<Record<string, unknown>>>();
-  for (const row of data || []) {
+  const previewByCourseName = new Map<string, Map<string, Array<Record<string, unknown>>>>();
+  const previewByStudentCourseKey = new Map<string, Array<Record<string, unknown>>>();
+
+  for (const row of studentPreviewData || []) {
+    const courseName = row.course_name;
+    const studentId = String(row.student_id || '');
+    if (!courseName || !studentId) {
+      continue;
+    }
+
+    const key = `${studentId}::${courseName}`;
+    const currentEntries = previewByStudentCourseKey.get(key) || [];
+    currentEntries.push({
+      day_name: row.day_name || '',
+      slot_order: row.slot_order || null,
+      start_period_id: row.start_period_id || '',
+      end_period_id: row.end_period_id || '',
+      course_name: courseName,
+      teacher: row.teacher || '',
+      room: row.room || '',
+    });
+    previewByStudentCourseKey.set(key, currentEntries);
+  }
+
+  for (const entries of previewByStudentCourseKey.values()) {
+    const courseName = String(entries[0]?.course_name || '');
+    if (!courseName) {
+      continue;
+    }
+
+    const slotSignature = buildSlotSignature(entries);
+    if (!slotSignature) {
+      continue;
+    }
+
+    const currentVariants = previewByCourseName.get(courseName) || new Map<string, Array<Record<string, unknown>>>();
+    if (!currentVariants.has(slotSignature)) {
+      currentVariants.set(slotSignature, sortPreviewEntries(entries));
+      previewByCourseName.set(courseName, currentVariants);
+    }
+  }
+
+  for (const row of slotCourseData || []) {
     const courseName = row.course?.name;
     const slot = row.slot;
     if (!courseName || !slot) {
@@ -357,7 +417,9 @@ async function loadCoursePreviewByName() {
     }
 
     const courseDefaults = courseDefaultsByName.get(courseName) || { teacher: '', room: '' };
-    const currentEntries = previewByCourseName.get(courseName) || [];
+    const slotSignature = buildSlotSignature([{ slot_order: slot.slot_order || null }]);
+    const currentVariants = previewByCourseName.get(courseName) || new Map<string, Array<Record<string, unknown>>>();
+    const currentEntries = currentVariants.get(slotSignature) || [];
     currentEntries.push({
       day_name: slot.day_name || '',
       slot_order: slot.slot_order || null,
@@ -367,15 +429,72 @@ async function loadCoursePreviewByName() {
       teacher: row.override_teacher || courseDefaults.teacher,
       room: row.override_room || courseDefaults.room,
     });
-    previewByCourseName.set(courseName, currentEntries);
+    currentVariants.set(slotSignature, sortPreviewEntries(currentEntries));
+    previewByCourseName.set(courseName, currentVariants);
   }
 
   return Object.fromEntries(
-    [...previewByCourseName.entries()].map(([courseName, entries]) => [
+    [...previewByCourseName.entries()].map(([courseName, previewVariants]) => [
       courseName,
-      entries.sort((left, right) => Number(left.slot_order || 0) - Number(right.slot_order || 0)),
+      Object.fromEntries(
+        [...previewVariants.entries()]
+          .sort(([left], [right]) => left.localeCompare(right))
+          .map(([slotSignature, entries]) => [slotSignature, sortPreviewEntries(entries)]),
+      ),
     ]),
   );
+}
+
+async function loadStudentTimetablePreviewEntries(courseNames: string[]) {
+  const previewRows: Array<Record<string, unknown>> = [];
+  const courseNameSet = new Set(courseNames);
+  const courseNameChunks = chunkValues(courseNames, 20);
+  const pageSize = 5000;
+
+  for (const courseNameChunk of courseNameChunks) {
+    for (let offset = 0; ; offset += pageSize) {
+      const { data, error } = await supabase
+        .from('student_timetable_entries')
+        .select('student_id,course_name,day_name,slot_order,start_period_id,end_period_id,teacher,room')
+        .in('course_name', courseNameChunk)
+        .range(offset, offset + pageSize - 1);
+
+      if (error) {
+        throw wrapSupabaseError(error);
+      }
+
+      const filteredRows = (data || []).filter((row) => courseNameSet.has(String(row.course_name || '')));
+      previewRows.push(...filteredRows);
+
+      if ((data || []).length < pageSize) {
+        break;
+      }
+    }
+  }
+
+  return previewRows;
+}
+
+function chunkValues(values: string[], chunkSize: number) {
+  const chunks: string[][] = [];
+  for (let index = 0; index < values.length; index += chunkSize) {
+    chunks.push(values.slice(index, index + chunkSize));
+  }
+  return chunks;
+}
+
+function buildSlotSignature(entries: Array<Record<string, unknown>>) {
+  const slotOrders = [...new Set(
+    entries
+      .map((entry) => Number(entry.slot_order || 0))
+      .filter((slotOrder) => Number.isFinite(slotOrder) && slotOrder > 0),
+  )].sort((left, right) => left - right);
+
+  return slotOrders.join(',');
+}
+
+function sortPreviewEntries(entries: Array<Record<string, unknown>>) {
+  return [...entries].sort((left, right) => Number(left.slot_order || 0) - Number(right.slot_order || 0));
 }
 
 async function replaceStudentEnrollments(studentId: string, payload: Record<string, unknown>) {
