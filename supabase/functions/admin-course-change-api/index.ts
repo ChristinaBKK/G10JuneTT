@@ -135,7 +135,7 @@ async function searchStudents(query: string) {
 }
 
 async function loadStudentEditorData(studentId: string) {
-  const [studentResult, enrollmentResult, optionBuckets, optionTeacherByCourseName, timetableResult] = await Promise.all([
+  const [studentResult, enrollmentResult, optionBuckets, optionTeacherByCourseName, timetablePayload] = await Promise.all([
     supabase
       .from('students')
       .select('student_id,full_name,program,has_tok,tok_course,tok_block_code')
@@ -149,7 +149,7 @@ async function loadStudentEditorData(studentId: string) {
       .limit(200),
     loadOptionBuckets(),
     loadOptionTeacherByCourseName(),
-    supabase.rpc('get_student_timetable_payload', { p_student_id: studentId }),
+    loadStudentTimetablePayload(studentId),
   ]);
 
   if (studentResult.error) {
@@ -158,10 +158,6 @@ async function loadStudentEditorData(studentId: string) {
   if (enrollmentResult.error) {
     throw wrapSupabaseError(enrollmentResult.error);
   }
-  if (timetableResult.error) {
-    throw wrapSupabaseError(timetableResult.error);
-  }
-
   if (!studentResult.data) {
     const error = new Error(`Student ${studentId} was not found.`);
     error.statusCode = 404;
@@ -173,7 +169,7 @@ async function loadStudentEditorData(studentId: string) {
   const currentUnblocked: string[] = [];
   const timetableTeacherByCourseName = new Map<string, string>();
 
-  for (const entry of timetableResult.data?.entries || []) {
+  for (const entry of timetablePayload.entries || []) {
     if (!entry?.course_name || !entry?.teacher || timetableTeacherByCourseName.has(entry.course_name)) {
       continue;
     }
@@ -219,7 +215,7 @@ async function loadStudentEditorData(studentId: string) {
   const blockPreviewSlotSignatureByCode = Object.fromEntries(
     BLOCK_CODES.map((blockCode) => {
       const currentCourseName = currentByBlock.get(blockCode) || '';
-      const currentEntries = (timetableResult.data?.entries || []).filter((entry) => entry?.course_name === currentCourseName);
+      const currentEntries = (timetablePayload.entries || []).filter((entry) => entry?.course_name === currentCourseName);
       return [blockCode, buildSlotSignature(currentEntries)];
     }),
   );
@@ -246,7 +242,37 @@ async function loadStudentEditorData(studentId: string) {
       options: optionBuckets.unblocked,
     },
     coursePreviewByName,
-    timetable: normalizeTimetablePayload(timetableResult.data),
+    timetable: normalizeTimetablePayload(timetablePayload),
+  };
+}
+
+async function loadStudentTimetablePayload(studentId: string) {
+  const [{ data: periods, error: periodsError }, { data: entries, error: entriesError }] = await Promise.all([
+    supabase
+      .from('periods')
+      .select('id,label,sort_order')
+      .order('sort_order', { ascending: true })
+      .limit(50),
+    supabase
+      .from('student_timetable_entries')
+      .select('term_name,day_name,slot_order,start_period_id,end_period_id,course_name,teacher,room')
+      .eq('student_id', studentId)
+      .order('slot_order', { ascending: true })
+      .limit(500),
+  ]);
+
+  if (periodsError) {
+    throw wrapSupabaseError(periodsError);
+  }
+
+  if (entriesError) {
+    throw wrapSupabaseError(entriesError);
+  }
+
+  return {
+    student: null,
+    periods: periods || [],
+    entries: entries || [],
   };
 }
 
@@ -345,7 +371,7 @@ async function loadCoursePreviewByName(courseNames: string[]) {
       .limit(5000),
     supabase
       .from('timetable_slot_courses')
-      .select('override_teacher,override_room,course:courses(name,default_teacher,default_room),slot:timetable_slots(day_name,slot_order,start_period_id,end_period_id)')
+      .select('override_teacher,override_room,course:courses(name,default_teacher,default_room),slot:timetable_slots(term_name,day_name,slot_order,start_period_id,end_period_id)')
       .in('course.name', courseNames)
       .limit(5000),
     loadStudentTimetablePreviewEntries(courseNames),
@@ -380,6 +406,7 @@ async function loadCoursePreviewByName(courseNames: string[]) {
     const key = `${studentId}::${courseName}`;
     const currentEntries = previewByStudentCourseKey.get(key) || [];
     currentEntries.push({
+      term_name: row.term_name || '',
       day_name: row.day_name || '',
       slot_order: row.slot_order || null,
       start_period_id: row.start_period_id || '',
@@ -421,6 +448,7 @@ async function loadCoursePreviewByName(courseNames: string[]) {
     const currentVariants = previewByCourseName.get(courseName) || new Map<string, Array<Record<string, unknown>>>();
     const currentEntries = currentVariants.get(slotSignature) || [];
     currentEntries.push({
+      term_name: slot.term_name || '',
       day_name: slot.day_name || '',
       slot_order: slot.slot_order || null,
       start_period_id: slot.start_period_id || '',
@@ -455,7 +483,7 @@ async function loadStudentTimetablePreviewEntries(courseNames: string[]) {
     for (let offset = 0; ; offset += pageSize) {
       const { data, error } = await supabase
         .from('student_timetable_entries')
-        .select('student_id,course_name,day_name,slot_order,start_period_id,end_period_id,teacher,room')
+        .select('student_id,course_name,term_name,day_name,slot_order,start_period_id,end_period_id,teacher,room')
         .in('course_name', courseNameChunk)
         .range(offset, offset + pageSize - 1);
 

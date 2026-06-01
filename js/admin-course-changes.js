@@ -388,7 +388,13 @@ function updateSelectedTeacher(selectElement) {
 function renderTimetable(timetable) {
   const periodsById = new Map((timetable.periods || []).map((period) => [period.id, period.label]));
   const entries = [...(timetable.entries || [])].sort((left, right) => {
-    if (left.day_name !== right.day_name) {
+    const leftTermName = String(left.term_name || '');
+    const rightTermName = String(right.term_name || '');
+    if (leftTermName || rightTermName) {
+      if (leftTermName !== rightTermName) {
+        return leftTermName.localeCompare(rightTermName);
+      }
+    } else if (left.day_name !== right.day_name) {
       const leftDayOrder = DAY_ORDER.get(String(left.day_name)) ?? Number.MAX_SAFE_INTEGER;
       const rightDayOrder = DAY_ORDER.get(String(right.day_name)) ?? Number.MAX_SAFE_INTEGER;
       if (leftDayOrder !== rightDayOrder) {
@@ -407,14 +413,15 @@ function renderTimetable(timetable) {
   const dayMarkup = [];
   const entriesByDay = new Map();
   for (const entry of entries) {
-    const dayName = entry.day_name || 'Unknown day';
-    if (!entriesByDay.has(dayName)) {
-      entriesByDay.set(dayName, []);
+    const groupKey = buildTimetableGroupKey(entry);
+    if (!entriesByDay.has(groupKey)) {
+      entriesByDay.set(groupKey, []);
     }
-    entriesByDay.get(dayName).push(entry);
+    entriesByDay.get(groupKey).push(entry);
   }
 
-  for (const [dayName, dayEntries] of entriesByDay) {
+  for (const [groupKey, dayEntries] of entriesByDay) {
+    const groupLabel = formatTimetableGroupLabel(dayEntries[0]);
     const cards = dayEntries.map((entry) => {
       const startLabel = periodsById.get(entry.start_period_id) || entry.start_period_id || '';
       const endLabel = periodsById.get(entry.end_period_id) || entry.end_period_id || '';
@@ -431,13 +438,39 @@ function renderTimetable(timetable) {
 
     dayMarkup.push(`
       <section class="timetable-day">
-        <h4>${escapeHtml(dayName)}</h4>
+        <h4>${escapeHtml(groupLabel || groupKey)}</h4>
         <div class="timetable-day-grid">${cards}</div>
       </section>
     `);
   }
 
   elements.timetablePreview.innerHTML = dayMarkup.join('');
+}
+
+function buildTimetableGroupKey(entry) {
+  const termName = String(entry?.term_name || '').trim();
+  const dayName = String(entry?.day_name || 'Unknown day').trim();
+  return termName ? `${termName}::${dayName}` : dayName;
+}
+
+function formatTimetableGroupLabel(entry) {
+  const dayName = String(entry?.day_name || 'Unknown day').trim();
+  const termName = String(entry?.term_name || '').trim();
+  if (!termName) {
+    return dayName;
+  }
+
+  return `${dayName} - ${formatTermName(termName)}`;
+}
+
+function formatTermName(termName) {
+  const match = termName.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (!match) {
+    return termName;
+  }
+
+  const [, year, month, day] = match;
+  return `${year}/${month}/${day}`;
 }
 
 function collectSelections() {
