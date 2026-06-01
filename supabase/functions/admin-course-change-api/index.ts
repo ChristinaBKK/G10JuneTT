@@ -3,6 +3,13 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
 const FUNCTION_NAME = 'admin-course-change-api';
 const BLOCK_CODES = ['A', 'B', 'C', 'D', 'E', 'F'];
+const COURSE_BLOCK_OVERRIDES = new Map([
+  ['Chinese A HL', 'C'],
+  ['Chinese A SL', 'C'],
+  ['Chinese AB SL', 'C'],
+  ['Chinese B HL', 'C'],
+  ['Chinese B SL', 'C'],
+]);
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'GET,POST,OPTIONS',
@@ -162,10 +169,12 @@ async function loadStudentEditorData(studentId: string) {
       continue;
     }
 
-    if (row.block_code) {
-      currentByBlock.set(row.block_code, courseName);
-      if (!optionBuckets.blocks[row.block_code].includes(courseName)) {
-        optionBuckets.blocks[row.block_code].push(courseName);
+    const effectiveBlockCode = getAdminBlockCodeForCourseName(courseName, row.block_code);
+
+    if (effectiveBlockCode) {
+      currentByBlock.set(effectiveBlockCode, courseName);
+      if (!optionBuckets.blocks[effectiveBlockCode].includes(courseName)) {
+        optionBuckets.blocks[effectiveBlockCode].push(courseName);
       }
       continue;
     }
@@ -218,8 +227,10 @@ async function loadOptionBuckets() {
       continue;
     }
 
-    if (row.block_code && blockSets[row.block_code]) {
-      blockSets[row.block_code].add(courseName);
+    const effectiveBlockCode = getAdminBlockCodeForCourseName(courseName, row.block_code);
+
+    if (effectiveBlockCode && blockSets[effectiveBlockCode]) {
+      blockSets[effectiveBlockCode].add(courseName);
       continue;
     }
 
@@ -386,6 +397,10 @@ function normalizeStudent(row: Record<string, unknown>) {
     tokCourse: row.tok_course || '',
     tokBlockCode: row.tok_block_code || '',
   };
+}
+
+function getAdminBlockCodeForCourseName(courseName: string, blockCode: string | null) {
+  return COURSE_BLOCK_OVERRIDES.get(courseName) || blockCode || '';
 }
 
 function normalizeTimetablePayload(payload: Record<string, unknown> | null) {
