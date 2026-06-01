@@ -176,7 +176,10 @@ function setSearchPrompt() {
 }
 
 function formatProgramLabel(program) {
-  return program === 'CAIE' ? 'A Level' : (program || '');
+  if (!program) {
+    return '';
+  }
+  return program === 'CAIE' ? 'A Level' : program;
 }
 
 async function loadStudent(studentId) {
@@ -219,7 +222,7 @@ function renderEditor(editorData) {
   }
   elements.studentMeta.textContent = metaParts.join(' · ');
   if (elements.studentProgram) {
-    elements.studentProgram.value = student.program === 'IB' ? 'IB' : 'CAIE';
+    elements.studentProgram.value = student.program === 'IB' ? 'IB' : 'A Level';
   }
 
   elements.blockSelections.innerHTML = (editorData.blocks || []).map((block) => `

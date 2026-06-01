@@ -299,7 +299,7 @@ async function replaceStudentEnrollments(studentId: string, payload: Record<stri
   const blockSelections = payload?.blockSelections && typeof payload.blockSelections === 'object'
     ? payload.blockSelections as Record<string, string>
     : {};
-  const nextProgram = typeof payload?.program === 'string' ? payload.program.trim().toUpperCase() : '';
+  const nextProgram = normaliseProgramValue(typeof payload?.program === 'string' ? payload.program : '');
   const unblockedCourseNames = Array.isArray(payload?.unblockedCourseNames)
     ? payload.unblockedCourseNames as string[]
     : [];
@@ -319,13 +319,13 @@ async function replaceStudentEnrollments(studentId: string, payload: Record<stri
     throw error;
   }
 
-  if (nextProgram && !['CAIE', 'IB'].includes(nextProgram)) {
+  if (nextProgram && !['A Level', 'IB'].includes(nextProgram)) {
     const error = new Error(`Unsupported programme: ${nextProgram}`);
     error.statusCode = 400;
     throw error;
   }
 
-  if (nextProgram && nextProgram !== studentResult.data.program) {
+  if (nextProgram && nextProgram !== normaliseProgramValue(studentResult.data.program || '')) {
     const updateStudent = await supabase
       .from('students')
       .update({ program: nextProgram })
@@ -438,6 +438,20 @@ async function replaceStudentEnrollments(studentId: string, payload: Record<stri
   }
 
   return loadStudentEditorData(studentId);
+}
+
+function normaliseProgramValue(program: string) {
+  const normalized = program.trim().toUpperCase();
+  if (!normalized) {
+    return '';
+  }
+  if (normalized === 'IB' || normalized === 'IBDP') {
+    return 'IB';
+  }
+  if (normalized === 'CAIE' || normalized === 'A LEVEL') {
+    return 'A Level';
+  }
+  return program.trim();
 }
 
 async function loadCourseMap() {
