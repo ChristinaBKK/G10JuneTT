@@ -1,0 +1,32 @@
+[
+  {
+    "student_id": "J26001",
+    "full_name": "Avery Chen",
+    "track": "CIE",
+    "enrollments": []
+  },
+  {
+    "student_id": "J26002",
+    "full_name": "Marcus Tan",
+    "track": "CIE",
+    "enrollments": [],
+    "slot_overrides": {
+      "6124": "CAS-1",
+      "6125": "CAS-2"
+    }
+  },
+  {
+    "student_id": "J26003",
+    "full_name": "Isla Wong",
+    "track": "IB",
+    "has_tok": true,
+    "enrollments": []
+  },
+  {
+    "student_id": "J26004",
+    "full_name": "Noah Lim",
+    "track": "IB",
+    "has_tok": true,
+    "enrollments": []
+  }
+]

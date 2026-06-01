@@ -1,0 +1,2325 @@
+[
+  {
+    "student_id": "1029",
+    "full_name": "YANG ZIQIANG (Austen)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Physics A-2 (Summit)",
+      "B": "Economics B-2 (Summit)",
+      "C": "Chemistry C-1",
+      "D": "Advanced Math D (CIE)",
+      "E": "English E-1 - Honors"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "1030",
+    "full_name": "PAN HAOFAN (Andy)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Regular Math A-1",
+      "B": "Economics B-2 (Summit)",
+      "C": "Chemistry C-2 (Summit)",
+      "D": "Chinese D-2",
+      "E": "English E-4 - L&L3"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "1032",
+    "full_name": "GAO YIFEI (Fiona)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Economics A",
+      "B": "Chinese B",
+      "C": "Regular Math C-1",
+      "D": "Physics D",
+      "E": "English E-6 - ESL 2"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "1033",
+    "full_name": "LI RUOHUA (Cherry)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Regular Math A-1",
+      "B": "Economics B-1",
+      "C": "Chemistry C-2 (Summit)",
+      "D": "Physics D",
+      "E": "English E-4 - L&L3"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "1034",
+    "full_name": "ZONG YIHAN (Ian)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Physics A-2 (Summit)",
+      "B": "Economics B-2 (Summit)",
+      "C": "Business",
+      "D": "Regular Math D",
+      "E": "English E-1 - Honors"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "1037",
+    "full_name": "LIN BOYAN (Andy)",
+    "program": "IB",
+    "block_assignments": {
+      "A": "Math HL",
+      "B": "Physics HL",
+      "C": "Chemistry HL",
+      "D": "English B SL",
+      "E": "Economics SL",
+      "F": "Chinese A SL"
+    },
+    "has_tok": true,
+    "tok_course": "TOK (English)"
+  },
+  {
+    "student_id": "1114",
+    "full_name": "ZHANG YIYOU (Matthew)",
+    "program": "IB",
+    "block_assignments": {
+      "A": "Math SL",
+      "B": "Economics HL",
+      "C": "Biology SL",
+      "D": "English B HL",
+      "E": "Philosophy HL",
+      "F": "Chinese A SL"
+    },
+    "has_tok": true,
+    "tok_course": "TOK (English)"
+  },
+  {
+    "student_id": "1298",
+    "full_name": "GONG YUTING (Ada)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Physics A-2 (Summit)",
+      "B": "Economics B-2 (Summit)",
+      "C": "Advanced Math C (CIE)",
+      "D": "Art & Design",
+      "E": "English E-2 - L&L1"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "1361",
+    "full_name": "PANG BO (Bobby)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Physics A-2 (Summit)",
+      "B": "Computer Science",
+      "C": "Chemistry C-2 (Summit)",
+      "D": "Advanced Math D (CIE)",
+      "E": "English E-1 - Honors"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "139",
+    "full_name": "JI NUOYU (Gino)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Physics A-2 (Summit)",
+      "B": "Biology",
+      "C": "Chemistry C-2 (Summit)",
+      "D": "Advanced Math D (CIE)",
+      "E": "English E-1 - Honors"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "157",
+    "full_name": "FENG PUEN (Eldon)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Physics A-2 (Summit)",
+      "B": "Economics B-2 (Summit)",
+      "C": "Chemistry C-2 (Summit)",
+      "D": "Advanced Math D (CIE)",
+      "E": "English E-3 - L&L2"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "1583",
+    "full_name": "YAN SHAOQIAN (Thomas)",
+    "program": "IB",
+    "block_assignments": {
+      "A": "Math HL",
+      "B": "Physics HL",
+      "C": "Chemistry HL",
+      "D": "English B HL",
+      "E": "Economics SL",
+      "F": "Chinese A SL"
+    },
+    "has_tok": true,
+    "tok_course": "TOK (English)"
+  },
+  {
+    "student_id": "1586",
+    "full_name": "LI NIANCHUN (Lily)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Economics A",
+      "B": "Biology",
+      "C": "Advanced Math C (CIE)",
+      "D": "Chemistry D",
+      "E": "English E-2 - L&L1"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "1588",
+    "full_name": "SU ZILAN (Aurora)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Physics A-1",
+      "B": "Computer Science",
+      "C": "Advanced Math C (CIE)",
+      "D": "Chemistry D",
+      "E": "English E-1 - Honors"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "1590",
+    "full_name": "LU CHRIS (Chris)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Physics A-1",
+      "B": "Chinese B",
+      "C": "Economics C-1",
+      "D": "Fast Maths D (Edexcel)",
+      "E": "English E-7 - ESL 3"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "1592",
+    "full_name": "WANG ZIQI (Oscar)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Regular Math A-2",
+      "B": "Physics B-2",
+      "C": "Economics C-2 (EU)",
+      "D": "Chinese D-2",
+      "E": "English E-7 - ESL 3"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "1593",
+    "full_name": "FEI ENYU (Elaine)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Geography",
+      "B": "Physics B-1",
+      "C": "Advanced Math C (CIE)",
+      "D": "Art & Design",
+      "E": "English E-3 - L&L2"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "1602",
+    "full_name": "LI YIJIAN (Andy)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Physics A-2 (Summit)",
+      "B": "Economics B-2 (Summit)",
+      "C": "Chemistry C-2 (Summit)",
+      "D": "Advanced Math D (CIE)",
+      "E": "English E-4 - L&L3"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "1607",
+    "full_name": "WANG RUIBO (Rambo)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Geography",
+      "B": "Physics B-1",
+      "C": "Advanced Math C (CIE)",
+      "D": "Art & Design",
+      "E": "English E-1 - Honors"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "1616",
+    "full_name": "YIN MEIJIA (Mika)",
+    "program": "IB",
+    "block_assignments": {
+      "A": "Math HL",
+      "B": "Economics SL",
+      "C": "Physics HL",
+      "D": "English B HL",
+      "E": "Philosophy SL",
+      "F": "Chinese A SL"
+    },
+    "has_tok": true,
+    "tok_course": "TOK (Chinese)"
+  },
+  {
+    "student_id": "1618",
+    "full_name": "JIN YUCHEN (Achen)",
+    "program": "IB",
+    "block_assignments": {
+      "A": "Math HL",
+      "B": "Biology HL",
+      "C": "Chemistry HL",
+      "D": "English B SL",
+      "E": "Business SL",
+      "F": "Chinese A SL"
+    },
+    "has_tok": true,
+    "tok_course": "TOK (English)"
+  },
+  {
+    "student_id": "1665",
+    "full_name": "XIA HAOQIN (Tommy)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Physics A-1",
+      "B": "Theatre SL",
+      "C": "Advanced Math C (CIE)",
+      "D": "Art & Design",
+      "E": "English E-2 - L&L1"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "171",
+    "full_name": "JIANG YUNJING (Cindy)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Economics A",
+      "B": "Biology",
+      "C": "Advanced Math C (CIE)",
+      "D": "Physics D",
+      "E": "English E-7 - ESL 3"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "1735",
+    "full_name": "MORLING EDWARD (Teddy)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Physics A-1",
+      "B": "Computer Science",
+      "C": "Regular Math C-1",
+      "D": "History",
+      "E": "English E-1 - Honors"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "183",
+    "full_name": "QIAN JICHEN (Charlis)",
+    "program": "IB",
+    "block_assignments": {
+      "A": "Math SL",
+      "B": "Economics HL",
+      "C": "Physics HL",
+      "D": "English B HL",
+      "E": "Philosophy SL",
+      "F": "Chinese A SL"
+    },
+    "has_tok": true,
+    "tok_course": "TOK (Chinese)"
+  },
+  {
+    "student_id": "1914",
+    "full_name": "WEN ZIRUI (Icey)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Physics A-2 (Summit)",
+      "B": "Biology",
+      "C": "Advanced Math C (CIE)",
+      "D": "Chemistry D",
+      "E": "English E-1 - Honors"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "1915",
+    "full_name": "ZHENG ZITAO (Steven)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Physics A-1",
+      "B": "Biology",
+      "C": "Chemistry C-1",
+      "D": "Fast Maths D (Edexcel)",
+      "E": "English E-7 - ESL 3"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "1979",
+    "full_name": "TANG WANYIN (Olivia)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Economics A",
+      "B": "Physics B-1",
+      "C": "Regular Math C-2",
+      "D": "Chemistry D",
+      "E": "English E-2 - L&L1"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "2149",
+    "full_name": "XU YUE (Joy)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Chinese A",
+      "B": "Music",
+      "C": "Economics C-2 (EU)",
+      "D": "Regular Math D",
+      "E": "English E-5 - ESL 1"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "2152",
+    "full_name": "HU JING (Chloe)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Regular Math A-2",
+      "B": "Chinese B",
+      "C": "Business",
+      "D": "Art & Design",
+      "E": "English E-6 - ESL 2"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "2213",
+    "full_name": "WU ZHENYU (Andy)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Chemistry A",
+      "B": "Economics B-1",
+      "C": "Advanced Math C (CIE)",
+      "D": "Physics D",
+      "E": "English E-7 - ESL 3"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "2235",
+    "full_name": "QI HAO (Mike)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Economics A",
+      "B": "Physics B-2",
+      "C": "Regular Math C-2",
+      "D": "Chinese D-2",
+      "E": "English E-7 - ESL 3"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "2330",
+    "full_name": "TANG JIAFAN (Gavin)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Economics A",
+      "B": "Physics B-1",
+      "C": "Regular Math C-1",
+      "D": "Chinese D-2",
+      "E": "English E-7 - ESL 3"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "243",
+    "full_name": "XU YILAN (David)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Chinese A",
+      "B": "Economics B-1",
+      "C": "Regular Math C-2",
+      "D": "Art & Design",
+      "E": "English E-5 - ESL 1"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "2487",
+    "full_name": "LIAO CHENGWEI (Jerry)",
+    "program": "IB",
+    "block_assignments": {
+      "A": "Math HL",
+      "B": "Theatre HL",
+      "C": "Biology HL",
+      "D": "English B SL",
+      "E": "Economics HL",
+      "F": "Chinese A SL"
+    },
+    "has_tok": true,
+    "tok_course": "TOK (English)"
+  },
+  {
+    "student_id": "2492",
+    "full_name": "ZHANG JINGHAN (Angela)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Chemistry A",
+      "B": "Biology",
+      "C": "Advanced Math C (CIE)",
+      "D": "Physics D",
+      "E": "English E-4 - L&L3"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "2495",
+    "full_name": "WANG HAOXUAN (Lance)",
+    "program": "IB",
+    "block_assignments": {
+      "A": "Math HL",
+      "B": "Physics HL",
+      "C": "Chemistry SL",
+      "D": "English B SL",
+      "E": "Economics HL",
+      "F": "Chinese A SL"
+    },
+    "has_tok": true,
+    "tok_course": "TOK (English)"
+  },
+  {
+    "student_id": "2506",
+    "full_name": "XIA ZHILIN (Lynn)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Physics A-1",
+      "B": "Music",
+      "C": "Regular Math C-1",
+      "D": "Chinese D-2",
+      "E": "English E-4 - L&L3"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "2514",
+    "full_name": "LI HAOYU (Leo)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Regular Math A-2",
+      "B": "Physics B-2",
+      "C": "Chemistry C-1",
+      "D": "Chinese D-2",
+      "E": "English E-5 - ESL 1"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "2516",
+    "full_name": "ZHANG YIWEN (Eve)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Regular Math A-2",
+      "B": "Chinese B",
+      "C": "Economics C-2 (EU)",
+      "D": "Art & Design",
+      "E": "English E-7 - ESL 3"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "2522",
+    "full_name": "REN YUNZI (Wendy)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Physics A-1",
+      "B": "Biology",
+      "C": "Regular Math C-1",
+      "D": "Art & Design",
+      "E": "English E-2 - L&L1"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "2578",
+    "full_name": "FAN YIJUN (Elise)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Regular Math A-2",
+      "B": "Chinese B",
+      "C": "Economics C-2 (EU)",
+      "D": "Art & Design",
+      "E": "English E-5 - ESL 1"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "2641",
+    "full_name": "XU YINZI (Grace)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Economics A",
+      "B": "Physics B-2",
+      "C": "Regular Math C-2",
+      "D": "Chinese D-2",
+      "E": "English E-6 - ESL 2"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "2698",
+    "full_name": "ANUNCIACION MU (Ariah)",
+    "program": "IB",
+    "block_assignments": {
+      "A": "Math SL",
+      "B": "Physics HL",
+      "C": "Biology SL",
+      "D": "English A HL",
+      "E": "Philosophy HL",
+      "F": "Chinese B SL"
+    },
+    "has_tok": true,
+    "tok_course": "TOK (English)"
+  },
+  {
+    "student_id": "2708",
+    "full_name": "WANG JINGZHU (Kenneth)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Chinese A",
+      "B": "Physics B-2",
+      "C": "Economics C-2 (EU)",
+      "D": "Regular Math D",
+      "E": "English E-7 - ESL 3"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "2813",
+    "full_name": "XIAO ZHIXUAN (Priscilla)",
+    "program": "IB",
+    "block_assignments": {
+      "A": "Math HL",
+      "B": "Theatre SL",
+      "C": "Physics SL",
+      "D": "English B SL",
+      "E": "Philosophy HL",
+      "F": "Chinese A HL"
+    },
+    "has_tok": true,
+    "tok_course": "TOK (Chinese)"
+  },
+  {
+    "student_id": "2815",
+    "full_name": "LIU YEHENG (Baron)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Regular Math A-1",
+      "B": "Physics B-2",
+      "C": "Chemistry C-1",
+      "D": "Chinese D-1",
+      "E": "English E-5 - ESL 1"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "2869",
+    "full_name": "YANG CHENGRUI (Tony)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Economics A",
+      "B": "Computer Science",
+      "C": "Advanced Math C (CIE)",
+      "D": "Physics D",
+      "E": "English E-1 - Honors"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "2943",
+    "full_name": "XIA ZHICHEN (Laffier)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Economics A",
+      "B": "Physics B-2",
+      "C": "Regular Math C-1",
+      "D": "Chinese D-2",
+      "E": "English E-7 - ESL 3"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "2964",
+    "full_name": "ZHU TIANAI (Lemon)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Physics A-3",
+      "B": "Chinese B",
+      "C": "Regular Math C-2",
+      "D": "Art & Design",
+      "E": "English E-6 - ESL 2"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "2987",
+    "full_name": "LIANG TIANLANG (Skyler)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Geography",
+      "B": "Physics B-2",
+      "C": "Economics C-1",
+      "D": "Regular Math D",
+      "E": "English E-3 - L&L2"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "3005",
+    "full_name": "JI XIAOHAN (Hannah)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Physics A-1",
+      "B": "Biology",
+      "C": "Advanced Math C (CIE)",
+      "D": "Chemistry D",
+      "E": "English E-3 - L&L2"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "3056",
+    "full_name": "SHAO SHENMIN (William)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Regular Math A-2",
+      "B": "Economics B-1",
+      "C": "Chemistry C-1",
+      "D": "Physics D",
+      "E": "English E-6 - ESL 2"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "3074",
+    "full_name": "DAI WENHUI (Aurora)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Regular Math A-2",
+      "B": "Art & Design (Dual Dose)",
+      "C": "Chinese B",
+      "D": "Art & Design",
+      "E": "English E-7 - ESL 3"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "3082",
+    "full_name": "ZOU MINJIA (Mika)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Chemistry A",
+      "B": "Chinese B",
+      "C": "Regular Math C-1",
+      "D": "Physics D",
+      "E": "English E-4 - L&L3"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "3086",
+    "full_name": "CHEN ZEWEN (Allen)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Regular Math A-1",
+      "B": "Physics B-1",
+      "C": "Further Math",
+      "D": "Chemistry D",
+      "E": "English E-3 - L&L2"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "3087",
+    "full_name": "TAN YICHENG (George)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Chemistry A",
+      "B": "Physics B-1",
+      "C": "Economics C-2 (EU)",
+      "D": "Regular Math D",
+      "E": "English E-5 - ESL 1"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "3111",
+    "full_name": "SHEN LUHAO (Luka)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Physics A-2 (Summit)",
+      "B": "Chinese B",
+      "C": "Business",
+      "D": "Advanced Math D (CIE)",
+      "E": "English E-1 - Honors"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "3115",
+    "full_name": "WANG KEXIN (Cassie)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Physics A-1",
+      "B": "Economics B-1",
+      "C": "Regular Math C-2",
+      "D": "Chemistry D",
+      "E": "English E-6 - ESL 2"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "3127",
+    "full_name": "XU JIACHENG (Jiacheng)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Regular Math A-2",
+      "B": "Physics B-2",
+      "C": "Economics C-2 (EU)",
+      "D": "Chinese D-1",
+      "E": "English E-7 - ESL 3"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "3152",
+    "full_name": "CHEN KEYU (Bright)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Regular Math A-2",
+      "B": "Biology",
+      "C": "Economics C-1",
+      "D": "Chinese D-1",
+      "E": "English E-5 - ESL 1"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "3247",
+    "full_name": "ZHU XINYUE (Alysa)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Physics A-3",
+      "B": "Chinese B",
+      "C": "Economics C-2 (EU)",
+      "D": "Regular Math D",
+      "E": "English E-7 - ESL 3"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "3277",
+    "full_name": "DU YUXIAN (Derrick)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Physics A-3",
+      "B": "Chinese B",
+      "C": "Economics C-2 (EU)",
+      "D": "Regular Math D",
+      "E": "English E-7 - ESL 3"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "3283",
+    "full_name": "FEI YECHENG (Ray)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Physics A-2 (Summit)",
+      "B": "Economics B-1",
+      "C": "Business",
+      "D": "Advanced Math D (CIE)",
+      "E": "English E-3 - L&L2"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "3291",
+    "full_name": "MAHENDRA MIA MARIA (Mia)",
+    "program": "IB",
+    "block_assignments": {
+      "A": "Math SL",
+      "B": "Theatre HL",
+      "C": "Physics SL",
+      "D": "English A HL",
+      "E": "Business HL",
+      "F": "Chinese AB SL"
+    },
+    "has_tok": true,
+    "tok_course": "TOK (Chinese)"
+  },
+  {
+    "student_id": "3372",
+    "full_name": "ZHU YIFAN (Leo)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Physics A-1",
+      "B": "Biology",
+      "C": "Advanced Math C (CIE)",
+      "D": "Chemistry D",
+      "E": "English E-2 - L&L1"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "3374",
+    "full_name": "JIANG XINTONG (Blair)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Physics A-2 (Summit)",
+      "B": "Economics B-2 (Summit)",
+      "C": "Regular Math C-1",
+      "D": "Art & Design",
+      "E": "English E-1 - Honors"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "3465",
+    "full_name": "SANCHEZ MOSQUERA MANUEL (Manuel)",
+    "program": "IB",
+    "block_assignments": {
+      "A": "Math SL",
+      "B": "Economics SL",
+      "C": "Physics HL",
+      "D": "English A HL",
+      "E": "Philosophy HL",
+      "F": "Chinese AB SL"
+    },
+    "has_tok": true,
+    "tok_course": "TOK (Chinese)"
+  },
+  {
+    "student_id": "3469",
+    "full_name": "HOU YANYU (Hanna)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Economics A",
+      "B": "Physics B-1",
+      "C": "Regular Math C-1",
+      "D": "Chinese D-1",
+      "E": "English E-5 - ESL 1"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "3470",
+    "full_name": "PAULINE BIJU RAFHAELA (Rafhaela)",
+    "program": "IB",
+    "block_assignments": {
+      "A": "Math SL",
+      "B": "Biology HL",
+      "C": "Chemistry HL",
+      "D": "English A HL",
+      "E": "Philosophy SL",
+      "F": "Chinese AB SL"
+    },
+    "has_tok": true,
+    "tok_course": "TOK (English)"
+  },
+  {
+    "student_id": "3520",
+    "full_name": "WU ANRUI (Ray)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Physics A-1",
+      "B": "Economics B-1",
+      "C": "Regular Math C-1",
+      "D": "Chemistry D",
+      "E": "English E-6 - ESL 2"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "3536",
+    "full_name": "QIN ZIXUAN (Jason)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Regular Math A-1",
+      "B": "Economics B-1",
+      "C": "Business",
+      "D": "Chinese D-1",
+      "E": "English E-7 - ESL 3"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "3544",
+    "full_name": "CHEN ZHIHUI (Claudia)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Regular Math A-1",
+      "B": "Chinese B",
+      "C": "Economics C-1",
+      "D": "History",
+      "E": "English E-6 - ESL 2"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "3549",
+    "full_name": "JIANG FUYUAN (Camellia)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Physics A-3",
+      "B": "Chinese B",
+      "C": "Regular Math C-2",
+      "D": "Art & Design",
+      "E": "English E-7 - ESL 3"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "3554",
+    "full_name": "LU JINGWENYAN (Lily)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Economics A",
+      "B": "Biology",
+      "C": "Advanced Math C (CIE)",
+      "D": "Chinese D-2",
+      "E": "English E-7 - ESL 3"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "3576",
+    "full_name": "ZHANG XIYUE (Aura)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Chemistry A",
+      "B": "Physics B-1",
+      "C": "Regular Math C-2",
+      "D": "Art & Design",
+      "E": "English E-6 - ESL 2"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "3577",
+    "full_name": "LUO YAXUAN (Luna)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Regular Math A-1",
+      "B": "Economics B-1",
+      "C": "Business",
+      "D": "Chinese D-1",
+      "E": "English E-4 - L&L3"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "3582",
+    "full_name": "XU JIALIN (Linda)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Chinese A",
+      "B": "Physics B-2",
+      "C": "Economics C-1",
+      "D": "Regular Math D",
+      "E": "English E-6 - ESL 2"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "3603",
+    "full_name": "CHEN ZIYI (Samantha)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Economics A",
+      "B": "Physics B-1",
+      "C": "Regular Math C-1",
+      "D": "Chinese D-1",
+      "E": "English E-2 - L&L1"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "3627",
+    "full_name": "ZHANG JIAYIN (Charles)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Physics A-1",
+      "B": "Economics B-1",
+      "C": "Regular Math C-2",
+      "D": "Chemistry D",
+      "E": "English E-7 - ESL 3"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "3639",
+    "full_name": "LYU MINGYE (Angel)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Physics A-1",
+      "B": "Biology",
+      "C": "Regular Math C-2",
+      "D": "Chinese D-1",
+      "E": "English E-6 - ESL 2"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "3640",
+    "full_name": "ZHAO JINXUAN (Leslie)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Physics A-2 (Summit)",
+      "B": "Economics B-2 (Summit)",
+      "C": "Chemistry C-2 (Summit)",
+      "D": "Advanced Math D (CIE)",
+      "E": "English E-2 - L&L1"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "3643",
+    "full_name": "SAWAR IMAN TAIBAH (Iman)",
+    "program": "IB",
+    "block_assignments": {
+      "A": "Math SL",
+      "B": "Economics SL",
+      "C": "Physics HL",
+      "D": "English A HL",
+      "E": "Philosophy HL",
+      "F": "Chinese AB SL"
+    },
+    "has_tok": true,
+    "tok_course": "TOK (Chinese)"
+  },
+  {
+    "student_id": "3663",
+    "full_name": "LI WEISI (Weisi)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Regular Math A-2",
+      "B": "Physics B-2",
+      "C": "Chemistry C-1",
+      "D": "Chinese D-1",
+      "E": "English E-5 - ESL 1"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "3677",
+    "full_name": "DI JINYU (Jessica)",
+    "program": "IB",
+    "block_assignments": {
+      "A": "Math HL",
+      "B": "Physics HL",
+      "C": "Chemistry SL",
+      "D": "English A SL",
+      "E": "Economics SL",
+      "F": "Chinese B HL"
+    },
+    "has_tok": true,
+    "tok_course": "TOK (English)"
+  },
+  {
+    "student_id": "3690",
+    "full_name": "ZHOU YEFAN (Ephrant)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Physics A-3",
+      "B": "Chinese B",
+      "C": "Economics C-2 (EU)",
+      "D": "Fast Maths D (Edexcel)",
+      "E": "English E-7 - ESL 3"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "3695",
+    "full_name": "ZHU YICHEN (Eleven)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Regular Math A-1",
+      "B": "Music",
+      "C": "Economics C-1",
+      "D": "Art & Design",
+      "E": "English E-2 - L&L1"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "3697",
+    "full_name": "GU TINGYU (Evelyn)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Economics A",
+      "B": "Physics B-1",
+      "C": "Regular Math C-1",
+      "D": "Chemistry D",
+      "E": "English E-6 - ESL 2"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "3730",
+    "full_name": "DING MENGFEI (Cathy)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Geography",
+      "B": "Art & Design (Dual Dose)",
+      "C": "Regular Math C-1",
+      "D": "Art & Design",
+      "E": "English E-3 - L&L2"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "3744",
+    "full_name": "DAI YUTONG (Kerri)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Physics A-2 (Summit)",
+      "B": "Economics B-2 (Summit)",
+      "C": "Chemistry C-2 (Summit)",
+      "D": "Fast Maths D (Edexcel)",
+      "E": "English E-2 - L&L1"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "3759",
+    "full_name": "ZENG HAOHUA (Rockey)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Chemistry A",
+      "B": "Physics B-1",
+      "C": "Regular Math C-2",
+      "D": "Chinese D-2",
+      "E": "English E-4 - L&L3"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "3761",
+    "full_name": "ZHOU ZHENHONG (Ansel)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Physics A-1",
+      "B": "Economics B-1",
+      "C": "Advanced Math C (CIE)",
+      "D": "Chemistry D",
+      "E": "English E-4 - L&L3"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "3770",
+    "full_name": "DUAN XICHEN (Annie)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Physics A-2 (Summit)",
+      "B": "Biology",
+      "C": "Chemistry C-2 (Summit)",
+      "D": "Regular Math D",
+      "E": "English E-3 - L&L2"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "3776",
+    "full_name": "HU YUEYANG (Rayyan)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Regular Math A-1",
+      "B": "Art & Design (Dual Dose)",
+      "C": "Physics B-1",
+      "D": "Art & Design",
+      "E": "English E-2 - L&L1"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "3794",
+    "full_name": "ZHAO QIANCHENG (Charlie)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Economics A",
+      "B": "Computer Science",
+      "C": "Advanced Math C (CIE)",
+      "D": "Physics D",
+      "E": "English E-3 - L&L2"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "3815",
+    "full_name": "CHEN YIJIA (Jonina)",
+    "program": "IB",
+    "block_assignments": {
+      "A": "Math HL",
+      "B": "Economics HL",
+      "C": "Biology SL",
+      "D": "English B SL",
+      "E": "Philosophy HL",
+      "F": "Chinese A SL"
+    },
+    "has_tok": true,
+    "tok_course": "TOK (English)"
+  },
+  {
+    "student_id": "3827",
+    "full_name": "WU PEIMO (Steven)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Chemistry A",
+      "B": "Physics B-2",
+      "C": "Economics C-1",
+      "D": "Regular Math D",
+      "E": "English E-6 - ESL 2"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "3834",
+    "full_name": "KONG ZIYING (Ada)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Chinese A",
+      "B": "Biology",
+      "C": "Regular Math C-2",
+      "D": "Physics D",
+      "E": "English E-3 - L&L2"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "3839",
+    "full_name": "DONG YIXIN (Mike)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Regular Math A-2",
+      "B": "Physics B-2",
+      "C": "Economics C-2 (EU)",
+      "D": "Chinese D-1",
+      "E": "English E-7 - ESL 3"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "3854",
+    "full_name": "XIE SHIYI (Amy)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Chemistry A",
+      "B": "Physics B-1",
+      "C": "Regular Math C-2",
+      "D": "Chinese D-1",
+      "E": "English E-6 - ESL 2"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "3862",
+    "full_name": "WANG SIHAN (Sally)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Regular Math A-1",
+      "B": "Economics B-2 (Summit)",
+      "C": "Business",
+      "D": "Physics D",
+      "E": "English E-2 - L&L1"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "3880",
+    "full_name": "GU SI (Alisa)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Regular Math A-1",
+      "B": "Music",
+      "C": "Economics C-1",
+      "D": "Physics D",
+      "E": "English E-6 - ESL 2"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "3899",
+    "full_name": "CHENG JIAHAO (David)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Physics A-3",
+      "B": "Chinese B",
+      "C": "Economics C-2 (EU)",
+      "D": "Regular Math D",
+      "E": "English E-7 - ESL 3"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "3911",
+    "full_name": "QIAN JIAYANG (Alisa)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Chemistry A",
+      "B": "Physics B-1",
+      "C": "Regular Math C-1",
+      "D": "Art & Design",
+      "E": "English E-3 - L&L2"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "3958",
+    "full_name": "TENG AI (Alietti)",
+    "program": "IB",
+    "block_assignments": {
+      "A": "Math HL",
+      "B": "Biology HL",
+      "C": "Chemistry HL",
+      "D": "English B SL",
+      "E": "Economics SL",
+      "F": "Chinese A SL"
+    },
+    "has_tok": true,
+    "tok_course": "TOK (English)"
+  },
+  {
+    "student_id": "3959",
+    "full_name": "DING PEIHAO (Paris)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Physics A-1",
+      "B": "Music",
+      "C": "Economics C-1",
+      "D": "Fast Maths D (Edexcel)",
+      "E": "English E-3 - L&L2"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "3969",
+    "full_name": "YU ZIXUAN (Cynthia)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Regular Math A-2",
+      "B": "Chinese B",
+      "C": "Economics C-2 (EU)",
+      "D": "Art & Design",
+      "E": "English E-6 - ESL 2"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "3981",
+    "full_name": "XU YAOCHENG (Carl)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Regular Math A-1",
+      "B": "Physics B-2",
+      "C": "Economics C-2 (EU)",
+      "D": "Chinese D-2",
+      "E": "English E-6 - ESL 2"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "3988",
+    "full_name": "ZOU YIJUN (Zoe)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Physics A-1",
+      "B": "Economics B-2 (Summit)",
+      "C": "Chemistry C-1",
+      "D": "Fast Maths D (Edexcel)",
+      "E": "English E-4 - L&L3"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "3991",
+    "full_name": "YANG YINGTONG (Annie)",
+    "program": "IB",
+    "block_assignments": {
+      "A": "Math SL",
+      "B": "Biology HL",
+      "C": "Chemistry HL",
+      "D": "English B HL",
+      "E": "Economics SL",
+      "F": "Chinese A SL"
+    },
+    "has_tok": true,
+    "tok_course": "TOK (English)"
+  },
+  {
+    "student_id": "3998",
+    "full_name": "KIM RYEOWON (Lina)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Regular Math A-2",
+      "B": "Art & Design (Dual Dose)",
+      "C": "Physics B-1",
+      "D": "Art & Design",
+      "E": "English E-3 - L&L2"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "4002",
+    "full_name": "SHI MENGYU (Merrill)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Regular Math A-2",
+      "B": "Chinese B",
+      "C": "Economics C-2 (EU)",
+      "D": "Art & Design",
+      "E": "English E-7 - ESL 3"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "4012",
+    "full_name": "CHANG HAOMING (Max)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Physics A-1",
+      "B": "Chinese B",
+      "C": "Regular Math C-2",
+      "D": "Art & Design",
+      "E": "English E-5 - ESL 1"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "4013",
+    "full_name": "XU ZIQI (Aurelia)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Physics A-1",
+      "B": "Chinese B",
+      "C": "Advanced Math C (CIE)",
+      "D": "Chemistry D",
+      "E": "English E-6 - ESL 2"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "4022",
+    "full_name": "CHEN ZHUOYOU (Maggie)",
+    "program": "IB",
+    "block_assignments": {
+      "A": "Math SL",
+      "B": "Theatre HL",
+      "C": "Chemistry HL",
+      "D": "English B SL",
+      "E": "Economics SL",
+      "F": "Chinese A HL"
+    },
+    "has_tok": true,
+    "tok_course": "TOK (English)"
+  },
+  {
+    "student_id": "4026",
+    "full_name": "ZHANG JIAYU (Jason)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Physics A-3",
+      "B": "Chinese B",
+      "C": "Economics C-2 (EU)",
+      "D": "Regular Math D",
+      "E": "English E-7 - ESL 3"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "4040",
+    "full_name": "ZHU LIWEI (Julie)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Regular Math A-1",
+      "B": "Biology",
+      "C": "Chemistry C-1",
+      "D": "Physics D",
+      "E": "English E-4 - L&L3"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "4050",
+    "full_name": "JIN ZIYI (Ellie)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Economics A",
+      "B": "Physics B-2",
+      "C": "Regular Math C-2",
+      "D": "Chinese D-1",
+      "E": "English E-7 - ESL 3"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "4052",
+    "full_name": "CHEN LEHAN (Cecilia)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Regular Math A-1",
+      "B": "Economics B-2 (Summit)",
+      "C": "Further Math",
+      "D": "Physics D",
+      "E": "English E-3 - L&L2"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "4056",
+    "full_name": "LI JIARONG (Gracia)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Chemistry A",
+      "B": "Physics B-1",
+      "C": "Economics C-1",
+      "D": "Regular Math D",
+      "E": "English E-3 - L&L2"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "4066",
+    "full_name": "YU YANG (Yuki)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Regular Math A-1",
+      "B": "Physics B-1",
+      "C": "Further Math",
+      "D": "Art & Design",
+      "E": "English E-4 - L&L3"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "4067",
+    "full_name": "LI YANXI (Mario)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Regular Math A-2",
+      "B": "Biology",
+      "C": "Chemistry C-1",
+      "D": "Physics D",
+      "E": "English E-7 - ESL 3"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "4070",
+    "full_name": "HUA SHIYU (Shirley)",
+    "program": "IB",
+    "block_assignments": {
+      "A": "Math HL",
+      "B": "Economics HL",
+      "C": "Chemistry SL",
+      "D": "English B SL",
+      "E": "Philosophy SL",
+      "F": "Chinese A SL"
+    },
+    "has_tok": true,
+    "tok_course": "TOK (English)"
+  },
+  {
+    "student_id": "4071",
+    "full_name": "GAO ZICHENG (Edward)",
+    "program": "IB",
+    "block_assignments": {
+      "A": "Math HL",
+      "B": "Physics HL",
+      "C": "Biology HL",
+      "D": "English B SL",
+      "E": "Philosophy SL",
+      "F": "Chinese A SL"
+    },
+    "has_tok": true,
+    "tok_course": "TOK (English)"
+  },
+  {
+    "student_id": "4074",
+    "full_name": "CHEN FAN (Amy)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Chinese A",
+      "B": "Physics B-1",
+      "C": "Economics C-1",
+      "D": "Regular Math D",
+      "E": "English E-5 - ESL 1"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "4077",
+    "full_name": "SUN TIANYIN (Tianyin)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Economics A",
+      "B": "Physics B-2",
+      "C": "Regular Math C-2",
+      "D": "Chinese D-1",
+      "E": "English E-6 - ESL 2"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "4085",
+    "full_name": "LI JUNYAN (Corrine)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Physics A-1",
+      "B": "Biology",
+      "C": "Advanced Math C (CIE)",
+      "D": "Chemistry D",
+      "E": "English E-4 - L&L3"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "4106",
+    "full_name": "WANG JINGYUAN (Skyler)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Economics A",
+      "B": "Physics B-1",
+      "C": "Regular Math C-1",
+      "D": "Chemistry D",
+      "E": "English E-5 - ESL 1"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "4108",
+    "full_name": "XU YUNXUAN (Wendy)",
+    "program": "IB",
+    "block_assignments": {
+      "A": "Math HL",
+      "B": "Physics HL",
+      "C": "Chemistry SL",
+      "D": "English B HL",
+      "E": "Economics HL"
+    },
+    "has_tok": true,
+    "tok_course": "TOK (English)"
+  },
+  {
+    "student_id": "4116",
+    "full_name": "DAI SHENGKUN (Eric)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Regular Math A-1",
+      "B": "Economics B-1",
+      "C": "Business",
+      "D": "Physics D",
+      "E": "English E-5 - ESL 1"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "4123",
+    "full_name": "WANG YITIAN (Rachel)",
+    "program": "IB",
+    "block_assignments": {
+      "A": "Math HL",
+      "B": "Theatre SL",
+      "C": "Physics SL",
+      "D": "English B HL",
+      "E": "Economics HL",
+      "F": "Chinese A SL"
+    },
+    "has_tok": true,
+    "tok_course": "TOK (Chinese)"
+  },
+  {
+    "student_id": "4126",
+    "full_name": "WANG ZIHAN (Winny)",
+    "program": "IB",
+    "block_assignments": {
+      "A": "Math HL",
+      "B": "Theatre SL",
+      "C": "Chemistry SL",
+      "D": "English B HL",
+      "E": "Economics HL",
+      "F": "Chinese A SL"
+    },
+    "has_tok": true,
+    "tok_course": "TOK (English)"
+  },
+  {
+    "student_id": "4127",
+    "full_name": "HUANG TIANYU (Candian)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Geography",
+      "B": "Chinese B",
+      "C": "Regular Math C-2",
+      "D": "History",
+      "E": "English E-5 - ESL 1"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "4146",
+    "full_name": "CHEN XIJI (Elanie)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Physics A-2 (Summit)",
+      "B": "Economics B-2 (Summit)",
+      "C": "Chemistry C-2 (Summit)",
+      "D": "Fast Maths D (Edexcel)",
+      "E": "English E-1 - Honors"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "4159",
+    "full_name": "JING ENZE (Ares)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Regular Math A-2",
+      "B": "Economics B-1",
+      "C": "Chemistry C-1",
+      "D": "Chinese D-2",
+      "E": "English E-3 - L&L2"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "4187",
+    "full_name": "ZHOU RUOXI (Cissy)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Regular Math A-1",
+      "B": "Economics B-2 (Summit)",
+      "C": "Business",
+      "D": "Chemistry D",
+      "E": "English E-2 - L&L1"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "4192",
+    "full_name": "ZHANG YUXI (Ivy)",
+    "program": "IB",
+    "block_assignments": {
+      "A": "Math HL",
+      "B": "Biology HL",
+      "C": "Chemistry HL",
+      "D": "English B SL",
+      "E": "Economics SL",
+      "F": "Chinese A SL"
+    },
+    "has_tok": true,
+    "tok_course": "TOK (Chinese)"
+  },
+  {
+    "student_id": "4195",
+    "full_name": "FENG YINGTING (Yinting)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Chemistry A",
+      "B": "Physics B-2",
+      "C": "Economics C-1",
+      "D": "Regular Math D",
+      "E": "English E-7 - ESL 3"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "4196",
+    "full_name": "ZOU XIHUI (Zoe)",
+    "program": "IB",
+    "block_assignments": {
+      "A": "Math HL",
+      "B": "Theatre SL",
+      "C": "Physics SL",
+      "D": "English B SL",
+      "E": "Economics HL",
+      "F": "Chinese A HL"
+    },
+    "has_tok": true,
+    "tok_course": "TOK (Chinese)"
+  },
+  {
+    "student_id": "4213",
+    "full_name": "XU YIHENG (Yiheng)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Chinese A",
+      "B": "Physics B-2",
+      "C": "Economics C-1",
+      "D": "Regular Math D",
+      "E": "English E-5 - ESL 1"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "4214",
+    "full_name": "XU RUIHUA (Louis)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Economics A",
+      "B": "Physics B-2",
+      "C": "Regular Math C-2",
+      "D": "Chinese D-2",
+      "E": "English E-7 - ESL 3"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "4215",
+    "full_name": "JIAO SONGYANG (Songyang)",
+    "program": "IB",
+    "block_assignments": {
+      "A": "Math HL",
+      "B": "Biology HL",
+      "C": "Chemistry SL",
+      "D": "English B SL",
+      "E": "Economics SL",
+      "F": "Chinese A HL"
+    },
+    "has_tok": true,
+    "tok_course": "TOK (English)"
+  },
+  {
+    "student_id": "4216",
+    "full_name": "FANG HUILING (Helen)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Chinese A",
+      "B": "Physics B-1",
+      "C": "Economics C-1",
+      "D": "Regular Math D",
+      "E": "English E-5 - ESL 1"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "4220",
+    "full_name": "Z'BERG LYRIC (Lyric)",
+    "program": "IB",
+    "block_assignments": {
+      "A": "Math SL",
+      "B": "Theatre SL",
+      "C": "Biology HL",
+      "D": "English A HL",
+      "E": "Philosophy HL",
+      "F": "Chinese AB SL"
+    },
+    "has_tok": true,
+    "tok_course": "TOK (English)"
+  },
+  {
+    "student_id": "4222",
+    "full_name": "JIN YUTIAN (Serena)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Physics A-2 (Summit)",
+      "B": "Biology",
+      "C": "Chemistry C-2 (Summit)",
+      "D": "Regular Math D",
+      "E": "English E-3 - L&L2"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "4223",
+    "full_name": "XIE ZIYOU (Uzey)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Regular Math A-1",
+      "B": "Economics B-2 (Summit)",
+      "C": "Business",
+      "D": "Chinese D-1",
+      "E": "English E-5 - ESL 1"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "4242",
+    "full_name": "ZHUANG MENGCHENG (Stephen)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Physics A-3",
+      "B": "Chinese B",
+      "C": "Economics C-2 (EU)",
+      "D": "Regular Math D",
+      "E": "English E-6 - ESL 2"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "4243",
+    "full_name": "PENG ZHAOMING (Zhaoming)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Regular Math A-2",
+      "B": "Physics B-2",
+      "C": "Further Math",
+      "D": "Chinese D-2",
+      "E": "English E-6 - ESL 2"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "4244",
+    "full_name": "YUAN YISHAN (Sandra)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Regular Math A-2",
+      "B": "Economics B-2 (Summit)",
+      "C": "Chemistry C-2 (Summit)",
+      "D": "History",
+      "E": "English E-5 - ESL 1"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "4252",
+    "full_name": "CHEN BOXIN (Michael)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Chemistry A",
+      "B": "Physics B-1",
+      "C": "Regular Math C-1",
+      "D": "Chinese D-2",
+      "E": "English E-5 - ESL 1"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "4260",
+    "full_name": "YIN YUE (Selina)",
+    "program": "IB",
+    "block_assignments": {
+      "A": "Math HL",
+      "B": "Economics HL",
+      "C": "Physics SL",
+      "D": "English B HL",
+      "E": "Philosophy SL",
+      "F": "Chinese A SL"
+    },
+    "has_tok": true,
+    "tok_course": "TOK (Chinese)"
+  },
+  {
+    "student_id": "4293",
+    "full_name": "QI ZHIYAO (Jessica)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Regular Math A-1",
+      "B": "Economics B-2 (Summit)",
+      "C": "Further Math",
+      "D": "Physics D",
+      "E": "English E-2 - L&L1"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "4304",
+    "full_name": "LIU YUJING (Lauren)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Chinese A",
+      "B": "Biology",
+      "C": "Regular Math C-2",
+      "D": "History",
+      "E": "English E-5 - ESL 1"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "4305",
+    "full_name": "LI JIAWEI (Cherry)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Economics A",
+      "B": "Physics B-2",
+      "C": "Regular Math C-1",
+      "D": "Chinese D-1",
+      "E": "English E-5 - ESL 1"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "4316",
+    "full_name": "JIANG JUNWEN (Neik)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Economics A",
+      "B": "Physics B-2",
+      "C": "Regular Math C-2",
+      "D": "Chinese D-2",
+      "E": "English E-5 - ESL 1"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "4318",
+    "full_name": "GAO SHENGBO (George)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Physics A-3",
+      "B": "Chinese B",
+      "C": "Economics C-2 (EU)",
+      "D": "Regular Math D",
+      "E": "English E-5 - ESL 1"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "4393",
+    "full_name": "ZHANG ZICHEN (John)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Regular Math A-2",
+      "B": "Computer Science",
+      "C": "Chemistry C-1",
+      "D": "Physics D",
+      "E": "English E-7 - ESL 3"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "4398",
+    "full_name": "ZHANG ZIMO (Kitty)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Regular Math A-2",
+      "B": "Art & Design (Dual Dose)",
+      "C": "Chinese B",
+      "D": "Art & Design",
+      "E": "English E-2 - L&L1"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "440",
+    "full_name": "LU CHENRUI (Paul)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Physics A-2 (Summit)",
+      "B": "Economics B-2 (Summit)",
+      "C": "Chemistry C-2 (Summit)",
+      "D": "Advanced Math D (CIE)",
+      "E": "English E-3 - L&L2"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "4424",
+    "full_name": "VIDOR DA SILVA, Bento Emanuel (Bento)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Chemistry A",
+      "B": "Biology",
+      "C": "Business",
+      "D": "Regular Math D",
+      "E": "English E-5 - ESL 1"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "445",
+    "full_name": "ZHOU JUNXI (Krain)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Physics A-1",
+      "B": "Economics B-1",
+      "C": "Regular Math C-2",
+      "D": "Chinese D-2",
+      "E": "English E-3 - L&L2"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "449",
+    "full_name": "WEI ZHAOYU (Howie)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Physics A-1",
+      "B": "Economics B-1",
+      "C": "Advanced Math C (CIE)",
+      "D": "Chinese D-2",
+      "E": "English E-6 - ESL 2"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "626",
+    "full_name": "CHEN PINYUE (Gloria)",
+    "program": "IB",
+    "block_assignments": {
+      "A": "Math HL",
+      "B": "Biology HL",
+      "C": "Chemistry HL",
+      "D": "English A HL",
+      "E": "Philosophy SL",
+      "F": "Chinese B SL"
+    },
+    "has_tok": true,
+    "tok_course": "TOK (English)"
+  },
+  {
+    "student_id": "629",
+    "full_name": "HU ZIYUE (Rose)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Economics A",
+      "B": "Physics B-1",
+      "C": "Advanced Math C (CIE)",
+      "D": "Art & Design",
+      "E": "English E-1 - Honors"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "644",
+    "full_name": "YAO RUOLING (Linda)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Economics A",
+      "B": "Physics B-2",
+      "C": "Regular Math C-2",
+      "D": "Chinese D-2",
+      "E": "English E-6 - ESL 2"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "652",
+    "full_name": "CHAN YEE LOK (Doody)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Chemistry A",
+      "B": "Physics B-1",
+      "C": "Advanced Math C (CIE)",
+      "D": "History",
+      "E": "English E-1 - Honors"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "653",
+    "full_name": "GU ROY (Roy)",
+    "program": "IB",
+    "block_assignments": {
+      "A": "Math HL",
+      "B": "Economics HL",
+      "C": "Physics HL",
+      "D": "English A SL",
+      "E": "Business SL",
+      "F": "Chinese B SL"
+    },
+    "has_tok": true,
+    "tok_course": "TOK (Chinese)"
+  },
+  {
+    "student_id": "793",
+    "full_name": "TANG LEO LUCAS (Lucas)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Regular Math A-1",
+      "B": "Economics B-1",
+      "C": "Business",
+      "D": "Physics D",
+      "E": "English E-2 - L&L1"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "812",
+    "full_name": "XU HANZHENG (Bert)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Regular Math A-2",
+      "B": "Physics B-1",
+      "C": "Chemistry C-1",
+      "D": "Chinese D-2",
+      "E": "English E-7 - ESL 3"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "824",
+    "full_name": "WANG MENGTIAN (Miya)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Physics A-2 (Summit)",
+      "B": "Economics B-2 (Summit)",
+      "C": "Advanced Math C (CIE)",
+      "D": "Art & Design",
+      "E": "English E-2 - L&L1"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "847",
+    "full_name": "WANG CHENGZHI (King)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Regular Math A-2",
+      "B": "Economics B-1",
+      "C": "Chemistry C-1",
+      "D": "Physics D",
+      "E": "English E-7 - ESL 3"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "871",
+    "full_name": "CUI HAOYU (Howard)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Physics A-1",
+      "B": "Economics B-2 (Summit)",
+      "C": "Chemistry C-1",
+      "D": "Fast Maths D (Edexcel)",
+      "E": "English E-3 - L&L2"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "926",
+    "full_name": "DAI DIANA RUNZI (Diana)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Regular Math A-1",
+      "B": "Art & Design (Dual Dose)",
+      "C": "Physics B-1",
+      "D": "Art & Design",
+      "E": "English E-2 - L&L1"
+    },
+    "has_tok": false
+  },
+  {
+    "student_id": "974",
+    "full_name": "JIANG YINING (Emily)",
+    "program": "CAIE",
+    "block_assignments": {
+      "A": "Physics A-2 (Summit)",
+      "B": "Economics B-2 (Summit)",
+      "C": "Chemistry C-2 (Summit)",
+      "D": "Advanced Math D (CIE)",
+      "E": "English E-2 - L&L1"
+    },
+    "has_tok": false
+  }
+]

@@ -1,0 +1,164 @@
+{
+  "periods": [
+    {
+      "id": "P1",
+      "label": "8:20 – 9:00",
+      "starts_at": "08:20",
+      "ends_at": "09:00",
+      "sort_order": 1
+    },
+    {
+      "id": "P2",
+      "label": "9:05 – 9:45",
+      "starts_at": "09:05",
+      "ends_at": "09:45",
+      "sort_order": 2
+    },
+    {
+      "id": "P3",
+      "label": "10:00 – 10:40",
+      "starts_at": "10:00",
+      "ends_at": "10:40",
+      "sort_order": 3
+    }
+  ],
+  "courses": [
+    {
+      "name": "Further Maths",
+      "default_teacher": "Shahid Anwar",
+      "default_room": "B3043"
+    },
+    {
+      "name": "Physics 2",
+      "default_teacher": "Peter R.",
+      "default_room": "B3002"
+    },
+    {
+      "name": "Economics 2",
+      "default_teacher": "Christine Du",
+      "default_room": "B4043"
+    },
+    {
+      "name": "Chemistry 2",
+      "default_teacher": "Selina Sun",
+      "default_room": "B4005"
+    },
+    {
+      "name": "ChemistrySummit",
+      "default_teacher": "Judy Zhu",
+      "default_room": "B4002"
+    },
+    {
+      "name": "Business 1",
+      "default_teacher": "Kieran Foxe",
+      "default_room": "B4038"
+    },
+    {
+      "name": "Art 1",
+      "default_teacher": "Amanda Milne",
+      "default_room": "B3027"
+    },
+    {
+      "name": "Art 2",
+      "default_teacher": "Luciana Liu",
+      "default_room": "B4029"
+    },
+    {
+      "name": "IB Philosophy",
+      "default_teacher": "Matthew Peatman",
+      "default_room": "B4039"
+    },
+    {
+      "name": "IB Economics 1",
+      "default_teacher": "Chaminda Marasinghe",
+      "default_room": "B4042"
+    },
+    {
+      "name": "AP English",
+      "default_teacher": "Kurt Shelton",
+      "default_room": "B2044"
+    },
+    {
+      "name": "English L&L 1",
+      "default_teacher": "Lim Wan",
+      "default_room": "B2041"
+    },
+    {
+      "name": "English L&L 2",
+      "default_teacher": "Helen Liu",
+      "default_room": "B2040"
+    },
+    {
+      "name": "English L&L 3",
+      "default_teacher": "Jenna-Wade Dunn",
+      "default_room": "B2043"
+    },
+    {
+      "name": "PE 2",
+      "default_teacher": "Abie Rakgoale",
+      "default_room": "Gym"
+    },
+    {
+      "name": "PE 4",
+      "default_teacher": "Miko Qian",
+      "default_room": "Gym"
+    },
+    {
+      "name": "PE 6",
+      "default_teacher": "Llyod Pique",
+      "default_room": "Gym"
+    },
+    {
+      "name": "PE 8",
+      "default_teacher": "Abie Rakgoale",
+      "default_room": "Gym"
+    }
+  ],
+  "slots": [
+    {
+      "slot_order": 1,
+      "term_name": "June 2025",
+      "grade_level": "G10",
+      "day_name": "Monday",
+      "start_period_id": "P1",
+      "end_period_id": "P1",
+      "courses": [
+        "Further Maths",
+        "Physics 2",
+        "Economics 2",
+        "Chemistry 2",
+        "ChemistrySummit",
+        "Business 1",
+        "Art 1",
+        "Art 2",
+        "IB Philosophy",
+        "IB Economics 1"
+      ],
+      "overrides": {
+        "IB Philosophy": {
+          "teacher": "Matthew P.",
+          "room": "B4041"
+        }
+      }
+    },
+    {
+      "slot_order": 2,
+      "term_name": "June 2025",
+      "grade_level": "G10",
+      "day_name": "Monday",
+      "start_period_id": "P2",
+      "end_period_id": "P3",
+      "courses": [
+        "AP English",
+        "English L&L 1",
+        "English L&L 2",
+        "English L&L 3",
+        "PE 2",
+        "PE 4",
+        "PE 6",
+        "PE 8"
+      ],
+      "overrides": {}
+    }
+  ]
+}

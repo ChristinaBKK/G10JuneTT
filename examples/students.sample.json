@@ -1,0 +1,35 @@
+[
+  {
+    "student_id": "1154",
+    "full_name": "Lu, Mengyao 陆孟瑶 (Yome)",
+    "enrollments": [
+      "Business 1",
+      "Chemistry 3",
+      "Geography",
+      "Fast Maths 1",
+      "AP English",
+      "IPQ 1",
+      "PE 1",
+      "University Counselling",
+      "Assembly",
+      "House"
+    ]
+  },
+  {
+    "student_id": "4015",
+    "full_name": "Yan, ShengYu 阎晟瑜 (Lily)",
+    "enrollments": [
+      "IB Physics 1",
+      "IB Philosophy",
+      "IB Theatre",
+      "IB Chinese",
+      "IB Maths",
+      "IB TOK",
+      "IB English",
+      "PE 8",
+      "University Counselling",
+      "Assembly",
+      "House"
+    ]
+  }
+]

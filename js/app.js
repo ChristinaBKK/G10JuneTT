@@ -1,0 +1,321 @@
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+import { supabasePublishableKey, supabaseUrl } from './supabase-config.js';
+
+const supabase = createClient(supabaseUrl, supabasePublishableKey, {
+  auth: {
+    persistSession: false,
+    autoRefreshToken: false,
+  },
+});
+
+const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+const periodOrder = new Map();
+
+const lookupForm = document.getElementById('lookupForm');
+const pupilIdInput = document.getElementById('pupilID');
+const statusMessage = document.getElementById('statusMessage');
+const timetableContainer = document.getElementById('timetableContainer');
+const downloadButton = document.getElementById('downloadPDF');
+const lookupButton = document.getElementById('lookupButton');
+const recentLookupsContainer = document.getElementById('recentLookups');
+const clearRecentLookupsButton = document.getElementById('clearRecentLookups');
+
+const recentLookupStorageKey = 'g10-june-tt:recent-lookups';
+const maxRecentLookups = 6;
+
+let periodsCache = null;
+let currentStudent = null;
+
+lookupForm.addEventListener('submit', handleLookupSubmit);
+downloadButton.addEventListener('click', downloadPDF);
+clearRecentLookupsButton.addEventListener('click', clearRecentLookups);
+
+renderEmptyState('Enter a pupil ID to load timetable data from Supabase.');
+renderRecentLookups();
+
+async function handleLookupSubmit(event) {
+  event.preventDefault();
+
+  const pupilId = pupilIdInput.value.trim();
+  if (!pupilId) {
+    setStatus('Enter a pupil ID before searching.', 'error');
+    renderEmptyState('A pupil ID is required to load a timetable.');
+    downloadButton.hidden = true;
+    return;
+  }
+
+  try {
+    setLoading(true);
+    setStatus(`Loading timetable for ${pupilId}...`, 'loading');
+
+    const payload = await fetchStudentTimetablePayload(pupilId);
+    const periods = normalisePeriods(payload.periods || []);
+    const student = payload.student;
+    const entries = payload.entries || [];
+
+    if (!student) {
+      currentStudent = null;
+      renderEmptyState(`No student found for pupil ID ${pupilId}.`);
+      setStatus(`No student found for pupil ID ${pupilId}.`, 'error');
+      downloadButton.hidden = true;
+      return;
+    }
+
+    currentStudent = student;
+    saveRecentLookup(student.student_id, student.full_name);
+    renderTimetable(periods, student, entries);
+    downloadButton.hidden = false;
+    setStatus(`Loaded timetable for ${student.full_name}.`, 'ready');
+  } catch (error) {
+    console.error(error);
+    currentStudent = null;
+    renderEmptyState('The timetable could not be loaded from Supabase. Check the browser console for details.');
+    setStatus(error.message || 'The timetable could not be loaded from Supabase.', 'error');
+    downloadButton.hidden = true;
+  } finally {
+    setLoading(false);
+  }
+}
+
+async function fetchPeriods() {
+  return periodsCache || [];
+}
+
+async function fetchStudentTimetablePayload(studentId) {
+  const { data, error } = await supabase
+    .rpc('get_student_timetable_payload', { p_student_id: studentId });
+
+  if (error) {
+    throw new Error(`Unable to load timetable data: ${error.message}`);
+  }
+
+  return data;
+}
+
+function normalisePeriods(periods) {
+  periodsCache = periods.map((period, index) => {
+    periodOrder.set(period.id, index);
+    return {
+      id: period.id,
+      time: period.label,
+      sortOrder: period.sort_order,
+    };
+  });
+
+  return periodsCache;
+}
+
+function renderTimetable(periods, student, entries) {
+  const entriesByDay = groupEntriesByDay(entries);
+  const table = document.createElement('table');
+  table.id = 'timetableTable';
+
+  const headerRow = document.createElement('tr');
+  const firstHeader = document.createElement('th');
+  firstHeader.textContent = 'Day / Period';
+  headerRow.appendChild(firstHeader);
+
+  for (const period of periods) {
+    const th = document.createElement('th');
+    th.textContent = `${period.id}\n${period.time}`;
+    headerRow.appendChild(th);
+  }
+
+  table.appendChild(headerRow);
+
+  for (const day of days) {
+    const row = document.createElement('tr');
+    const dayCell = document.createElement('td');
+    dayCell.textContent = day;
+    row.appendChild(dayCell);
+
+    let skipUntilPeriodIndex = -1;
+    const dayEntries = entriesByDay.get(day) || [];
+
+    periods.forEach((period, periodIndex) => {
+      if (periodIndex <= skipUntilPeriodIndex) {
+        return;
+      }
+
+      const entry = dayEntries.find((candidate) => {
+        const startIndex = periodOrder.get(candidate.start_period_id);
+        const endIndex = periodOrder.get(candidate.end_period_id);
+        return periodIndex >= startIndex && periodIndex <= endIndex;
+      });
+
+      if (!entry) {
+        const td = document.createElement('td');
+        td.textContent = 'Free Period';
+        row.appendChild(td);
+        return;
+      }
+
+      if (entry.start_period_id === period.id) {
+        const td = document.createElement('td');
+        const startIndex = periodOrder.get(entry.start_period_id);
+        const endIndex = periodOrder.get(entry.end_period_id);
+        const colspan = endIndex - startIndex + 1;
+
+        if (colspan > 1) {
+          td.colSpan = colspan;
+          skipUntilPeriodIndex = periodIndex + colspan - 1;
+        }
+
+        td.innerHTML = buildCellMarkup(entry);
+        row.appendChild(td);
+      }
+    });
+
+    table.appendChild(row);
+  }
+
+  timetableContainer.innerHTML = `
+    <div class="timetable-heading">
+      <div>
+        <h2>June 2025 Timetable for ${escapeHtml(student.full_name)}</h2>
+        <p>ID: ${escapeHtml(student.student_id)}</p>
+      </div>
+    </div>
+  `;
+  timetableContainer.appendChild(table);
+}
+
+function groupEntriesByDay(entries) {
+  return entries.reduce((grouped, entry) => {
+    if (!grouped.has(entry.day_name)) {
+      grouped.set(entry.day_name, []);
+    }
+
+    grouped.get(entry.day_name).push(entry);
+    return grouped;
+  }, new Map());
+}
+
+function buildCellMarkup(entry) {
+  return `
+    <span class="cell-course">${formatMultiline(entry.course_name)}</span>
+    <span class="cell-meta">${formatMultiline(entry.teacher)}</span>
+    <span class="cell-meta">${formatMultiline(entry.room)}</span>
+  `;
+}
+
+function formatMultiline(value) {
+  const normalised = String(value || '').replace(/<br\s*\/?>/gi, '\n');
+  return escapeHtml(normalised).replace(/\n/g, '<br>');
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;');
+}
+
+function renderEmptyState(message) {
+  timetableContainer.innerHTML = `<div class="empty-state"><p>${escapeHtml(message)}</p></div>`;
+}
+
+function renderRecentLookups() {
+  const recentLookups = getRecentLookups();
+  recentLookupsContainer.innerHTML = '';
+  clearRecentLookupsButton.hidden = recentLookups.length === 0;
+
+  if (recentLookups.length === 0) {
+    recentLookupsContainer.innerHTML = '<p class="recent-lookups__empty">No recent IDs yet.</p>';
+    return;
+  }
+
+  recentLookups.forEach((lookup) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'recent-lookups__chip';
+    button.innerHTML = `${escapeHtml(lookup.studentId)} <span>${escapeHtml(lookup.name)}</span>`;
+    button.addEventListener('click', () => {
+      pupilIdInput.value = lookup.studentId;
+      lookupForm.requestSubmit();
+    });
+    recentLookupsContainer.appendChild(button);
+  });
+}
+
+function getRecentLookups() {
+  try {
+    const raw = window.localStorage.getItem(recentLookupStorageKey);
+    const parsed = raw ? JSON.parse(raw) : [];
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveRecentLookup(studentId, name) {
+  const recentLookups = getRecentLookups().filter((lookup) => lookup.studentId !== studentId);
+  recentLookups.unshift({ studentId, name });
+  window.localStorage.setItem(
+    recentLookupStorageKey,
+    JSON.stringify(recentLookups.slice(0, maxRecentLookups)),
+  );
+  renderRecentLookups();
+}
+
+function clearRecentLookups() {
+  window.localStorage.removeItem(recentLookupStorageKey);
+  renderRecentLookups();
+}
+
+function setStatus(message, state) {
+  statusMessage.textContent = message;
+  statusMessage.dataset.state = state;
+}
+
+function setLoading(isLoading) {
+  lookupButton.disabled = isLoading;
+  lookupButton.textContent = isLoading ? 'Loading...' : 'Get Timetable';
+}
+
+function downloadPDF() {
+  if (!currentStudent || !timetableContainer.querySelector('#timetableTable')) {
+    return;
+  }
+
+  const clone = timetableContainer.cloneNode(true);
+  clone.style.position = 'absolute';
+  clone.style.left = '-9999px';
+  clone.style.width = '1200px';
+  clone.style.maxWidth = '1200px';
+  clone.style.padding = '10px';
+  document.body.appendChild(clone);
+
+  clone.querySelectorAll('th, td').forEach((cell) => {
+    cell.style.position = 'static';
+    cell.style.left = 'auto';
+    cell.style.zIndex = 'auto';
+  });
+
+  html2canvas(clone, { scale: 2 }).then((canvas) => {
+    document.body.removeChild(clone);
+
+    const imgData = canvas.toDataURL('image/png');
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({
+      orientation: 'landscape',
+      unit: 'pt',
+      format: 'a4',
+    });
+
+    const margin = 40;
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = pdf.internal.pageSize.getHeight();
+    const contentWidth = pdfWidth - (2 * margin);
+    const contentHeight = pdfHeight - (2 * margin);
+    const ratio = Math.min(contentWidth / canvas.width, contentHeight / canvas.height);
+    const scaledWidth = canvas.width * ratio;
+    const scaledHeight = canvas.height * ratio;
+    const x = margin + ((contentWidth - scaledWidth) / 2);
+
+    pdf.addImage(imgData, 'PNG', x, margin, scaledWidth, scaledHeight);
+    pdf.save(`June_2025_Timetable_${currentStudent.student_id}.pdf`);
+  });
+}
