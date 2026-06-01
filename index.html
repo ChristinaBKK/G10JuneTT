@@ -2,22 +2,27 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>June 2026 Timetable</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./styles/main.css">
 </head>
 <body>
   <main class="app-shell">
     <section class="hero-panel">
-      <p class="eyebrow">G10 June 2026</p>
-      <h1>Student Timetable Lookup</h1>
-      <p class="hero-copy">
-        This timetable is now served from Supabase. Enter a pupil ID to load the published schedule,
-        teacher and room details, then export the result as a PDF.
-      </p>
+      <div class="hero-header">
+        <div class="hero-copy-block">
+          <p class="eyebrow">G10 June 2026</p>
+          <h1>Student Timetable Lookup</h1>
+          <p class="hero-copy">
+            Load the published Supabase timetable, review teacher and room details, and export a cleaner,
+            easier-to-read schedule without the oversized cell layout.
+          </p>
+        </div>
+
+        <div class="hero-topbar">
+          <img class="logo-lockup" src="./school_logo.png" alt="Wuxi Dipont School of Arts and Science and King's College International School, Wuxi logo">
+        </div>
+      </div>
 
       <form id="lookupForm" class="lookup-form">
         <label class="field-label" for="pupilID">Pupil ID</label>
@@ -35,15 +40,13 @@
         </div>
         <div id="recentLookups" class="recent-lookups__list"></div>
       </section>
-
-      <p id="statusMessage" class="status-message" aria-live="polite">
-        Ready. Enter a pupil ID to fetch timetable data.
-      </p>
     </section>
 
     <section class="table-panel">
       <div id="timetableContainer" class="timetable-container"></div>
     </section>
+
+    <footer class="page-footer">Developed by Dr. Christina Feng</footer>
   </main>
 
   <noscript>This page requires JavaScript to load timetable data from Supabase.</noscript>

@@ -30,7 +30,7 @@ lookupForm.addEventListener('submit', handleLookupSubmit);
 downloadButton.addEventListener('click', downloadPDF);
 clearRecentLookupsButton.addEventListener('click', clearRecentLookups);
 
-renderEmptyState('Enter a pupil ID to load timetable data from Supabase.');
+renderEmptyState('Enter a pupil ID to load timetable data.');
 renderRecentLookups();
 
 async function handleLookupSubmit(event) {
@@ -109,6 +109,8 @@ function renderTimetable(periods, student, entries) {
   const entriesByDay = groupEntriesByDay(entries);
   const table = document.createElement('table');
   table.id = 'timetableTable';
+  const mobileSchedule = document.createElement('div');
+  mobileSchedule.className = 'mobile-timetable';
 
   const headerRow = document.createElement('tr');
   const firstHeader = document.createElement('th');
@@ -145,6 +147,7 @@ function renderTimetable(periods, student, entries) {
 
       if (!entry) {
         const td = document.createElement('td');
+        td.className = 'free-period';
         td.textContent = 'Free Period';
         row.appendChild(td);
         return;
@@ -172,11 +175,13 @@ function renderTimetable(periods, student, entries) {
   timetableContainer.innerHTML = `
     <div class="timetable-heading">
       <div>
-        <h2>June 2025 Timetable for ${escapeHtml(student.full_name)}</h2>
+        <h2>June 2026 Timetable for ${escapeHtml(student.full_name)}</h2>
         <p>ID: ${escapeHtml(student.student_id)}</p>
       </div>
     </div>
   `;
+  mobileSchedule.innerHTML = buildMobileTimetableMarkup(periods, entriesByDay);
+  timetableContainer.appendChild(mobileSchedule);
   timetableContainer.appendChild(table);
 }
 
@@ -192,16 +197,101 @@ function groupEntriesByDay(entries) {
 }
 
 function buildCellMarkup(entry) {
+  const courseName = escapeHtml(String(entry.course_name || '').trim() || 'Unassigned');
+  const teacher = escapeHtml(toCompactText(entry.teacher, 'Teacher TBC'));
+  const room = escapeHtml(toCompactText(entry.room, 'Room TBC'));
+
   return `
-    <span class="cell-course">${formatMultiline(entry.course_name)}</span>
-    <span class="cell-meta">${formatMultiline(entry.teacher)}</span>
-    <span class="cell-meta">${formatMultiline(entry.room)}</span>
+    <div class="cell-content">
+      <span class="cell-course" title="${courseName}">${courseName}</span>
+      <span class="cell-meta" title="${teacher}">Teacher: ${teacher}</span>
+      <span class="cell-meta" title="${room}">Room: ${room}</span>
+    </div>
   `;
 }
 
-function formatMultiline(value) {
-  const normalised = String(value || '').replace(/<br\s*\/?>/gi, '\n');
-  return escapeHtml(normalised).replace(/\n/g, '<br>');
+function buildMobileTimetableMarkup(periods, entriesByDay) {
+  return days.map((day) => {
+    const dayEntries = entriesByDay.get(day) || [];
+    const items = [];
+    let skipUntilPeriodIndex = -1;
+
+    periods.forEach((period, periodIndex) => {
+      if (periodIndex <= skipUntilPeriodIndex) {
+        return;
+      }
+
+      const entry = dayEntries.find((candidate) => {
+        const startIndex = periodOrder.get(candidate.start_period_id);
+        const endIndex = periodOrder.get(candidate.end_period_id);
+        return periodIndex >= startIndex && periodIndex <= endIndex;
+      });
+
+      if (!entry) {
+        items.push(`
+          <article class="mobile-slot-card is-free">
+            <div class="mobile-slot-meta">
+              <span class="mobile-slot-period">${escapeHtml(period.id)}</span>
+              <span class="mobile-slot-time">${escapeHtml(period.time)}</span>
+            </div>
+            <div class="mobile-slot-body">
+              <span class="mobile-free-label">Free Period</span>
+            </div>
+          </article>
+        `);
+        return;
+      }
+
+      if (entry.start_period_id !== period.id) {
+        return;
+      }
+
+      const startIndex = periodOrder.get(entry.start_period_id);
+      const endIndex = periodOrder.get(entry.end_period_id);
+      const endPeriod = periods[endIndex];
+      const periodLabel = startIndex === endIndex
+        ? period.id
+        : `${period.id}-${endPeriod.id}`;
+      const timeLabel = startIndex === endIndex
+        ? period.time
+        : `${period.time} to ${endPeriod.time}`;
+
+      items.push(`
+        <article class="mobile-slot-card">
+          <div class="mobile-slot-meta">
+            <span class="mobile-slot-period">${escapeHtml(periodLabel)}</span>
+            <span class="mobile-slot-time">${escapeHtml(timeLabel)}</span>
+          </div>
+          <div class="mobile-slot-body">
+            <span class="mobile-slot-course">${escapeHtml(String(entry.course_name || '').trim() || 'Unassigned')}</span>
+            <span class="mobile-slot-detail">Teacher: ${escapeHtml(toCompactText(entry.teacher, 'Teacher TBC'))}</span>
+            <span class="mobile-slot-detail">Room: ${escapeHtml(toCompactText(entry.room, 'Room TBC'))}</span>
+          </div>
+        </article>
+      `);
+
+      skipUntilPeriodIndex = endIndex;
+    });
+
+    return `
+      <section class="mobile-day-card">
+        <h3>${escapeHtml(day)}</h3>
+        <div class="mobile-day-slots">
+          ${items.join('')}
+        </div>
+      </section>
+    `;
+  }).join('');
+}
+
+function toCompactText(value, fallback) {
+  const normalised = String(value || '')
+    .replace(/<br\s*\/?>/gi, ' / ')
+    .replace(/\s*\n\s*/g, ' / ')
+    .replace(/\s{2,}/g, ' ')
+    .trim();
+
+  return normalised || fallback;
 }
 
 function escapeHtml(value) {
@@ -266,6 +356,10 @@ function clearRecentLookups() {
 }
 
 function setStatus(message, state) {
+  if (!statusMessage) {
+    return;
+  }
+
   statusMessage.textContent = message;
   statusMessage.dataset.state = state;
 }
@@ -316,6 +410,6 @@ function downloadPDF() {
     const x = margin + ((contentWidth - scaledWidth) / 2);
 
     pdf.addImage(imgData, 'PNG', x, margin, scaledWidth, scaledHeight);
-    pdf.save(`June_2025_Timetable_${currentStudent.student_id}.pdf`);
+    pdf.save(`June_2026_Timetable_${currentStudent.student_id}.pdf`);
   });
 }

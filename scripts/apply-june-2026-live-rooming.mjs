@@ -27,7 +27,7 @@ const rooming = [
     coursePatterns: ['Physics A-1'],
     teacher: 'Evelyn Yang',
     roomsBySlotOrder: {
-      6101: 'B3004, B3005', 6102: 'B3004, B3005', 6122: 'B3002',
+      6101: 'B3004', 6102: 'B3004', 6122: 'B3002',
       6156: 'B3004', 6157: 'B3004', 6163: 'B3004', 6164: 'B3004',
       6171: 'B3004', 6172: 'B3004', 6296: 'B3004', 6297: 'B3004',
     },
@@ -46,11 +46,11 @@ const rooming = [
     coursePatterns: ['Biology'],
     teacher: 'Ambily Biju',
     roomsBySlotOrder: {
-        6105: 'B4004, B4007', 6106: 'B4004, B4007', 6107: 'B4004, B4007',
-        6118: 'B4004, B4007', 6119: 'B4004, B4007', 6123: 'B4004, B4007', 6124: 'B4004, B4007',
-        6158: 'B4004, B4007', 6159: 'B4004, B4007',
-        6175: 'B4004, B4007', 6176: 'B4004, B4007', 6177: 'B4004, B4007',
-        6188: 'B4004, B4007', 6189: 'B4004, B4007', 6298: 'B4004, B4007', 6299: 'B4004, B4007',
+        6105: 'B4007', 6106: 'B4007', 6107: 'B4007',
+        6118: 'B4007', 6119: 'B4007', 6123: 'B4007', 6124: 'B4007',
+        6158: 'B4007', 6159: 'B4007',
+        6175: 'B4007', 6176: 'B4007', 6177: 'B4007',
+        6188: 'B4007', 6189: 'B4007', 6298: 'B4007', 6299: 'B4007',
     },
   },
   { coursePatterns: ['Economics B-1'], slotOrders: slotGroups.blockBCie, teacher: 'Helgaard Le Roux', room: 'B1037' },
@@ -87,6 +87,8 @@ const rooming = [
   { coursePatterns: ['Economics C-2*'], slotOrders: slotGroups.blockC, teacher: 'Winnie Hu', room: 'B2041' },
   { coursePatterns: ['TOK (Group 1)', 'TOK (Group 2)'], slotOrders: slotGroups.tok, teacher: 'Miya Yang / Matthew Peatman', room: 'B3044' },
   { coursePatterns: ['CAS-1', 'CAS-2'], slotOrders: slotGroups.cas, teacher: null, room: 'B2044' },
+  { coursePatterns: ['University Counselling'], slotOrders: [6115], teacher: 'University Counsellors', room: 'To be updated by my counsellor' },
+  { coursePatterns: ['Graduation parade'], slotOrders: [6126], teacher: 'Block E Teachers', room: 'Assigned According to Houses' },
 
   {
     coursePatterns: ['Regular Math D'],
