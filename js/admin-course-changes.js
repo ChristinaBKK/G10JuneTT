@@ -256,7 +256,10 @@ function renderEditor(editorData) {
   `).join('');
 
   elements.blockSelections.querySelectorAll('[data-block-code]').forEach((select) => {
-    select.addEventListener('change', () => updateSelectedTeacher(select));
+    select.addEventListener('change', () => {
+      updateSelectedTeacher(select);
+      updateDraftPreview();
+    });
   });
 
   const selectedUnblocked = new Set(editorData.unblocked?.currentCourseNames || []);
@@ -270,7 +273,49 @@ function renderEditor(editorData) {
     `).join('')
     : '<p class="search-feedback">No non-block course options were found in student_enrollments.</p>';
 
+  elements.unblockedSelections.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => {
+    checkbox.addEventListener('change', () => updateDraftPreview());
+  });
+
   renderTimetable(editorData.timetable || {});
+}
+
+function updateDraftPreview() {
+  if (!state.currentEditorData) {
+    return;
+  }
+
+  renderTimetable(buildDraftTimetable(state.currentEditorData, collectSelections()));
+}
+
+function buildDraftTimetable(editorData, selections) {
+  const baseTimetable = editorData.timetable || { periods: [], entries: [] };
+  const coursePreviewByName = editorData.coursePreviewByName || {};
+  const editableCourseNames = new Set(editorData.editableCourseNames || []);
+
+  const preservedEntries = (baseTimetable.entries || []).filter((entry) => !editableCourseNames.has(entry.course_name));
+  const nextEntries = [];
+
+  for (const blockCode of BLOCK_CODES) {
+    const courseName = selections.blockSelections?.[blockCode] || '';
+    if (!courseName) {
+      continue;
+    }
+    nextEntries.push(...clonePreviewEntries(coursePreviewByName[courseName] || []));
+  }
+
+  for (const courseName of selections.unblockedCourseNames || []) {
+    nextEntries.push(...clonePreviewEntries(coursePreviewByName[courseName] || []));
+  }
+
+  return {
+    periods: baseTimetable.periods || [],
+    entries: [...preservedEntries, ...nextEntries],
+  };
+}
+
+function clonePreviewEntries(entries) {
+  return entries.map((entry) => ({ ...entry }));
 }
 
 function renderSelectedTeacherText(block) {
