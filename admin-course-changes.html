@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Course Changes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles/admin-course-changes.css">
+</head>
+<body>
+  <div class="auth-overlay" id="authOverlay">
+    <section class="auth-card">
+      <p class="eyebrow">Admin Access</p>
+      <h2>Enter the admin password</h2>
+      <p class="auth-copy">This page is online, but it stays locked until the hosted admin API accepts the shared password.</p>
+      <form class="auth-form" id="authForm">
+        <label class="field-label" for="adminPassword">Password</label>
+        <input id="adminPassword" name="adminPassword" type="password" autocomplete="current-password" placeholder="Enter admin password" required>
+        <button class="primary-button" type="submit">Unlock admin page</button>
+      </form>
+      <p class="auth-status" id="authStatus">Enter the password configured for the online admin API.</p>
+    </section>
+  </div>
+
+  <main class="admin-shell">
+    <header class="admin-hero">
+      <div>
+        <p class="eyebrow">Online Admin Backdoor</p>
+        <h1>Change a student's courses by block and rebuild the timetable immediately.</h1>
+        <p class="hero-copy">This page stays browser-safe. It uses a hosted admin API for the write operations, and that API only accepts requests with the shared password.</p>
+      </div>
+      <div class="hero-meta">
+        <a class="hero-link" href="./index.html">Open timetable lookup</a>
+        <p class="api-target">API target: <span id="apiBaseLabel"></span></p>
+        <p class="connection-state" id="connectionState">Checking hosted admin API…</p>
+        <button class="ghost-button" id="lockPageButton" type="button" hidden>Lock page</button>
+      </div>
+    </header>
+
+    <section class="page-grid">
+      <section class="panel panel-search">
+        <div class="panel-head">
+          <div>
+            <p class="panel-kicker">Student Search</p>
+            <h2>Find a student</h2>
+          </div>
+          <button class="ghost-button" id="refreshSearchButton" type="button">Refresh list</button>
+        </div>
+
+        <form class="search-form" id="studentSearchForm">
+          <label class="field-label" for="studentQuery">Student ID or name</label>
+          <div class="search-row">
+            <input id="studentQuery" name="studentQuery" type="search" placeholder="Search by pupil ID or full name" autocomplete="off">
+            <button class="primary-button" type="submit">Search</button>
+          </div>
+        </form>
+
+        <p class="helper-copy">Blank search shows the first 30 students. Choose one to load current enrollments, block options, and the rebuilt timetable preview.</p>
+
+        <div class="search-results" id="studentSearchResults"></div>
+      </section>
+
+      <section class="panel panel-editor" id="editorEmptyState">
+        <div class="empty-state">
+          <p class="panel-kicker">Course Editor</p>
+          <h2>Select a student to edit</h2>
+          <p>The editor will show Block A through Block F plus any non-block courses attached to the student.</p>
+        </div>
+      </section>
+
+      <section class="panel panel-editor" id="editorPanel" hidden>
+        <div class="panel-head">
+          <div>
+            <p class="panel-kicker">Course Editor</p>
+            <h2 id="studentTitle">Student</h2>
+            <p class="student-meta" id="studentMeta"></p>
+          </div>
+          <button class="ghost-button" id="reloadStudentButton" type="button">Reload student</button>
+        </div>
+
+        <div class="status-banner is-idle" id="statusBanner">Choose new courses and save when ready.</div>
+
+        <form id="courseChangeForm">
+          <section class="editor-section">
+            <div class="section-head">
+              <h3>Block selections</h3>
+              <p>Pick one course per timetable block. Leave a block blank to clear it.</p>
+            </div>
+            <div class="block-grid" id="blockSelections"></div>
+          </section>
+
+          <section class="editor-section">
+            <div class="section-head">
+              <h3>No block / additional courses</h3>
+              <p>These are the enrollments stored with no block code. Toggle any that should stay attached to the student.</p>
+            </div>
+            <div class="unblocked-grid" id="unblockedSelections"></div>
+          </section>
+
+          <div class="editor-actions">
+            <button class="primary-button" id="saveChangesButton" type="submit">Save changes and rebuild timetable</button>
+          </div>
+        </form>
+
+        <section class="editor-section timetable-section">
+          <div class="section-head">
+            <h3>Rebuilt timetable preview</h3>
+            <p>The preview below comes from the same Supabase payload the student-facing timetable page uses.</p>
+          </div>
+          <div class="timetable-preview" id="timetablePreview"></div>
+        </section>
+      </section>
+    </section>
+  </main>
+
+  <script type="module" src="./js/admin-course-changes.js"></script>
+</body>
+</html>

@@ -90,6 +90,40 @@ node scripts/supabase-admin-sync.mjs sync-slot-assignments all
 
 Use `all` after changing timetable slot definitions for a whole term structure so every student's derived timetable is rebuilt from the latest enrollment data.
 
+## Admin Backdoor Page
+
+There is now a browser-safe admin course-change page at `admin-course-changes.html`.
+
+The page is designed to stay online as a static frontend while its write operations go through a password-protected Supabase Edge Function.
+
+Deploy the backend once:
+
+1. In Supabase, set these Edge Function secrets:
+
+```bash
+SUPABASE_URL="https://aleqesajbbcmufcydgqy.supabase.co"
+SUPABASE_SERVICE_ROLE_KEY="<your-service-role-key>"
+ADMIN_COURSE_CHANGE_PASSWORD="<shared-admin-password>"
+```
+
+2. Deploy the function without JWT enforcement because the shared password is the gate here:
+
+```bash
+supabase functions deploy admin-course-change-api --no-verify-jwt
+```
+
+3. Keep the frontend online as normal and open `admin-course-changes.html`.
+
+By default, the page calls:
+
+```text
+https://aleqesajbbcmufcydgqy.supabase.co/functions/v1/admin-course-change-api
+```
+
+You can override that with `?adminApi=` if needed.
+
+The page prompts for the shared password before it loads any student data. The hosted function validates that password, reads current student enrollments, groups choices by `Block A` through `Block F`, shows the `block_code is null` options separately, and writes the updated selections back with the service-role key.
+
 Ready-to-run sample:
 
 ```bash
