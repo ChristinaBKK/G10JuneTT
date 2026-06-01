@@ -2,6 +2,8 @@ import { supabaseUrl } from './supabase-config.js';
 
 const DEFAULT_ADMIN_API_BASE = `${supabaseUrl}/functions/v1/admin-course-change-api`;
 const BLOCK_CODES = ['A', 'B', 'C', 'D', 'E', 'F'];
+const DAY_NAMES = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+const DAY_ORDER = new Map(DAY_NAMES.map((dayName, index) => [dayName, index]));
 const ADMIN_PASSWORD_STORAGE_KEY = 'admin-course-change-password';
 
 const adminApiBase = resolveAdminApiBase();
@@ -24,6 +26,7 @@ const elements = {
   editorPanel: document.querySelector('#editorPanel'),
   lockPageButton: document.querySelector('#lockPageButton'),
   reloadStudentButton: document.querySelector('#reloadStudentButton'),
+  restoreChangesButton: document.querySelector('#restoreChangesButton'),
   saveChangesButton: document.querySelector('#saveChangesButton'),
   statusBanner: document.querySelector('#statusBanner'),
   studentProgram: document.querySelector('#studentProgram'),
@@ -53,6 +56,15 @@ elements.reloadStudentButton?.addEventListener('click', async () => {
     return;
   }
   await loadStudent(state.currentStudentId);
+});
+
+elements.restoreChangesButton?.addEventListener('click', () => {
+  if (!state.currentEditorData) {
+    return;
+  }
+
+  renderEditor(state.currentEditorData);
+  setStatus('Restored the current saved selections for this student.', 'idle');
 });
 
 elements.lockPageButton?.addEventListener('click', () => {
@@ -285,6 +297,11 @@ function renderTimetable(timetable) {
   const periodsById = new Map((timetable.periods || []).map((period) => [period.id, period.label]));
   const entries = [...(timetable.entries || [])].sort((left, right) => {
     if (left.day_name !== right.day_name) {
+      const leftDayOrder = DAY_ORDER.get(String(left.day_name)) ?? Number.MAX_SAFE_INTEGER;
+      const rightDayOrder = DAY_ORDER.get(String(right.day_name)) ?? Number.MAX_SAFE_INTEGER;
+      if (leftDayOrder !== rightDayOrder) {
+        return leftDayOrder - rightDayOrder;
+      }
       return String(left.day_name).localeCompare(String(right.day_name));
     }
     return Number(left.slot_order || 0) - Number(right.slot_order || 0);
