@@ -273,20 +273,39 @@ async function loadOptionBuckets() {
 }
 
 async function loadOptionTeacherByCourseName() {
-  const { data, error } = await supabase
+  const [{ data: courseData, error: courseError }, { data, error }] = await Promise.all([
+    supabase
+      .from('courses')
+      .select('name,default_teacher')
+      .limit(5000),
+    supabase
     .from('timetable_slot_courses')
     .select('override_teacher,course:courses(name,default_teacher)')
-    .limit(5000);
+    .limit(5000),
+  ]);
+
+  if (courseError) {
+    throw wrapSupabaseError(courseError);
+  }
 
   if (error) {
     throw wrapSupabaseError(error);
   }
 
   const teacherByCourseName = new Map<string, string>();
+  for (const row of courseData || []) {
+    const courseName = row.name;
+    const teacher = row.default_teacher || '';
+    if (!courseName || !teacher) {
+      continue;
+    }
+    teacherByCourseName.set(courseName, teacher);
+  }
+
   for (const row of data || []) {
     const courseName = row.course?.name;
     const teacher = row.override_teacher || row.course?.default_teacher || '';
-    if (!courseName || !teacher || teacherByCourseName.has(courseName)) {
+    if (!courseName || !teacher) {
       continue;
     }
     teacherByCourseName.set(courseName, teacher);
