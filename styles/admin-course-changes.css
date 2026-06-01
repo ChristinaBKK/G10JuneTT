@@ -402,6 +402,7 @@ select {
 }
 
 .selection-card,
+.program-card,
 .checkbox-card,
 .timetable-card {
   border: 1px solid rgba(49, 85, 59, 0.12);
@@ -411,6 +412,11 @@ select {
 
 .selection-card {
   padding: 16px;
+}
+
+.program-card {
+  padding: 16px;
+  margin-top: 16px;
 }
 
 .selection-card-head {

@@ -106,6 +106,12 @@ function assertAuthorizedRequest(request: Request) {
 }
 
 async function searchStudents(query: string) {
+  if (!query.trim()) {
+    const error = new Error('Enter a student ID or name before searching.');
+    error.statusCode = 400;
+    throw error;
+  }
+
   const { data, error } = await supabase
     .from('students')
     .select('student_id,full_name,program,has_tok,tok_course,tok_block_code')
@@ -293,6 +299,7 @@ async function replaceStudentEnrollments(studentId: string, payload: Record<stri
   const blockSelections = payload?.blockSelections && typeof payload.blockSelections === 'object'
     ? payload.blockSelections as Record<string, string>
     : {};
+  const nextProgram = typeof payload?.program === 'string' ? payload.program.trim().toUpperCase() : '';
   const unblockedCourseNames = Array.isArray(payload?.unblockedCourseNames)
     ? payload.unblockedCourseNames as string[]
     : [];
@@ -300,7 +307,7 @@ async function replaceStudentEnrollments(studentId: string, payload: Record<stri
   const [courseMap, optionBuckets, studentResult] = await Promise.all([
     loadCourseMap(),
     loadOptionBuckets(),
-    supabase.from('students').select('student_id').eq('student_id', studentId).limit(1).maybeSingle(),
+    supabase.from('students').select('student_id,program').eq('student_id', studentId).limit(1).maybeSingle(),
   ]);
 
   if (studentResult.error) {
@@ -310,6 +317,23 @@ async function replaceStudentEnrollments(studentId: string, payload: Record<stri
     const error = new Error(`Student ${studentId} was not found.`);
     error.statusCode = 404;
     throw error;
+  }
+
+  if (nextProgram && !['CAIE', 'IB'].includes(nextProgram)) {
+    const error = new Error(`Unsupported programme: ${nextProgram}`);
+    error.statusCode = 400;
+    throw error;
+  }
+
+  if (nextProgram && nextProgram !== studentResult.data.program) {
+    const updateStudent = await supabase
+      .from('students')
+      .update({ program: nextProgram })
+      .eq('student_id', studentId);
+
+    if (updateStudent.error) {
+      throw wrapSupabaseError(updateStudent.error);
+    }
   }
 
   const normalizedBlockSelections: Record<string, string> = {};

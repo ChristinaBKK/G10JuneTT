@@ -46,7 +46,6 @@
             <p class="panel-kicker">Student Search</p>
             <h2>Find a student</h2>
           </div>
-          <button class="ghost-button" id="refreshSearchButton" type="button">Refresh list</button>
         </div>
 
         <form class="search-form" id="studentSearchForm">
@@ -57,7 +56,7 @@
           </div>
         </form>
 
-        <p class="helper-copy">Blank search shows the first 30 students. Choose one to load current enrollments, block options, and the rebuilt timetable preview.</p>
+        <p class="helper-copy">Type a pupil ID or name first, then search to load current enrollments, block options, and the rebuilt timetable preview.</p>
 
         <div class="search-results" id="studentSearchResults"></div>
       </section>
@@ -83,6 +82,20 @@
         <div class="status-banner is-idle" id="statusBanner">Choose new courses and save when ready.</div>
 
         <form id="courseChangeForm">
+          <section class="editor-section">
+            <div class="section-head">
+              <h3>Programme</h3>
+              <p>Switch the student between CAIE and IB before saving if needed.</p>
+            </div>
+            <div class="program-card">
+              <label class="field-label" for="studentProgram">Programme</label>
+              <select class="block-select" id="studentProgram" name="studentProgram">
+                <option value="CAIE">CAIE</option>
+                <option value="IB">IB</option>
+              </select>
+            </div>
+          </section>
+
           <section class="editor-section">
             <div class="section-head">
               <h3>Block selections</h3>

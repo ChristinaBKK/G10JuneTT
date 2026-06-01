@@ -24,9 +24,9 @@ const elements = {
   editorPanel: document.querySelector('#editorPanel'),
   lockPageButton: document.querySelector('#lockPageButton'),
   reloadStudentButton: document.querySelector('#reloadStudentButton'),
-  refreshSearchButton: document.querySelector('#refreshSearchButton'),
   saveChangesButton: document.querySelector('#saveChangesButton'),
   statusBanner: document.querySelector('#statusBanner'),
+  studentProgram: document.querySelector('#studentProgram'),
   studentMeta: document.querySelector('#studentMeta'),
   studentQuery: document.querySelector('#studentQuery'),
   studentSearchForm: document.querySelector('#studentSearchForm'),
@@ -45,10 +45,6 @@ elements.authForm?.addEventListener('submit', async (event) => {
 
 elements.studentSearchForm?.addEventListener('submit', async (event) => {
   event.preventDefault();
-  await searchStudents(elements.studentQuery?.value || '');
-});
-
-elements.refreshSearchButton?.addEventListener('click', async () => {
   await searchStudents(elements.studentQuery?.value || '');
 });
 
@@ -98,15 +94,14 @@ init().catch((error) => {
   elements.connectionState.className = 'connection-state is-offline';
 });
 
+setSearchPrompt();
+
 async function init() {
   await checkAdminApi();
 
   if (state.adminPassword) {
-    const unlocked = await validatePassword(state.adminPassword, { preserveInput: true });
-    if (unlocked) {
-      await searchStudents('');
-      return;
-    }
+    await validatePassword(state.adminPassword, { preserveInput: true });
+    return;
   }
 
   lockPage();
@@ -131,10 +126,17 @@ async function searchStudents(query) {
     return;
   }
 
+  const normalizedQuery = query.trim();
+  if (!normalizedQuery) {
+    setSearchPrompt();
+    setStatus('Enter a student ID or name before searching.', 'idle');
+    return;
+  }
+
   elements.studentSearchResults.innerHTML = '<p class="search-feedback">Loading students…</p>';
 
   try {
-    const payload = await requestJson(`${adminApiBase}/students?query=${encodeURIComponent(query.trim())}`);
+    const payload = await requestJson(`${adminApiBase}/students?query=${encodeURIComponent(normalizedQuery)}`);
     renderSearchResults(payload.students || []);
   } catch (error) {
     elements.studentSearchResults.innerHTML = `<p class="search-feedback is-error">${escapeHtml(error.message)}</p>`;
@@ -167,6 +169,10 @@ function renderSearchResults(students) {
       renderSearchResults(students);
     });
   });
+}
+
+function setSearchPrompt() {
+  elements.studentSearchResults.innerHTML = '<p class="search-feedback">Enter a student ID or name to search.</p>';
 }
 
 async function loadStudent(studentId) {
@@ -208,6 +214,9 @@ function renderEditor(editorData) {
     metaParts.push('TOK disabled');
   }
   elements.studentMeta.textContent = metaParts.join(' · ');
+  if (elements.studentProgram) {
+    elements.studentProgram.value = student.program === 'IB' ? 'IB' : 'CAIE';
+  }
 
   elements.blockSelections.innerHTML = (editorData.blocks || []).map((block) => `
     <article class="selection-card">
@@ -327,6 +336,7 @@ function collectSelections() {
 
   return {
     blockSelections,
+    program: elements.studentProgram?.value || '',
     unblockedCourseNames,
   };
 }
@@ -365,7 +375,9 @@ async function unlockPage() {
 
   const unlocked = await validatePassword(password, { preserveInput: false });
   if (unlocked) {
-    await searchStudents(elements.studentQuery?.value || '');
+    if ((elements.studentQuery?.value || '').trim()) {
+      await searchStudents(elements.studentQuery?.value || '');
+    }
   }
 }
 
