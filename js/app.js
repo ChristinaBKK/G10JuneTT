@@ -150,7 +150,7 @@ function renderTimetable(periods, student, entries) {
       if (!entry) {
         const td = document.createElement('td');
         td.className = 'free-period';
-        td.textContent = 'Free Period';
+        td.textContent = '';
         row.appendChild(td);
         return;
       }
@@ -278,7 +278,7 @@ function buildMobileTimetableMarkup(periods, entriesBySession, sessionGroups) {
               <span class="mobile-slot-time">${escapeHtml(period.time)}</span>
             </div>
             <div class="mobile-slot-body">
-              <span class="mobile-free-label">Free Period</span>
+              <span class="mobile-free-label"></span>
             </div>
           </article>
         `);
