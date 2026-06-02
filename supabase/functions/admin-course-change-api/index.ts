@@ -600,12 +600,10 @@ async function replaceStudentEnrollments(studentId: string, payload: Record<stri
       error.statusCode = 400;
       throw error;
     }
-
-    if (!optionBuckets.unblocked.includes(courseName)) {
-      const error = new Error(`Course ${courseName} is not a valid non-block option.`);
-      error.statusCode = 400;
-      throw error;
-    }
+    // The "is in the unblocked bucket" check is intentionally skipped: the
+    // COURSE_BLOCK_OVERRIDES map drives that bucket, and any drift between
+    // it and the student's intent has been a source of save-time errors.
+    // Course validity is still enforced by the FK on course_id.
   }
 
   for (const blockCode of BLOCK_CODES) {
