@@ -3,13 +3,12 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
 const FUNCTION_NAME = 'admin-course-change-api';
 const BLOCK_CODES = ['A', 'B', 'C', 'D', 'E', 'F'];
-const COURSE_BLOCK_OVERRIDES = new Map([
-  ['Chinese A HL', 'C'],
-  ['Chinese A SL', 'C'],
-  ['Chinese AB SL', 'C'],
-  ['Chinese B HL', 'C'],
-  ['Chinese B SL', 'C'],
-]);
+// Map of course name -> block code to force-assign in the admin UI even when
+// the underlying student_enrollments row has no block_code. Intentionally
+// empty: every course now derives its bucket from student_enrollments.block_code
+// directly. Add entries here only if a course needs to be pinned to a block
+// regardless of how the student is enrolled (none today).
+const COURSE_BLOCK_OVERRIDES = new Map<string, string>();
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'GET,POST,OPTIONS',
