@@ -83,7 +83,7 @@ const rooming = [
   { coursePatterns: ['Physics HL/SL'], slotOrders: [...slotGroups.blockB2Ib, 6124], teacher: 'Logan Tian', room: 'B4012' },
 
   { coursePatterns: ['Chinese A HL/SL'], slotOrders: [...slotGroups.blockB2Ib, 6124], teacher: 'Melody Chen', room: 'B4010' },
-  { coursePatterns: ['Chinese B HL', 'Chinese B SL'], slotOrders: [...slotGroups.blockB2Ib, 6124], teacher: 'Jenny Li/Ann Yang', room: 'B3010' },
+  { coursePatterns: ['Chinese B HL', 'Chinese B SL'], slotOrders: [...slotGroups.blockB2Ib, 6124], teacher: 'Jenny Li', room: 'B3010' },
   { coursePatterns: ['Chinese AB SL'], slotOrders: [...slotGroups.blockB2Ib, 6124], teacher: 'Ann Yang', room: 'B2036' },
 
   { coursePatterns: ['Physics HL/SL'], slotOrders: slotGroups.blockC, teacher: 'Logan Tian', room: 'B3005' },

@@ -11,6 +11,7 @@ const state = {
   adminPassword: sessionStorage.getItem(ADMIN_PASSWORD_STORAGE_KEY) || '',
   currentStudentId: '',
   currentEditorData: null,
+  lastSaveMeta: null,
 };
 
 const elements = {
@@ -28,6 +29,12 @@ const elements = {
   reloadStudentButton: document.querySelector('#reloadStudentButton'),
   restoreChangesButton: document.querySelector('#restoreChangesButton'),
   saveChangesButton: document.querySelector('#saveChangesButton'),
+  saveResultBody: document.querySelector('#saveResultBody'),
+  saveResultCloseButton: document.querySelector('#saveResultCloseButton'),
+  saveResultDetails: document.querySelector('#saveResultDetails'),
+  saveResultKicker: document.querySelector('#saveResultKicker'),
+  saveResultModal: document.querySelector('#saveResultModal'),
+  saveResultTitle: document.querySelector('#saveResultTitle'),
   statusBanner: document.querySelector('#statusBanner'),
   studentProgram: document.querySelector('#studentProgram'),
   studentMeta: document.querySelector('#studentMeta'),
@@ -72,6 +79,11 @@ elements.lockPageButton?.addEventListener('click', () => {
   setStatus('Page locked. Enter the password again to continue.', 'idle');
 });
 
+elements.saveResultCloseButton?.addEventListener('click', closeSaveResultModal);
+elements.saveResultModal?.querySelectorAll('[data-save-result-close]').forEach((element) => {
+  element.addEventListener('click', closeSaveResultModal);
+});
+
 elements.courseChangeForm?.addEventListener('submit', async (event) => {
   event.preventDefault();
   if (!state.currentStudentId) {
@@ -83,7 +95,7 @@ elements.courseChangeForm?.addEventListener('submit', async (event) => {
   setSaveDisabled(true);
 
   try {
-    const editorData = await requestJson(`${adminApiBase}/student/${encodeURIComponent(state.currentStudentId)}/editor-data`, {
+    const payloadResponse = await requestJson(`${adminApiBase}/student/${encodeURIComponent(state.currentStudentId)}/editor-data`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -91,12 +103,33 @@ elements.courseChangeForm?.addEventListener('submit', async (event) => {
       body: JSON.stringify(payload),
     });
 
+    const editorData = payloadResponse.editorData || payloadResponse;
+    const attendanceSync = payloadResponse.attendanceSync || { ok: true, message: 'Attendance database updated successfully.' };
     state.currentEditorData = editorData;
+    state.lastSaveMeta = { attendanceSync };
     renderEditor(editorData);
     setStatus('Saved. The timetable preview has been rebuilt from the latest enrollment data.', 'success');
-    window.alert('Change saved successfully and documented. The timetable preview has been rebuilt from the latest enrollment data.');
+    openSaveResultModal({
+      tone: attendanceSync.ok ? 'success' : 'warning',
+      kicker: attendanceSync.ok ? 'Saved And Synced' : 'Saved With Warning',
+      title: attendanceSync.ok ? 'Changes saved successfully' : 'Timetable saved, attendance needs attention',
+      body: attendanceSync.ok
+        ? 'The timetable preview has been rebuilt, and the attendance database confirms the update.'
+        : 'The timetable save completed, but the attendance database still needs attention.',
+      details: [
+        {
+          label: 'Timetable database',
+          value: 'Updated and rebuilt from the latest enrollment data.',
+        },
+        {
+          label: 'Attendance database',
+          value: attendanceSync.message || (attendanceSync.ok ? 'Updated successfully.' : 'Not updated.'),
+        },
+      ],
+    });
   } catch (error) {
     setStatus(error.message, 'error');
+    openSaveResultModal(buildFailureModalContent(error.message));
   } finally {
     setSaveDisabled(false);
   }
@@ -484,6 +517,72 @@ function collectSelections() {
     program: elements.studentProgram?.value || '',
     unblockedCourseNames,
   };
+}
+
+function buildFailureModalContent(message) {
+  const attendanceFailure = message.toLowerCase().includes('attendance sync failed')
+    || message.toLowerCase().includes('attendance database');
+
+  if (attendanceFailure) {
+    return {
+      tone: 'warning',
+      kicker: 'Attendance Sync Failed',
+      title: 'Timetable saved, but attendance did not update',
+      body: 'The course change appears to have been saved in the timetable system, but the attendance database did not confirm the update.',
+      details: [
+        {
+          label: 'Timetable database',
+          value: 'Likely saved already. Reload the student to confirm the latest course selections.',
+        },
+        {
+          label: 'Attendance database',
+          value: message,
+        },
+      ],
+    };
+  }
+
+  return {
+    tone: 'error',
+    kicker: 'Save Failed',
+    title: 'Changes were not confirmed',
+    body: 'The save request did not complete cleanly, so you should treat this change as not confirmed until you reload and verify it.',
+    details: [
+      {
+        label: 'Server response',
+        value: message,
+      },
+    ],
+  };
+}
+
+function openSaveResultModal({ tone = 'success', kicker = 'Save Result', title = 'Save complete', body = '', details = [] }) {
+  if (!elements.saveResultModal) {
+    return;
+  }
+
+  const card = elements.saveResultModal.querySelector('.save-result-card');
+  if (card) {
+    card.classList.remove('is-success', 'is-warning', 'is-error');
+    card.classList.add(`is-${tone}`);
+  }
+
+  elements.saveResultKicker.textContent = kicker;
+  elements.saveResultTitle.textContent = title;
+  elements.saveResultBody.textContent = body;
+  elements.saveResultDetails.innerHTML = details.map((detail) => `
+    <div class="save-result-detail">
+      <strong>${escapeHtml(detail.label || '')}</strong>
+      <span>${escapeHtml(detail.value || '')}</span>
+    </div>
+  `).join('');
+  elements.saveResultModal.hidden = false;
+}
+
+function closeSaveResultModal() {
+  if (elements.saveResultModal) {
+    elements.saveResultModal.hidden = true;
+  }
 }
 
 async function requestJson(url, options) {

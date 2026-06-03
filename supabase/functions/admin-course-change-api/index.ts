@@ -19,6 +19,8 @@ const corsHeaders = {
 const supabaseUrl = Deno.env.get('SUPABASE_URL') || '';
 const serviceRoleKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') || '';
 const configuredPassword = Deno.env.get('ADMIN_COURSE_CHANGE_PASSWORD') || '';
+const attendanceSyncUrl = Deno.env.get('ATTENDANCE_SYNC_URL') || '';
+const attendanceSyncSecret = Deno.env.get('ATTENDANCE_SYNC_SECRET') || '';
 
 if (!supabaseUrl || !serviceRoleKey || !configuredPassword) {
   throw new Error('SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, and ADMIN_COURSE_CHANGE_PASSWORD must be set for admin-course-change-api.');
@@ -664,7 +666,146 @@ async function replaceStudentEnrollments(studentId: string, payload: Record<stri
     throw wrapSupabaseError(syncResult.error);
   }
 
-  return loadStudentEditorData(studentId);
+  try {
+    await syncAttendanceForStudent(studentId);
+  } catch (error) {
+    const syncError = new Error(`Timetable saved, but attendance database did not update. ${error.message || 'Attendance sync failed.'}`);
+    syncError.statusCode = error.statusCode || 502;
+    throw syncError;
+  }
+
+  const editorData = await loadStudentEditorData(studentId);
+  return {
+    ...editorData,
+    editorData,
+    attendanceSync: {
+      ok: true,
+      message: 'Attendance database updated successfully.',
+    },
+  };
+}
+
+function formatAttendanceDate(rawDate: string) {
+  const trimmed = String(rawDate || '').trim();
+  if (!trimmed) {
+    return '';
+  }
+  if (/^\d{4}-\d{2}-\d{2}$/.test(trimmed)) {
+    return trimmed.replace(/-/g, '/');
+  }
+  return trimmed;
+}
+
+async function loadAttendanceSyncPayload(studentId: string) {
+  const [{ data: student, error: studentError }, { data: periods, error: periodsError }, { data: entries, error: entriesError }] = await Promise.all([
+    supabase
+      .from('students')
+      .select('student_id,full_name')
+      .eq('student_id', studentId)
+      .limit(1)
+      .maybeSingle(),
+    supabase
+      .from('periods')
+      .select('id,starts_at,ends_at')
+      .limit(50),
+    supabase
+      .from('student_timetable_entries')
+      .select('term_name,start_period_id,end_period_id,course_name,teacher,room,slot_order')
+      .eq('student_id', studentId)
+      .order('slot_order', { ascending: true })
+      .limit(500),
+  ]);
+
+  if (studentError) {
+    throw wrapSupabaseError(studentError);
+  }
+  if (periodsError) {
+    throw wrapSupabaseError(periodsError);
+  }
+  if (entriesError) {
+    throw wrapSupabaseError(entriesError);
+  }
+  if (!student) {
+    const error = new Error(`Student ${studentId} was not found for attendance sync.`);
+    error.statusCode = 404;
+    throw error;
+  }
+
+  const periodById = new Map((periods || []).map((period) => [String(period.id || ''), period]));
+  const normalizedSessions = (entries || []).map((entry) => {
+    const startPeriod = periodById.get(String(entry.start_period_id || ''));
+    const endPeriod = periodById.get(String(entry.end_period_id || ''));
+    return {
+      name: String(entry.course_name || '').trim(),
+      component: String(entry.course_name || '').trim(),
+      subject: String(entry.course_name || '').trim(),
+      paperCode: '',
+      date: formatAttendanceDate(String(entry.term_name || '')),
+      startTime: String(startPeriod?.starts_at || '').trim(),
+      endTime: String(endPeriod?.ends_at || '').trim(),
+      roomCode: String(entry.room || '').trim(),
+      teacherName: String(entry.teacher || '').trim(),
+      type: 'revision',
+    };
+  }).filter((session) => session.name && session.date && session.startTime && session.endTime);
+
+  const uniqueSessions = [...new Map(
+    normalizedSessions.map((session) => [
+      [
+        session.name,
+        session.component,
+        session.subject,
+        session.date,
+        session.startTime,
+        session.endTime,
+        session.roomCode,
+        session.teacherName,
+      ].join('|'),
+      session,
+    ]),
+  ).values()];
+
+  return {
+    student: {
+      candidateNumber: String(student.student_id || '').trim(),
+      name: String(student.full_name || '').trim(),
+    },
+    sessions: uniqueSessions,
+  };
+}
+
+async function syncAttendanceForStudent(studentId: string) {
+  if (!attendanceSyncUrl || !attendanceSyncSecret) {
+    const error = new Error('ATTENDANCE_SYNC_URL and ATTENDANCE_SYNC_SECRET must be set to sync attendance after admin course changes.');
+    error.statusCode = 500;
+    throw error;
+  }
+
+  const payload = await loadAttendanceSyncPayload(studentId);
+
+  const response = await fetch(`${attendanceSyncUrl.replace(/\/$/, '')}/api/sync/student`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${attendanceSyncSecret}`,
+    },
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    let message = `Attendance sync failed: HTTP ${response.status}`;
+    try {
+      const body = await response.json();
+      if (body?.error) {
+        message = `Attendance sync failed: ${body.error}`;
+      }
+    } catch {
+      // ignore parse error
+    }
+    const error = new Error(message);
+    error.statusCode = 502;
+    throw error;
+  }
 }
 
 function normaliseProgramValue(program: string) {

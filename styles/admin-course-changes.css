@@ -66,6 +66,103 @@ select {
   backdrop-filter: blur(18px);
 }
 
+.save-result-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.save-result-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(21, 32, 26, 0.42);
+  backdrop-filter: blur(14px);
+}
+
+.save-result-card {
+  position: relative;
+  width: min(580px, 100%);
+  padding: 28px;
+  border-radius: var(--radius-xl);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: linear-gradient(180deg, rgba(255, 251, 242, 0.98), rgba(241, 246, 234, 0.96));
+  box-shadow: 0 28px 80px rgba(31, 49, 37, 0.22);
+}
+
+.save-result-card h2 {
+  margin: 0;
+  font-family: 'IBM Plex Serif', Georgia, serif;
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  line-height: 1.08;
+}
+
+.save-result-kicker {
+  margin-bottom: 12px;
+}
+
+.save-result-body {
+  margin: 14px 0 0;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.save-result-detail-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.save-result-detail {
+  padding: 14px 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(49, 85, 59, 0.12);
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.save-result-detail strong {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--text-main);
+}
+
+.save-result-detail span {
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.save-result-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 22px;
+}
+
+.save-result-card.is-success {
+  border-color: rgba(45, 107, 67, 0.22);
+}
+
+.save-result-card.is-success .save-result-kicker {
+  color: var(--success);
+}
+
+.save-result-card.is-warning {
+  border-color: rgba(164, 98, 36, 0.28);
+}
+
+.save-result-card.is-warning .save-result-kicker {
+  color: var(--warning);
+}
+
+.save-result-card.is-error {
+  border-color: rgba(159, 63, 54, 0.24);
+}
+
+.save-result-card.is-error .save-result-kicker {
+  color: var(--danger);
+}
+
 .auth-card {
   width: min(460px, 100%);
   padding: 30px;
@@ -534,6 +631,20 @@ select {
   .block-grid,
   .unblocked-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .save-result-card {
+    padding: 22px;
+  }
+
+  .save-result-actions {
+    justify-content: stretch;
+  }
+
+  .save-result-actions .primary-button {
+    width: 100%;
   }
 }
 

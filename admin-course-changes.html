@@ -132,6 +132,19 @@
     </section>
   </main>
 
+  <div class="save-result-modal" id="saveResultModal" hidden>
+    <div class="save-result-backdrop" data-save-result-close></div>
+    <section class="save-result-card" aria-labelledby="saveResultTitle" aria-describedby="saveResultBody">
+      <p class="eyebrow save-result-kicker" id="saveResultKicker">Save Result</p>
+      <h2 id="saveResultTitle">Changes saved</h2>
+      <p class="save-result-body" id="saveResultBody"></p>
+      <div class="save-result-detail-list" id="saveResultDetails"></div>
+      <div class="save-result-actions">
+        <button class="primary-button" id="saveResultCloseButton" type="button">Close</button>
+      </div>
+    </section>
+  </div>
+
   <script type="module" src="./js/admin-course-changes.js"></script>
 </body>
 </html>
