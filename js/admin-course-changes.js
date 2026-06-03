@@ -5,6 +5,8 @@ const BLOCK_CODES = ['A', 'B', 'C', 'D', 'E', 'F'];
 const DAY_NAMES = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 const DAY_ORDER = new Map(DAY_NAMES.map((dayName, index) => [dayName, index]));
 const ADMIN_PASSWORD_STORAGE_KEY = 'admin-course-change-password';
+const SAVE_BUTTON_IDLE_LABEL = 'Save changes and rebuild timetable';
+const SAVE_BUTTON_WORKING_LABEL = 'Updating timetable and attendance';
 
 const adminApiBase = resolveAdminApiBase();
 const state = {
@@ -92,7 +94,7 @@ elements.courseChangeForm?.addEventListener('submit', async (event) => {
 
   const payload = collectSelections();
   setStatus('Saving course changes and rebuilding timetable…', 'working');
-  setSaveDisabled(true);
+  setSaveButtonLoading(true);
 
   try {
     const payloadResponse = await requestJson(`${adminApiBase}/student/${encodeURIComponent(state.currentStudentId)}/editor-data`, {
@@ -131,7 +133,7 @@ elements.courseChangeForm?.addEventListener('submit', async (event) => {
     setStatus(error.message, 'error');
     openSaveResultModal(buildFailureModalContent(error.message));
   } finally {
-    setSaveDisabled(false);
+    setSaveButtonLoading(false);
   }
 });
 
@@ -707,6 +709,17 @@ function setSaveDisabled(disabled) {
   if (elements.saveChangesButton) {
     elements.saveChangesButton.disabled = disabled;
   }
+}
+
+function setSaveButtonLoading(isLoading) {
+  if (!elements.saveChangesButton) {
+    return;
+  }
+
+  elements.saveChangesButton.disabled = isLoading;
+  elements.saveChangesButton.classList.toggle('is-loading', isLoading);
+  elements.saveChangesButton.setAttribute('aria-busy', isLoading ? 'true' : 'false');
+  elements.saveChangesButton.textContent = isLoading ? SAVE_BUTTON_WORKING_LABEL : SAVE_BUTTON_IDLE_LABEL;
 }
 
 function resolveAdminApiBase() {

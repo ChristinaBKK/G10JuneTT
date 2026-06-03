@@ -320,8 +320,41 @@ select {
 }
 
 .primary-button {
+  position: relative;
   color: #fdfbf6;
+  overflow: hidden;
   background: linear-gradient(135deg, var(--accent) 0%, var(--accent-strong) 100%);
+}
+
+#saveChangesButton.is-loading {
+  padding-left: 46px;
+  background: linear-gradient(120deg, #31553b 0%, #3c6648 30%, #4d7a58 52%, #31553b 100%);
+  background-size: 220% 100%;
+  opacity: 1;
+  animation: save-button-sheen 1.8s linear infinite;
+}
+
+#saveChangesButton.is-loading::before {
+  content: '';
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  margin-top: -7px;
+  border-radius: 999px;
+  border: 2px solid rgba(253, 251, 246, 0.28);
+  border-top-color: #fdfbf6;
+  animation: save-button-spin 0.85s linear infinite;
+}
+
+#saveChangesButton.is-loading::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.18) 45%, transparent 70%);
+  transform: translateX(-130%);
+  animation: save-button-glow 1.7s ease-in-out infinite;
 }
 
 .ghost-button:hover,
@@ -595,6 +628,36 @@ select {
   opacity: 0.6;
   cursor: not-allowed;
   transform: none;
+}
+
+#saveChangesButton.is-loading:disabled {
+  opacity: 1;
+}
+
+@keyframes save-button-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes save-button-sheen {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  100% {
+    background-position: 220% 50%;
+  }
+}
+
+@keyframes save-button-glow {
+  0% {
+    transform: translateX(-130%);
+  }
+
+  100% {
+    transform: translateX(130%);
+  }
 }
 
 .timetable-preview {

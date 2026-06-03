@@ -696,6 +696,20 @@ function formatAttendanceDate(rawDate: string) {
   return trimmed;
 }
 
+function formatAttendanceTime(rawTime: string) {
+  const trimmed = String(rawTime || '').trim();
+  if (!trimmed) {
+    return '';
+  }
+
+  const match = trimmed.match(/^(\d{2}:\d{2})(?::\d{2})?$/);
+  if (match) {
+    return match[1];
+  }
+
+  return trimmed;
+}
+
 async function loadAttendanceSyncPayload(studentId: string) {
   const [{ data: student, error: studentError }, { data: periods, error: periodsError }, { data: entries, error: entriesError }] = await Promise.all([
     supabase
@@ -741,8 +755,8 @@ async function loadAttendanceSyncPayload(studentId: string) {
       subject: String(entry.course_name || '').trim(),
       paperCode: '',
       date: formatAttendanceDate(String(entry.term_name || '')),
-      startTime: String(startPeriod?.starts_at || '').trim(),
-      endTime: String(endPeriod?.ends_at || '').trim(),
+      startTime: formatAttendanceTime(String(startPeriod?.starts_at || '')),
+      endTime: formatAttendanceTime(String(endPeriod?.ends_at || '')),
       roomCode: String(entry.room || '').trim(),
       teacherName: String(entry.teacher || '').trim(),
       type: 'revision',
