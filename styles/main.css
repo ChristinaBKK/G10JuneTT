@@ -304,6 +304,69 @@ button:disabled {
   color: var(--text-secondary);
 }
 
+.timetable-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin: 0 0 16px;
+  padding: 14px 16px;
+  border: 1px solid var(--panel-border);
+  border-radius: 18px;
+  background: rgba(238, 247, 242, 0.72);
+}
+
+.timetable-view-copy {
+  min-width: 0;
+}
+
+.timetable-view-kicker {
+  margin: 0 0 4px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.timetable-view-note {
+  margin: 0;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.timetable-view-toggle {
+  display: inline-flex;
+  gap: 8px;
+  padding: 4px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid var(--panel-border);
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.view-toggle-button {
+  min-height: 40px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-secondary);
+  box-shadow: none;
+}
+
+.view-toggle-button:hover {
+  transform: none;
+  background: rgba(31, 122, 90, 0.08);
+}
+
+.view-toggle-button.is-active {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 10px 18px rgba(31, 122, 90, 0.18);
+}
+
 #timetableTable {
   width: 100%;
   min-width: 1060px;
@@ -377,6 +440,23 @@ button:disabled {
   font-size: 12px;
   white-space: normal;
   overflow-wrap: anywhere;
+}
+
+.timetable-group-main,
+.timetable-group-subtitle {
+  display: block;
+}
+
+.timetable-group-main {
+  font-weight: 800;
+  color: #173042;
+}
+
+.timetable-group-subtitle {
+  margin-top: 4px;
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 600;
 }
 
 .free-period {
@@ -472,6 +552,20 @@ button:disabled {
     flex-direction: column;
   }
 
+  .timetable-toolbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .timetable-view-toggle {
+    width: 100%;
+    justify-content: stretch;
+  }
+
+  .view-toggle-button {
+    flex: 1 1 0;
+  }
+
   .hero-panel,
   .table-panel {
     padding: 16px 14px;
@@ -524,6 +618,8 @@ button:disabled {
     background: #f6f1e8;
     color: #173042;
     font-size: 1rem;
+    display: grid;
+    gap: 2px;
   }
 
   .mobile-day-slots {

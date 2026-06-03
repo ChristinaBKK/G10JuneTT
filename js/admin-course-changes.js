@@ -94,6 +94,7 @@ elements.courseChangeForm?.addEventListener('submit', async (event) => {
     state.currentEditorData = editorData;
     renderEditor(editorData);
     setStatus('Saved. The timetable preview has been rebuilt from the latest enrollment data.', 'success');
+    window.alert('Change saved successfully and documented. The timetable preview has been rebuilt from the latest enrollment data.');
   } catch (error) {
     setStatus(error.message, 'error');
   } finally {
