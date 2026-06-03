@@ -107,8 +107,8 @@ function normalisePeriods(periods) {
 }
 
 function renderTimetable(periods, student, entries) {
-  const entriesBySession = groupEntriesBySession(entries);
-  const sessionGroups = getSessionGroups(entriesBySession);
+  const entriesByDay = groupEntriesByDay(entries);
+  const dayGroups = getDayGroups(entriesByDay);
   const table = document.createElement('table');
   table.id = 'timetableTable';
   const mobileSchedule = document.createElement('div');
@@ -127,14 +127,14 @@ function renderTimetable(periods, student, entries) {
 
   table.appendChild(headerRow);
 
-  for (const sessionGroup of sessionGroups) {
+  for (const dayGroup of dayGroups) {
     const row = document.createElement('tr');
     const dayCell = document.createElement('td');
-    dayCell.innerHTML = buildSessionLabelMarkup(sessionGroup);
+    dayCell.textContent = dayGroup.dayName;
     row.appendChild(dayCell);
 
     let skipUntilPeriodIndex = -1;
-    const dayEntries = entriesBySession.get(sessionGroup.key) || [];
+    const dayEntries = entriesByDay.get(dayGroup.dayName) || [];
 
     periods.forEach((period, periodIndex) => {
       if (periodIndex <= skipUntilPeriodIndex) {
@@ -182,14 +182,18 @@ function renderTimetable(periods, student, entries) {
       </div>
     </div>
   `;
-  mobileSchedule.innerHTML = buildMobileTimetableMarkup(periods, entriesBySession, sessionGroups);
+  mobileSchedule.innerHTML = buildMobileTimetableMarkup(periods, entriesByDay, dayGroups);
   timetableContainer.appendChild(mobileSchedule);
   timetableContainer.appendChild(table);
 }
 
-function groupEntriesBySession(entries) {
+function groupEntriesByDay(entries) {
   return entries.reduce((grouped, entry) => {
-    const key = buildSessionKey(entry);
+    const key = String(entry.day_name || '').trim();
+    if (!key) {
+      return grouped;
+    }
+
     if (!grouped.has(key)) {
       grouped.set(key, []);
     }
@@ -199,44 +203,20 @@ function groupEntriesBySession(entries) {
   }, new Map());
 }
 
-function getSessionGroups(entriesBySession) {
-  return [...entriesBySession.entries()]
-    .map(([key, sessionEntries]) => ({ key, entry: sessionEntries[0] || {} }))
-    .sort((left, right) => compareTimetableEntries(left.entry, right.entry));
+function getDayGroups(entriesByDay) {
+  return [...entriesByDay.keys()]
+    .map((dayName) => ({ dayName }))
+    .sort((left, right) => compareDayName(left.dayName, right.dayName));
 }
 
-function compareTimetableEntries(left, right) {
-  const leftTermName = String(left.term_name || '');
-  const rightTermName = String(right.term_name || '');
-  if (leftTermName || rightTermName) {
-    if (leftTermName !== rightTermName) {
-      return leftTermName.localeCompare(rightTermName);
-    }
-  }
-
-  const leftDay = dayOrder.get(String(left.day_name || '')) ?? Number.MAX_SAFE_INTEGER;
-  const rightDay = dayOrder.get(String(right.day_name || '')) ?? Number.MAX_SAFE_INTEGER;
+function compareDayName(leftDayName, rightDayName) {
+  const leftDay = dayOrder.get(String(leftDayName || '')) ?? Number.MAX_SAFE_INTEGER;
+  const rightDay = dayOrder.get(String(rightDayName || '')) ?? Number.MAX_SAFE_INTEGER;
   if (leftDay !== rightDay) {
     return leftDay - rightDay;
   }
 
-  return Number(left.slot_order || 0) - Number(right.slot_order || 0);
-}
-
-function buildSessionKey(entry) {
-  const termName = String(entry.term_name || '').trim();
-  const dayName = String(entry.day_name || '').trim();
-  return termName ? `${termName}::${dayName}` : dayName;
-}
-
-function buildSessionLabelMarkup(sessionGroup) {
-  const dayName = escapeHtml(String(sessionGroup.entry?.day_name || 'Unknown day'));
-  const termName = String(sessionGroup.entry?.term_name || '').trim();
-  if (!termName) {
-    return dayName;
-  }
-
-  return `${dayName}<br><span>${escapeHtml(formatTermName(termName))}</span>`;
+  return String(leftDayName || '').localeCompare(String(rightDayName || ''));
 }
 
 function buildCellMarkup(entry) {
@@ -253,9 +233,9 @@ function buildCellMarkup(entry) {
   `;
 }
 
-function buildMobileTimetableMarkup(periods, entriesBySession, sessionGroups) {
-  return sessionGroups.map((sessionGroup) => {
-    const dayEntries = entriesBySession.get(sessionGroup.key) || [];
+function buildMobileTimetableMarkup(periods, entriesByDay, dayGroups) {
+  return dayGroups.map((dayGroup) => {
+    const dayEntries = entriesByDay.get(dayGroup.dayName) || [];
     const items = [];
     let skipUntilPeriodIndex = -1;
 
@@ -318,23 +298,13 @@ function buildMobileTimetableMarkup(periods, entriesBySession, sessionGroups) {
 
     return `
       <section class="mobile-day-card">
-        <h3>${buildSessionLabelMarkup(sessionGroup)}</h3>
+        <h3>${escapeHtml(dayGroup.dayName)}</h3>
         <div class="mobile-day-slots">
           ${items.join('')}
         </div>
       </section>
     `;
   }).join('');
-}
-
-function formatTermName(termName) {
-  const match = termName.match(/^(\d{4})-(\d{2})-(\d{2})$/);
-  if (!match) {
-    return termName;
-  }
-
-  const [, year, month, day] = match;
-  return `${year}/${month}/${day}`;
 }
 
 function toCompactText(value, fallback) {
