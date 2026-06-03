@@ -90,18 +90,14 @@ order by s.id, c.name;
 -- 3) Resolved view: every TOK/CAS entry across the four Monday P3/P4 slots
 --    should show the room from the course default (no per-slot overrides).
 select
-  s.student_id,
-  slot.term_name,
-  slot.start_period_id,
-  course.name as course_name,
-  coalesce(slot_course.override_room, course.default_room) as resolved_room
+  e.student_id,
+  e.term_name,
+  e.start_period_id,
+  e.course_name,
+  e.room as resolved_room
 from public.student_timetable_entries e
-join public.students s on s.student_id = e.student_id
-join public.timetable_slots slot on slot.id = e.slot_id
-join public.courses course on course.id = e.course_id
-left join public.timetable_slot_courses slot_course
-  on slot_course.slot_id = e.slot_id
- and slot_course.course_id = e.course_id
-where slot.id in (63, 64, 99, 100)
-  and course.name in ('TOK (Group 1)', 'TOK (Group 2)', 'CAS (Group 1)', 'CAS (Group 2)')
-order by slot.id, s.student_id;
+where e.day_name = 'Monday'
+  and e.start_period_id in ('P3', 'P4')
+  and e.term_name in ('2026-06-15', '2026-06-29')
+  and e.course_name in ('TOK (Group 1)', 'TOK (Group 2)', 'CAS (Group 1)', 'CAS (Group 2)')
+order by e.term_name, e.start_period_id, e.student_id;
