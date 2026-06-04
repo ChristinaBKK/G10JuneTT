@@ -112,8 +112,8 @@ const rooming = [
       6173: 'B3042', 6174: 'B3042', 6183: 'B3039', 6184: 'B3039', 6295: 'B3042',
     },
   },
-  { coursePatterns: ['Fast Maths D (Edexcel)'], slotOrders: slotGroups.blockD, teacher: 'Rajesh', room: 'B1034' },
-  { coursePatterns: ['Advanced Math D (CIE)'], slotOrders: slotGroups.blockD, teacher: 'Eva Wang', room: 'B3043' },
+  { coursePatterns: ['Fast Maths D (Edexcel)'], slotOrders: slotGroups.blockD, teacher: 'Shaun Yang', room: 'B1034' },
+  { coursePatterns: ['Advanced Math D (CIE)'], slotOrders: slotGroups.blockD, teacher: 'Rajesh', room: 'B3043' },
   {
     coursePatterns: ['Physics D'],
     teacher: 'Raufie Shafie',

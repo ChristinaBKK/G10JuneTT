@@ -19,6 +19,7 @@ create table public.periods (
 create table public.courses (
   id bigint generated always as identity primary key,
   name text not null unique,
+  block_code text check (block_code is null or block_code in ('A', 'B', 'C', 'D', 'E', 'F')),
   default_teacher text,
   default_room text
 );

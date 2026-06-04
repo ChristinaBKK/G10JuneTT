@@ -136,7 +136,7 @@ async function searchStudents(query: string) {
 }
 
 async function loadStudentEditorData(studentId: string) {
-  const [studentResult, enrollmentResult, optionBuckets, optionTeacherByCourseName, timetablePayload] = await Promise.all([
+  const [studentResult, enrollmentResult, courseCatalog, optionTeacherByCourseName, timetablePayload] = await Promise.all([
     supabase
       .from('students')
       .select('student_id,full_name,program,has_tok,tok_course,tok_block_code')
@@ -148,7 +148,7 @@ async function loadStudentEditorData(studentId: string) {
       .select('block_code,course:courses(name)')
       .eq('student_id', studentId)
       .limit(200),
-    loadOptionBuckets(),
+    loadCourseCatalog(),
     loadOptionTeacherByCourseName(),
     loadStudentTimetablePayload(studentId),
   ]);
@@ -169,6 +169,7 @@ async function loadStudentEditorData(studentId: string) {
   const currentTeacherByBlock = new Map<string, string>();
   const currentUnblocked: string[] = [];
   const timetableTeacherByCourseName = new Map<string, string>();
+  const optionBuckets = buildOptionBuckets(courseCatalog);
 
   for (const entry of timetablePayload.entries || []) {
     if (!entry?.course_name || !entry?.teacher || timetableTeacherByCourseName.has(entry.course_name)) {
@@ -191,9 +192,6 @@ async function loadStudentEditorData(studentId: string) {
         effectiveBlockCode,
         timetableTeacherByCourseName.get(courseName) || optionTeacherByCourseName.get(courseName) || '',
       );
-      if (!optionBuckets.blocks[effectiveBlockCode].includes(courseName)) {
-        optionBuckets.blocks[effectiveBlockCode].push(courseName);
-      }
       continue;
     }
 
@@ -201,11 +199,6 @@ async function loadStudentEditorData(studentId: string) {
     if (!optionBuckets.unblocked.includes(courseName)) {
       optionBuckets.unblocked.push(courseName);
     }
-  }
-
-  optionBuckets.unblocked.sort((left, right) => left.localeCompare(right));
-  for (const blockCode of BLOCK_CODES) {
-    optionBuckets.blocks[blockCode].sort((left, right) => left.localeCompare(right));
   }
 
   const editableCourseNames = [...new Set([
@@ -278,43 +271,115 @@ async function loadStudentTimetablePayload(studentId: string) {
 }
 
 async function loadOptionBuckets() {
-  const { data, error } = await supabase
-    .from('student_enrollments')
-    .select('block_code,course:courses(name)')
-    .limit(5000);
+  const courseCatalog = await loadCourseCatalog();
 
-  if (error) {
-    throw wrapSupabaseError(error);
-  }
+  return buildOptionBuckets(courseCatalog);
+}
 
+function buildOptionBuckets(courseCatalog: { coursesByName: Map<string, string | null> }) {
   const blocks = Object.fromEntries(BLOCK_CODES.map((blockCode) => [blockCode, [] as string[]]));
-  const blockSets = Object.fromEntries(BLOCK_CODES.map((blockCode) => [blockCode, new Set<string>()]));
-  const unblockedSet = new Set<string>();
 
-  for (const row of data || []) {
-    const courseName = row.course?.name;
-    if (!courseName) {
+  for (const [courseName, blockCode] of courseCatalog.coursesByName.entries()) {
+    if (!blockCode || !blocks[blockCode]) {
       continue;
     }
-
-    const effectiveBlockCode = getAdminBlockCodeForCourseName(courseName, row.block_code);
-
-    if (effectiveBlockCode && blockSets[effectiveBlockCode]) {
-      blockSets[effectiveBlockCode].add(courseName);
-      continue;
-    }
-
-    unblockedSet.add(courseName);
+    blocks[blockCode].push(courseName);
   }
 
   for (const blockCode of BLOCK_CODES) {
-    blocks[blockCode] = [...blockSets[blockCode]].sort((left, right) => left.localeCompare(right));
+    blocks[blockCode].sort((left, right) => left.localeCompare(right));
   }
 
   return {
     blocks,
-    unblocked: [...unblockedSet].sort((left, right) => left.localeCompare(right)),
+    unblocked: [],
   };
+}
+
+async function loadCourseCatalog() {
+  const courseRows = await fetchCourseRowsWithBlockCode();
+  const blockCodesByName = new Map<string, string | null>();
+  const idsByName = new Map<string, number>();
+
+  for (const row of courseRows) {
+    if (!row.name) {
+      continue;
+    }
+    idsByName.set(row.name, row.id);
+    blockCodesByName.set(row.name, row.block_code || null);
+  }
+
+  return {
+    coursesByName: blockCodesByName,
+    idsByName,
+  };
+}
+
+async function fetchCourseRowsWithBlockCode() {
+  const canonicalResult = await supabase
+    .from('courses')
+    .select('id,name,block_code')
+    .limit(5000);
+
+  if (!canonicalResult.error) {
+    return canonicalResult.data || [];
+  }
+
+  const errorMessage = String(canonicalResult.error.message || '');
+  if (!errorMessage.toLowerCase().includes('block_code')) {
+    throw wrapSupabaseError(canonicalResult.error);
+  }
+
+  const [{ data: courseRows, error: coursesError }, { data: enrollmentRows, error: enrollmentsError }] = await Promise.all([
+    supabase
+      .from('courses')
+      .select('id,name')
+      .limit(5000),
+    supabase
+      .from('student_enrollments')
+      .select('block_code,course:courses(id,name)')
+      .limit(5000),
+  ]);
+
+  if (coursesError) {
+    throw wrapSupabaseError(coursesError);
+  }
+  if (enrollmentsError) {
+    throw wrapSupabaseError(enrollmentsError);
+  }
+
+  const inferredBlockCodes = new Map<number, string>();
+  const blockCountsByCourseId = new Map<number, Map<string, number>>();
+
+  for (const row of enrollmentRows || []) {
+    const courseId = row.course?.id;
+    const blockCode = String(row.block_code || '').trim();
+    if (!courseId || !blockCode) {
+      continue;
+    }
+
+    if (!blockCountsByCourseId.has(courseId)) {
+      blockCountsByCourseId.set(courseId, new Map<string, number>());
+    }
+    const blockCounts = blockCountsByCourseId.get(courseId)!;
+    blockCounts.set(blockCode, (blockCounts.get(blockCode) || 0) + 1);
+  }
+
+  for (const [courseId, counts] of blockCountsByCourseId.entries()) {
+    const rankedBlocks = [...counts.entries()].sort((left, right) => {
+      if (right[1] !== left[1]) {
+        return right[1] - left[1];
+      }
+      return left[0].localeCompare(right[0]);
+    });
+    inferredBlockCodes.set(courseId, rankedBlocks[0]?.[0] || '');
+  }
+
+  return (courseRows || []).map((row) => ({
+    id: row.id,
+    name: row.name,
+    block_code: inferredBlockCodes.get(row.id) || null,
+  }));
 }
 
 async function loadOptionTeacherByCourseName() {
@@ -535,8 +600,8 @@ async function replaceStudentEnrollments(studentId: string, payload: Record<stri
     ? payload.unblockedCourseNames as string[]
     : [];
 
-  const [courseMap, optionBuckets, studentResult] = await Promise.all([
-    loadCourseMap(),
+  const [courseCatalog, optionBuckets, studentResult] = await Promise.all([
+    loadCourseCatalog(),
     loadOptionBuckets(),
     supabase.from('students').select('student_id,program').eq('student_id', studentId).limit(1).maybeSingle(),
   ]);
@@ -574,13 +639,14 @@ async function replaceStudentEnrollments(studentId: string, payload: Record<stri
       continue;
     }
 
-    if (!courseMap.has(rawValue)) {
+    if (!courseCatalog.idsByName.has(rawValue)) {
       const error = new Error(`Unknown course selected for Block ${blockCode}: ${rawValue}`);
       error.statusCode = 400;
       throw error;
     }
 
-    if (!optionBuckets.blocks[blockCode].includes(rawValue)) {
+    const courseBlockCode = courseCatalog.coursesByName.get(rawValue) || '';
+    if (courseBlockCode && courseBlockCode !== blockCode) {
       const error = new Error(`Course ${rawValue} is not a valid option for Block ${blockCode}.`);
       error.statusCode = 400;
       throw error;
@@ -597,7 +663,7 @@ async function replaceStudentEnrollments(studentId: string, payload: Record<stri
   )].sort((left, right) => left.localeCompare(right));
 
   for (const courseName of normalizedUnblocked) {
-    if (!courseMap.has(courseName)) {
+    if (!courseCatalog.idsByName.has(courseName)) {
       const error = new Error(`Unknown non-block course selected: ${courseName}`);
       error.statusCode = 400;
       throw error;
@@ -639,7 +705,7 @@ async function replaceStudentEnrollments(studentId: string, payload: Record<stri
 
     rowsToInsert.push({
       student_id: studentId,
-      course_id: courseMap.get(courseName),
+      course_id: courseCatalog.idsByName.get(courseName),
       block_code: blockCode,
     });
   }
@@ -647,7 +713,7 @@ async function replaceStudentEnrollments(studentId: string, payload: Record<stri
   for (const courseName of normalizedUnblocked) {
     rowsToInsert.push({
       student_id: studentId,
-      course_id: courseMap.get(courseName),
+      course_id: courseCatalog.idsByName.get(courseName),
       block_code: null,
     });
   }
@@ -834,20 +900,6 @@ function normaliseProgramValue(program: string) {
     return 'A Level';
   }
   return program.trim();
-}
-
-async function loadCourseMap() {
-  const { data, error } = await supabase
-    .from('courses')
-    .select('id,name')
-    .order('name', { ascending: true })
-    .limit(5000);
-
-  if (error) {
-    throw wrapSupabaseError(error);
-  }
-
-  return new Map((data || []).map((row) => [row.name, row.id]));
 }
 
 function normalizeStudent(row: Record<string, unknown>) {
