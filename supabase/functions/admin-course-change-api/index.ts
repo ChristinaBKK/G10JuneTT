@@ -1221,8 +1221,17 @@ function getAdminBlockCodeForCourseName(courseName: string, blockCode: string | 
   return COURSE_BLOCK_OVERRIDES.get(courseName) || blockCode || '';
 }
 
-function canonicalCourseName(courseName: string | null | undefined) {
-  return String(courseName || '').trim();
+function canonicalCourseName(courseName: unknown) {
+  if (typeof courseName === 'string') {
+    return courseName.trim();
+  }
+
+  if (courseName && typeof courseName === 'object') {
+    const value = courseName as Record<string, unknown>;
+    return canonicalCourseName(value.name || value.courseName || value.course_name || '');
+  }
+
+  return '';
 }
 
 function normalizeTimetablePayload(payload: Record<string, unknown> | null) {

@@ -306,7 +306,11 @@ function renderEditor(editorData) {
     });
   });
 
-  const selectedUnblocked = new Set(editorData.unblocked?.currentCourseNames || []);
+  const selectedUnblocked = new Set(
+    (editorData.unblocked?.currentCourseNames || [])
+      .map((courseName) => normalizeCourseNameValue(courseName))
+      .filter(Boolean)
+  );
   const unblockedOptions = editorData.unblocked?.options || [];
   elements.unblockedSelections.innerHTML = unblockedOptions.length
     ? unblockedOptions.map((option) => {
@@ -443,11 +447,29 @@ function normalizeCourseOption(option) {
     };
   }
 
+  const courseName = normalizeCourseNameValue(option?.courseName ?? option?.name ?? option?.course);
+
   return {
-    courseName: option?.courseName || '',
-    teacher: option?.teacher || '',
+    courseName,
+    teacher: normalizeCourseNameValue(option?.teacher),
     enrollmentCount: option?.enrollmentCount || 0,
   };
+}
+
+function normalizeCourseNameValue(value) {
+  if (typeof value === 'string') {
+    return value.trim();
+  }
+
+  if (value && typeof value === 'object') {
+    if (Array.isArray(value)) {
+      return normalizeCourseNameValue(value[0] ?? '');
+    }
+
+    return normalizeCourseNameValue(value.courseName ?? value.name ?? value.course_name ?? value.title ?? '');
+  }
+
+  return '';
 }
 
 function formatEnrollmentCountLabel(enrollmentCount) {
