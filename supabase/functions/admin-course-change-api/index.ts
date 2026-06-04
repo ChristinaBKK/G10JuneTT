@@ -179,7 +179,7 @@ async function loadStudentEditorData(studentId: string) {
   }
 
   for (const row of enrollmentResult.data || []) {
-    const courseName = row.course?.name;
+    const courseName = canonicalCourseName(row.course?.name);
     if (!courseName) {
       continue;
     }
@@ -220,7 +220,7 @@ async function loadStudentEditorData(studentId: string) {
     blocks: BLOCK_CODES.map((blockCode) => ({
       blockCode,
       label: `Block ${blockCode}`,
-      currentCourseName: currentByBlock.get(blockCode) || '',
+      currentCourseName: canonicalCourseName(currentByBlock.get(blockCode) || ''),
       currentTeacher: currentTeacherByBlock.get(blockCode) || '',
       options: optionBuckets.blocks[blockCode].map((courseName) => ({
         courseName,
@@ -305,11 +305,14 @@ async function loadCourseCatalog() {
   const idsByName = new Map<string, number>();
 
   for (const row of courseRows) {
-    if (!row.name) {
+    const courseName = canonicalCourseName(row.name);
+    if (!courseName) {
       continue;
     }
-    idsByName.set(row.name, row.id);
-    blockCodesByName.set(row.name, row.block_code || null);
+    if (!idsByName.has(courseName) || row.block_code) {
+      idsByName.set(courseName, row.id);
+      blockCodesByName.set(courseName, row.block_code || null);
+    }
   }
 
   return {
@@ -407,7 +410,7 @@ async function loadOptionTeacherByCourseName() {
 
   const teacherByCourseName = new Map<string, string>();
   for (const row of courseData || []) {
-    const courseName = row.name;
+    const courseName = canonicalCourseName(row.name);
     const teacher = row.default_teacher || '';
     if (!courseName || !teacher) {
       continue;
@@ -416,7 +419,7 @@ async function loadOptionTeacherByCourseName() {
   }
 
   for (const row of data || []) {
-    const courseName = row.course?.name;
+    const courseName = canonicalCourseName(row.course?.name);
     const teacher = row.override_teacher || row.course?.default_teacher || '';
     if (!courseName || !teacher) {
       continue;
@@ -428,7 +431,8 @@ async function loadOptionTeacherByCourseName() {
 }
 
 async function loadCoursePreviewByName(courseNames: string[]) {
-  if (!courseNames.length) {
+  const canonicalCourseNames = [...new Set(courseNames.map((courseName) => canonicalCourseName(courseName)).filter(Boolean))];
+  if (!canonicalCourseNames.length) {
     return {};
   }
 
@@ -436,14 +440,14 @@ async function loadCoursePreviewByName(courseNames: string[]) {
     supabase
       .from('courses')
       .select('name,default_teacher,default_room')
-      .in('name', courseNames)
+      .in('name', canonicalCourseNames)
       .limit(5000),
     supabase
       .from('timetable_slot_courses')
       .select('override_teacher,override_room,course:courses(name,default_teacher,default_room),slot:timetable_slots(term_name,day_name,slot_order,start_period_id,end_period_id)')
-      .in('course.name', courseNames)
+      .in('course.name', canonicalCourseNames)
       .limit(5000),
-    loadStudentTimetablePreviewEntries(courseNames),
+    loadStudentTimetablePreviewEntries(canonicalCourseNames),
   ]);
 
   if (courseError) {
@@ -456,7 +460,11 @@ async function loadCoursePreviewByName(courseNames: string[]) {
 
   const courseDefaultsByName = new Map<string, { teacher: string; room: string }>();
   for (const row of courseData || []) {
-    courseDefaultsByName.set(row.name, {
+    const courseName = canonicalCourseName(row.name);
+    if (!courseName) {
+      continue;
+    }
+    courseDefaultsByName.set(courseName, {
       teacher: row.default_teacher || '',
       room: row.default_room || '',
     });
@@ -466,7 +474,7 @@ async function loadCoursePreviewByName(courseNames: string[]) {
   const previewByStudentCourseKey = new Map<string, Array<Record<string, unknown>>>();
 
   for (const row of studentPreviewData || []) {
-    const courseName = row.course_name;
+    const courseName = canonicalCourseName(row.course_name);
     const studentId = String(row.student_id || '');
     if (!courseName || !studentId) {
       continue;
@@ -506,7 +514,7 @@ async function loadCoursePreviewByName(courseNames: string[]) {
   }
 
   for (const row of slotCourseData || []) {
-    const courseName = row.course?.name;
+    const courseName = canonicalCourseName(row.course?.name);
     const slot = row.slot;
     if (!courseName || !slot) {
       continue;
@@ -637,7 +645,7 @@ async function replaceStudentEnrollments(studentId: string, payload: Record<stri
 
   const normalizedBlockSelections: Record<string, string> = {};
   for (const blockCode of BLOCK_CODES) {
-    const rawValue = typeof blockSelections[blockCode] === 'string' ? blockSelections[blockCode].trim() : '';
+    const rawValue = canonicalCourseName(blockSelections[blockCode]);
     if (!rawValue) {
       continue;
     }
@@ -661,7 +669,7 @@ async function replaceStudentEnrollments(studentId: string, payload: Record<stri
   const normalizedUnblocked = [...new Set(
     unblockedCourseNames
       .filter((courseName) => typeof courseName === 'string')
-      .map((courseName) => courseName.trim())
+      .map((courseName) => canonicalCourseName(courseName))
       .filter(Boolean),
   )].sort((left, right) => left.localeCompare(right));
 
@@ -918,6 +926,10 @@ function normalizeStudent(row: Record<string, unknown>) {
 
 function getAdminBlockCodeForCourseName(courseName: string, blockCode: string | null) {
   return COURSE_BLOCK_OVERRIDES.get(courseName) || blockCode || '';
+}
+
+function canonicalCourseName(courseName: string | null | undefined) {
+  return String(courseName || '').trim();
 }
 
 function normalizeTimetablePayload(payload: Record<string, unknown> | null) {
