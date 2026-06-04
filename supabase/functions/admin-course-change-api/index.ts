@@ -196,9 +196,6 @@ async function loadStudentEditorData(studentId: string) {
     }
 
     currentUnblocked.push(courseName);
-    if (!optionBuckets.unblocked.includes(courseName)) {
-      optionBuckets.unblocked.push(courseName);
-    }
   }
 
   const editableCourseNames = [...new Set([
@@ -278,9 +275,15 @@ async function loadOptionBuckets() {
 
 function buildOptionBuckets(courseCatalog: { coursesByName: Map<string, string | null> }) {
   const blocks = Object.fromEntries(BLOCK_CODES.map((blockCode) => [blockCode, [] as string[]]));
+  const unblocked: string[] = [];
 
   for (const [courseName, blockCode] of courseCatalog.coursesByName.entries()) {
-    if (!blockCode || !blocks[blockCode]) {
+    if (!blockCode) {
+      unblocked.push(courseName);
+      continue;
+    }
+
+    if (!blocks[blockCode]) {
       continue;
     }
     blocks[blockCode].push(courseName);
@@ -292,7 +295,7 @@ function buildOptionBuckets(courseCatalog: { coursesByName: Map<string, string |
 
   return {
     blocks,
-    unblocked: [],
+    unblocked: unblocked.sort((left, right) => left.localeCompare(right)),
   };
 }
 
