@@ -1,7 +1,7 @@
 import { supabaseUrl } from './supabase-config.js';
 
 const DEFAULT_ADMIN_API_BASE = `${supabaseUrl}/functions/v1/admin-course-change-api`;
-const BLOCK_CODES = ['A', 'B', 'C', 'D', 'E', 'F'];
+const BLOCK_CODES = ['A', 'B', 'C', 'D', 'E', 'F', 'UC'];
 const DAY_NAMES = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 const DAY_ORDER = new Map(DAY_NAMES.map((dayName, index) => [dayName, index]));
 const ADMIN_PASSWORD_STORAGE_KEY = 'admin-course-change-password';
@@ -277,15 +277,19 @@ function renderEditor(editorData) {
     <article class="selection-card">
       <div class="selection-card-head">
         <h4>${escapeHtml(block.label)}</h4>
-        <p>${block.currentCourseName ? `Current: ${escapeHtml(block.currentCourseName)}` : 'Currently empty'}</p>
-        <p>${block.currentTeacher ? `Teacher: ${escapeHtml(block.currentTeacher)}` : 'Teacher: Not set'}</p>
+        <p>${renderCurrentCourseSummary(block)}</p>
+        <p>${block.currentTeacher ? `Teacher: ${escapeHtml(formatTeacherDisplay(block.currentTeacher))}` : 'Teacher: Not set'}</p>
       </div>
       <label class="field-label" for="block-${escapeHtml(block.blockCode)}">Choose course</label>
       <select class="block-select" id="block-${escapeHtml(block.blockCode)}" name="block-${escapeHtml(block.blockCode)}" data-block-code="${escapeHtml(block.blockCode)}">
         <option value="">Clear this block</option>
-        ${block.options.map((option) => `
-          <option value="${escapeHtml(option.courseName)}" data-teacher="${escapeHtml(option.teacher || '')}"${option.courseName === block.currentCourseName ? ' selected' : ''}>${escapeHtml(option.courseName)}${option.teacher ? ` - ${escapeHtml(option.teacher)}` : ''}</option>
-        `).join('')}
+        ${block.options.map((option) => {
+          const normalizedOption = normalizeCourseOption(option);
+          const teacherLabel = formatTeacherDisplay(normalizedOption.teacher);
+          return `
+          <option value="${escapeHtml(normalizedOption.courseName)}" data-teacher="${escapeHtml(teacherLabel)}"${normalizedOption.courseName === block.currentCourseName ? ' selected' : ''}>${escapeHtml(formatCourseOptionLabel(normalizedOption.courseName, normalizedOption.enrollmentCount))}${teacherLabel ? ` - ${escapeHtml(teacherLabel)}` : ''}</option>
+          `;
+        }).join('')}
       </select>
       <p class="selection-card-choice-teacher" data-block-choice-teacher="${escapeHtml(block.blockCode)}">${renderSelectedTeacherText(block)}</p>
     </article>
@@ -301,12 +305,15 @@ function renderEditor(editorData) {
   const selectedUnblocked = new Set(editorData.unblocked?.currentCourseNames || []);
   const unblockedOptions = editorData.unblocked?.options || [];
   elements.unblockedSelections.innerHTML = unblockedOptions.length
-    ? unblockedOptions.map((courseName) => `
+    ? unblockedOptions.map((option) => {
+      const normalizedOption = normalizeCourseOption(option);
+      return `
       <label class="checkbox-card">
-        <input type="checkbox" value="${escapeHtml(courseName)}"${selectedUnblocked.has(courseName) ? ' checked' : ''}>
-        <span>${escapeHtml(courseName)}</span>
+        <input type="checkbox" value="${escapeHtml(normalizedOption.courseName)}"${selectedUnblocked.has(normalizedOption.courseName) ? ' checked' : ''}>
+        <span>${escapeHtml(formatCourseOptionLabel(normalizedOption.courseName, normalizedOption.enrollmentCount))}</span>
       </label>
-    `).join('')
+      `;
+    }).join('')
     : '<p class="search-feedback">No non-block course options were found in student_enrollments.</p>';
 
   elements.unblockedSelections.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => {
@@ -406,7 +413,45 @@ function renderSelectedTeacherText(block) {
   if (!selectedOption?.teacher) {
     return 'Selected teacher: Not set';
   }
-  return `Selected teacher: ${selectedOption.teacher}`;
+  return `Selected teacher: ${formatTeacherDisplay(selectedOption.teacher)}`;
+}
+
+function renderCurrentCourseSummary(block) {
+  if (!block.currentCourseName) {
+    return 'Currently empty';
+  }
+
+  const countLabel = formatEnrollmentCountLabel(block.currentEnrollmentCount);
+  return `Current: ${escapeHtml(block.currentCourseName)}${countLabel ? ` (${countLabel})` : ''}`;
+}
+
+function formatCourseOptionLabel(courseName, enrollmentCount) {
+  const countLabel = formatEnrollmentCountLabel(enrollmentCount);
+  return countLabel ? `${courseName} (${countLabel})` : courseName;
+}
+
+function normalizeCourseOption(option) {
+  if (typeof option === 'string') {
+    return {
+      courseName: option,
+      teacher: '',
+      enrollmentCount: 0,
+    };
+  }
+
+  return {
+    courseName: option?.courseName || '',
+    teacher: option?.teacher || '',
+    enrollmentCount: option?.enrollmentCount || 0,
+  };
+}
+
+function formatEnrollmentCountLabel(enrollmentCount) {
+  const count = Number(enrollmentCount || 0);
+  if (!count) {
+    return '0 students';
+  }
+  return count === 1 ? '1 student' : `${count} students`;
 }
 
 function updateSelectedTeacher(selectElement) {
@@ -417,7 +462,7 @@ function updateSelectedTeacher(selectElement) {
   }
 
   const selectedOption = selectElement.options[selectElement.selectedIndex];
-  const teacher = selectedOption?.dataset?.teacher || '';
+  const teacher = formatTeacherDisplay(selectedOption?.dataset?.teacher || '');
   teacherElement.textContent = teacher ? `Selected teacher: ${teacher}` : 'Selected teacher: Not set';
 }
 
@@ -460,7 +505,7 @@ function renderTimetable(timetable) {
         <article class="timetable-card">
           <p class="timetable-card-period">${escapeHtml(periodLabel)}</p>
           <h4>${escapeHtml(entry.course_name || 'No course')}</h4>
-          <p>${escapeHtml(entry.teacher || 'Teacher TBC')}</p>
+          <p>${escapeHtml(formatTeacherDisplay(entry.teacher) || 'Teacher TBC')}</p>
           <p>${escapeHtml(entry.room || 'Room TBC')}</p>
         </article>
       `;
@@ -734,4 +779,13 @@ function escapeHtml(value) {
     .replaceAll('>', '&gt;')
     .replaceAll('"', '&quot;')
     .replaceAll("'", '&#39;');
+}
+
+function formatTeacherDisplay(value) {
+  return String(value || '')
+    .replace(/<br\s*\/?>/gi, ' / ')
+    .replace(/\s*\n\s*/g, ' / ')
+    .replace(/\s*\/\s*/g, ' / ')
+    .replace(/\s{2,}/g, ' ')
+    .trim();
 }

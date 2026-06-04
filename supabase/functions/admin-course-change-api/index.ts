@@ -1,14 +1,23 @@
 // @ts-nocheck
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+import postgres from 'https://esm.sh/postgres@3.4.4';
 
 const FUNCTION_NAME = 'admin-course-change-api';
-const BLOCK_CODES = ['A', 'B', 'C', 'D', 'E', 'F'];
+const BLOCK_CODES = ['A', 'B', 'C', 'D', 'E', 'F', 'UC'];
 // Map of course name -> block code to force-assign in the admin UI even when
 // the underlying student_enrollments row has no block_code. Intentionally
 // empty: every course now derives its bucket from student_enrollments.block_code
 // directly. Add entries here only if a course needs to be pinned to a block
 // regardless of how the student is enrolled (none today).
-const COURSE_BLOCK_OVERRIDES = new Map<string, string>();
+const COURSE_BLOCK_OVERRIDES = new Map<string, string>([
+  ['Business HL', 'E'],
+]);
+const NON_EDITABLE_UNBLOCKED_COURSES = new Set([
+  'Early Dismissal',
+  'Graduation parade',
+  'House Activities',
+  'University Counselling',
+]);
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'GET,POST,OPTIONS',
@@ -17,6 +26,7 @@ const corsHeaders = {
 };
 
 const supabaseUrl = Deno.env.get('SUPABASE_URL') || '';
+const supabaseDbUrl = Deno.env.get('SUPABASE_DB_URL') || '';
 const serviceRoleKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') || '';
 const configuredPassword = Deno.env.get('ADMIN_COURSE_CHANGE_PASSWORD') || '';
 const attendanceSyncUrl = Deno.env.get('ATTENDANCE_SYNC_URL') || '';
@@ -32,6 +42,12 @@ const supabase = createClient(supabaseUrl, serviceRoleKey, {
     autoRefreshToken: false,
   },
 });
+
+const directDb = supabaseDbUrl
+  ? postgres(supabaseDbUrl, {
+      ssl: 'require',
+    })
+  : null;
 
 Deno.serve(async (request) => {
   try {
@@ -136,7 +152,7 @@ async function searchStudents(query: string) {
 }
 
 async function loadStudentEditorData(studentId: string) {
-  const [studentResult, enrollmentResult, courseCatalog, optionTeacherByCourseName, timetablePayload] = await Promise.all([
+  const [studentResult, enrollmentResult, courseCatalog, optionTeacherByCourseName, timetablePayload, enrollmentCountsByCourseName] = await Promise.all([
     supabase
       .from('students')
       .select('student_id,full_name,program,has_tok,tok_course,tok_block_code')
@@ -151,6 +167,7 @@ async function loadStudentEditorData(studentId: string) {
     loadCourseCatalog(),
     loadOptionTeacherByCourseName(),
     loadStudentTimetablePayload(studentId),
+    loadEnrollmentCountsByCourseName(),
   ]);
 
   if (studentResult.error) {
@@ -195,6 +212,10 @@ async function loadStudentEditorData(studentId: string) {
       continue;
     }
 
+    if (NON_EDITABLE_UNBLOCKED_COURSES.has(courseName)) {
+      continue;
+    }
+
     currentUnblocked.push(courseName);
   }
 
@@ -222,19 +243,44 @@ async function loadStudentEditorData(studentId: string) {
       label: `Block ${blockCode}`,
       currentCourseName: canonicalCourseName(currentByBlock.get(blockCode) || ''),
       currentTeacher: currentTeacherByBlock.get(blockCode) || '',
+      currentEnrollmentCount: enrollmentCountsByCourseName.get(currentByBlock.get(blockCode) || '') || 0,
       options: optionBuckets.blocks[blockCode].map((courseName) => ({
         courseName,
         teacher: optionTeacherByCourseName.get(courseName) || '',
+        enrollmentCount: enrollmentCountsByCourseName.get(courseName) || 0,
       })),
     })),
     unblocked: {
       label: 'No block / additional courses',
       currentCourseNames: [...new Set(currentUnblocked)].sort((left, right) => left.localeCompare(right)),
-      options: optionBuckets.unblocked,
+      options: optionBuckets.unblocked.map((courseName) => ({
+        courseName,
+        enrollmentCount: enrollmentCountsByCourseName.get(courseName) || 0,
+      })),
     },
     coursePreviewByName,
     timetable: normalizeTimetablePayload(timetablePayload),
   };
+}
+
+async function loadEnrollmentCountsByCourseName() {
+  if (!directDb) {
+    const error = new Error('SUPABASE_DB_URL is not configured for direct count queries.');
+    error.statusCode = 500;
+    throw error;
+  }
+
+  const rows = await directDb`
+    select
+      c.name as course_name,
+      count(distinct se.student_id)::int as student_count
+    from public.student_enrollments as se
+    join public.courses as c
+      on c.id = se.course_id
+    group by c.name
+  `;
+
+  return new Map<string, number>(rows.map((row) => [canonicalCourseName(row.course_name), Number(row.student_count || 0)]));
 }
 
 async function loadStudentTimetablePayload(studentId: string) {
@@ -278,15 +324,19 @@ function buildOptionBuckets(courseCatalog: { coursesByName: Map<string, string |
   const unblocked: string[] = [];
 
   for (const [courseName, blockCode] of courseCatalog.coursesByName.entries()) {
-    if (!blockCode) {
-      unblocked.push(courseName);
+    const effectiveBlockCode = getAdminBlockCodeForCourseName(courseName, blockCode);
+
+    if (!effectiveBlockCode) {
+      if (!NON_EDITABLE_UNBLOCKED_COURSES.has(courseName)) {
+        unblocked.push(courseName);
+      }
       continue;
     }
 
-    if (!blocks[blockCode]) {
+    if (!blocks[effectiveBlockCode]) {
       continue;
     }
-    blocks[blockCode].push(courseName);
+    blocks[effectiveBlockCode].push(courseName);
   }
 
   for (const blockCode of BLOCK_CODES) {
@@ -309,9 +359,10 @@ async function loadCourseCatalog() {
     if (!courseName) {
       continue;
     }
-    if (!idsByName.has(courseName) || row.block_code) {
+    const effectiveBlockCode = row.block_code || COURSE_BLOCK_OVERRIDES.get(courseName) || null;
+    if (!idsByName.has(courseName) || effectiveBlockCode) {
       idsByName.set(courseName, row.id);
-      blockCodesByName.set(courseName, row.block_code || null);
+      blockCodesByName.set(courseName, effectiveBlockCode);
     }
   }
 
@@ -670,7 +721,7 @@ async function replaceStudentEnrollments(studentId: string, payload: Record<stri
     unblockedCourseNames
       .filter((courseName) => typeof courseName === 'string')
       .map((courseName) => canonicalCourseName(courseName))
-      .filter(Boolean),
+      .filter((courseName) => Boolean(courseName) && !NON_EDITABLE_UNBLOCKED_COURSES.has(courseName)),
   )].sort((left, right) => left.localeCompare(right));
 
   for (const courseName of normalizedUnblocked) {
@@ -697,11 +748,35 @@ async function replaceStudentEnrollments(studentId: string, payload: Record<stri
     }
   }
 
-  const deleteUnblocked = await supabase
+  const existingUnblockedResult = await supabase
     .from('student_enrollments')
-    .delete()
+    .select('course_id,course:courses(name)')
     .eq('student_id', studentId)
-    .is('block_code', null);
+    .is('block_code', null)
+    .limit(500);
+
+  if (existingUnblockedResult.error) {
+    throw wrapSupabaseError(existingUnblockedResult.error);
+  }
+
+  const removableUnblockedCourseIds = [...new Set((existingUnblockedResult.data || [])
+    .map((row) => {
+      const courseName = canonicalCourseName(row.course?.name);
+      if (!courseName || NON_EDITABLE_UNBLOCKED_COURSES.has(courseName)) {
+        return null;
+      }
+      return row.course_id;
+    })
+    .filter(Boolean))] as number[];
+
+  const deleteUnblocked = removableUnblockedCourseIds.length
+    ? await supabase
+        .from('student_enrollments')
+        .delete()
+        .eq('student_id', studentId)
+        .is('block_code', null)
+        .in('course_id', removableUnblockedCourseIds)
+    : { error: null };
 
   if (deleteUnblocked.error) {
     throw wrapSupabaseError(deleteUnblocked.error);
