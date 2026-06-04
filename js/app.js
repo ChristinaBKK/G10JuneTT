@@ -8,6 +8,10 @@ const supabase = createClient(supabaseUrl, supabasePublishableKey, {
   },
 });
 
+if (!supabaseUrl || !supabasePublishableKey) {
+  throw new Error('Missing Supabase frontend configuration. Set VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY.');
+}
+
 const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 const dayOrder = new Map(days.map((day, index) => [day, index]));
 const periodOrder = new Map();
@@ -98,6 +102,9 @@ async function fetchStudentTimetablePayload(studentId) {
     .rpc('get_student_timetable_payload', { p_student_id: studentId });
 
   if (error) {
+    if (error.message?.includes('401') || error.message?.includes('JWT')) {
+      throw new Error('Supabase rejected the browser key. Use a publishable key in the frontend, not service_role.');
+    }
     throw new Error(`Unable to load timetable data: ${error.message}`);
   }
 

@@ -78,6 +78,10 @@ Deno.serve(async (request) => {
 
     assertAuthorizedRequest(request);
 
+    if (request.method === 'GET' && routePath === '/sync-diagnostics') {
+      return jsonResponse(200, buildSyncDiagnostics());
+    }
+
     if (request.method === 'GET' && routePath === '/students') {
       const query = (url.searchParams.get('query') || '').trim();
       const students = await searchStudents(query);
@@ -947,30 +951,21 @@ async function loadAttendanceSyncPayload(studentId: string) {
   ).values()];
 
   const attendanceTeacherByName = await loadAttendanceTeacherByName();
-  const knownTeacherNames = attendanceTeacherByName ? new Set(attendanceTeacherByName.keys()) : null;
 
   const attendanceSessions = uniqueSessions.flatMap((session) => {
     if (isAttendancePlaceholderSession(session)) {
       return [];
     }
-    // For co-taught classes stored as "Teacher A / Teacher B", expand into one
-    // session per teacher and keep only those the attendance DB recognises.
-    if (/\s*\/\s*/.test(session.teacherName)) {
-      const individualTeachers = session.teacherName
-        .split(/\s*\/\s*/)
-        .map((t) => t.trim())
-        .filter(Boolean);
-      return individualTeachers
-        .flatMap((teacher) => {
-          const teacherId = resolveAttendanceTeacherId(teacher, attendanceTeacherByName);
-          if (!teacherId) {
-            return [];
-          }
-          return [{ ...session, teacherName: teacher, teacherId }];
-        });
-    }
-    const teacherId = resolveAttendanceTeacherId(session.teacherName, attendanceTeacherByName);
-    if (!teacherId) {
+
+    const teacherNames = session.teacherName
+      .split(/\s*\/\s*/)
+      .map((teacher) => teacher.trim())
+      .filter(Boolean);
+    const teacherId = teacherNames
+      .map((teacher) => resolveAttendanceTeacherId(teacher, attendanceTeacherByName))
+      .find(Boolean) || '';
+
+    if (attendanceTeacherByName && !teacherId) {
       return [];
     }
     return [{ ...session, teacherId }];
@@ -1100,17 +1095,48 @@ async function postAttendanceSyncPayload(payload: { student: { candidateNumber: 
     return { ok: true as const, message: 'Attendance database updated successfully.' };
   }
 
+  const bodyText = await response.text().catch(() => '');
   let message = `Attendance sync failed: HTTP ${response.status}`;
   try {
-    const body = await response.json();
+    const body = bodyText ? JSON.parse(bodyText) : null;
     if (body?.error) {
       message = `Attendance sync failed: ${body.error}`;
     }
   } catch {
-    // ignore parse error
+    if (bodyText.trim()) {
+      message = `Attendance sync failed: HTTP ${response.status}: ${bodyText.trim().slice(0, 240)}`;
+    }
   }
 
   return { ok: false as const, message };
+}
+
+function buildSyncDiagnostics() {
+  return {
+    attendanceSyncUrl: redactUrl(attendanceSyncUrl),
+    attendanceSyncSecretConfigured: Boolean(attendanceSyncSecret),
+    attendanceDatabaseUrl: redactUrl(attendanceDbUrl),
+    attendanceDatabaseConfigured: Boolean(attendanceDbUrl),
+  };
+}
+
+function redactUrl(value: string) {
+  if (!value) {
+    return '';
+  }
+
+  try {
+    const url = new URL(value);
+    if (url.username) {
+      url.username = '<redacted>';
+    }
+    if (url.password) {
+      url.password = '<redacted>';
+    }
+    return url.toString();
+  } catch {
+    return '<invalid-url>';
+  }
 }
 
 async function loadStudentEnrollmentState(studentId: string, program: string) {

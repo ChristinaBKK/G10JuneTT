@@ -1,4 +1,4 @@
-import { supabaseUrl } from './supabase-config.js';
+import { supabasePublishableKey, supabaseUrl } from './supabase-config.js';
 
 const DEFAULT_ADMIN_API_BASE = `${supabaseUrl}/functions/v1/admin-course-change-api`;
 const BLOCK_CODES = ['A', 'B', 'C', 'D', 'E', 'F', 'UC'];
@@ -54,6 +54,10 @@ elements.authForm?.addEventListener('submit', async (event) => {
   event.preventDefault();
   await unlockPage();
 });
+
+if (elements.authStatus) {
+  elements.authStatus.textContent = 'Admin page loaded. Enter the password to unlock.';
+}
 
 elements.studentSearchForm?.addEventListener('submit', async (event) => {
   event.preventDefault();
@@ -656,6 +660,10 @@ function closeSaveResultModal() {
 
 async function requestJson(url, options) {
   const headers = new Headers(options?.headers || {});
+  if (supabasePublishableKey) {
+    headers.set('apikey', supabasePublishableKey);
+    headers.set('Authorization', `Bearer ${supabasePublishableKey}`);
+  }
   if (!options?.skipAuth && state.adminPassword) {
     headers.set('x-admin-password', state.adminPassword);
   }
@@ -668,7 +676,8 @@ async function requestJson(url, options) {
   const payload = contentType.includes('application/json') ? await response.json() : await response.text();
 
   if (!response.ok) {
-    const message = typeof payload === 'string' ? payload : payload?.error || 'Request failed.';
+    const responseMessage = typeof payload === 'string' ? payload.trim() : payload?.error;
+    const message = responseMessage || `Request failed (${response.status} ${response.statusText || 'HTTP error'}).`;
     if (response.status === 401) {
       clearAdminPassword();
       lockPage(message);
@@ -686,6 +695,7 @@ async function unlockPage() {
     return;
   }
 
+  setAuthStatus('Sending password to admin API…', 'working');
   const unlocked = await validatePassword(password, { preserveInput: false });
   if (unlocked) {
     if ((elements.studentQuery?.value || '').trim()) {
@@ -699,7 +709,11 @@ async function validatePassword(password, { preserveInput }) {
   setAuthStatus('Checking password…', 'working');
 
   try {
-    const payload = await requestJson(`${adminApiBase}/health`);
+    const payload = await requestJson(`${adminApiBase}/health`, {
+      headers: {
+        'x-admin-password': password,
+      },
+    });
     if (!payload?.authenticated) {
       const error = new Error('Unauthorized. Enter the admin page password to continue.');
       error.statusCode = 401;
@@ -714,11 +728,12 @@ async function validatePassword(password, { preserveInput }) {
     await checkAdminApi();
     return true;
   } catch (error) {
+    console.error('Admin unlock failed:', error);
     if (elements.adminPassword && !preserveInput) {
       elements.adminPassword.focus();
       elements.adminPassword.select();
     }
-    setAuthStatus(error.message, 'error');
+    setAuthStatus(error?.message || 'Unable to unlock admin page.', 'error');
     return false;
   }
 }

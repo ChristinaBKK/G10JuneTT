@@ -28,7 +28,7 @@ The timetable search now remembers recent pupil IDs in the browser and lets you 
 
 - `index.html`: app shell
 - `styles/main.css`: page styling
-- `js/supabase-config.js`: Supabase URL and publishable key
+- `js/supabase-config.js`: Supabase URL and browser-safe publishable key
 - `js/app.js`: timetable UI and Supabase RPC integration
 
 ## Data Access
@@ -37,6 +37,15 @@ The browser no longer reads `periods`, `students`, or `student_timetable_entries
 It calls `public.get_student_timetable_payload(text)` with the publishable key.
 
 This keeps the frontend read-only while leaving administrative database access available through Supabase CLI, SQL Editor, or service-role credentials.
+
+If you need to override the frontend Supabase project at build time, set:
+
+```bash
+VITE_SUPABASE_URL="https://aleqesajbbcmufcydgqy.supabase.co"
+VITE_SUPABASE_PUBLISHABLE_KEY="sb_publishable_..."
+```
+
+Never place a `service_role` key in frontend code or Vite env vars.
 
 ## Admin Writes
 
