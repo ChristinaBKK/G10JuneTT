@@ -21,7 +21,7 @@ const NON_EDITABLE_UNBLOCKED_COURSES = new Set([
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'GET,POST,OPTIONS',
-  'Access-Control-Allow-Headers': 'content-type,x-admin-password',
+  'Access-Control-Allow-Headers': 'authorization,apikey,content-type,x-admin-password,x-client-info',
   'Content-Type': 'application/json; charset=utf-8',
 };
 

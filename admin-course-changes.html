@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:wght@500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles/admin-course-changes.css">
+  <link rel="stylesheet" href="./styles/admin-course-changes.css?v=20260605c">
 </head>
 <body>
   <div class="auth-overlay" id="authOverlay">
@@ -83,6 +83,21 @@
         </div>
 
         <div class="status-banner is-idle" id="statusBanner">Choose new courses and save when ready.</div>
+        <div class="editor-loading-overlay" id="editorLoadingOverlay" hidden aria-live="polite">
+          <div class="editor-loader-card">
+            <span class="editor-loader-spinner" aria-hidden="true"></span>
+            <div>
+              <p class="panel-kicker">Course Editor</p>
+              <h3 id="editorLoadingTitle">Loading student courses…</h3>
+              <p id="editorLoadingText">Fetching enrollments, available options, and the rebuilt timetable preview.</p>
+            </div>
+            <div class="editor-loading-bars" aria-hidden="true">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+        </div>
 
         <form id="courseChangeForm">
           <section class="editor-section">
@@ -145,6 +160,6 @@
     </section>
   </div>
 
-  <script type="module" src="./js/admin-course-changes.js?v=20260605b"></script>
+  <script type="module" src="./js/admin-course-changes.js?v=20260605c"></script>
 </body>
 </html>

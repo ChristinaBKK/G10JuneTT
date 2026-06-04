@@ -26,6 +26,9 @@ const elements = {
   connectionState: document.querySelector('#connectionState'),
   courseChangeForm: document.querySelector('#courseChangeForm'),
   editorEmptyState: document.querySelector('#editorEmptyState'),
+  editorLoadingOverlay: document.querySelector('#editorLoadingOverlay'),
+  editorLoadingText: document.querySelector('#editorLoadingText'),
+  editorLoadingTitle: document.querySelector('#editorLoadingTitle'),
   editorPanel: document.querySelector('#editorPanel'),
   lockPageButton: document.querySelector('#lockPageButton'),
   reloadStudentButton: document.querySelector('#reloadStudentButton'),
@@ -217,7 +220,12 @@ function renderSearchResults(students) {
   elements.studentSearchResults.innerHTML = markup;
   elements.studentSearchResults.querySelectorAll('[data-student-id]').forEach((button) => {
     button.addEventListener('click', async () => {
-      await loadStudent(button.dataset.studentId || '');
+      const student = students.find((candidate) => candidate.studentId === button.dataset.studentId);
+      elements.studentSearchResults.querySelectorAll('.student-result').forEach((resultButton) => {
+        resultButton.classList.remove('is-active', 'is-loading');
+      });
+      button.classList.add('is-active', 'is-loading');
+      await loadStudent(button.dataset.studentId || '', { displayName: student?.fullName || '' });
       renderSearchResults(students);
     });
   });
@@ -234,13 +242,14 @@ function formatProgramLabel(program) {
   return program === 'CAIE' ? 'A Level' : program;
 }
 
-async function loadStudent(studentId) {
+async function loadStudent(studentId, { displayName = '' } = {}) {
   if (!state.adminPassword) {
     lockPage();
     return;
   }
 
   state.currentStudentId = studentId;
+  setEditorLoading(true, displayName);
   setStatus('Loading student record…', 'working');
   setSaveDisabled(true);
 
@@ -252,6 +261,7 @@ async function loadStudent(studentId) {
   } catch (error) {
     setStatus(error.message, 'error');
   } finally {
+    setEditorLoading(false);
     setSaveDisabled(false);
   }
 }
@@ -329,6 +339,30 @@ function renderEditor(editorData) {
   });
 
   renderTimetable(editorData.timetable || {});
+}
+
+function setEditorLoading(isLoading, displayName = '') {
+  elements.editorPanel?.classList.toggle('is-loading', isLoading);
+  if (!elements.editorLoadingOverlay) {
+    return;
+  }
+
+  if (isLoading) {
+    elements.editorEmptyState.hidden = true;
+    elements.editorPanel.hidden = false;
+    elements.editorLoadingOverlay.hidden = false;
+    if (elements.editorLoadingTitle) {
+      elements.editorLoadingTitle.textContent = displayName
+        ? `Loading ${displayName}…`
+        : 'Loading student courses…';
+    }
+    if (elements.editorLoadingText) {
+      elements.editorLoadingText.textContent = 'Fetching enrollments, available options, and the rebuilt timetable preview.';
+    }
+    return;
+  }
+
+  elements.editorLoadingOverlay.hidden = true;
 }
 
 function updateDraftPreview() {
