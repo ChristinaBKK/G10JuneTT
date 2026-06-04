@@ -31,6 +31,7 @@ const serviceRoleKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') || '';
 const configuredPassword = Deno.env.get('ADMIN_COURSE_CHANGE_PASSWORD') || '';
 const attendanceSyncUrl = Deno.env.get('ATTENDANCE_SYNC_URL') || '';
 const attendanceSyncSecret = Deno.env.get('ATTENDANCE_SYNC_SECRET') || '';
+const attendanceDbUrl = Deno.env.get('ATTENDANCE_DATABASE_URL') || '';
 
 if (!supabaseUrl || !serviceRoleKey || !configuredPassword) {
   throw new Error('SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, and ADMIN_COURSE_CHANGE_PASSWORD must be set for admin-course-change-api.');
@@ -46,6 +47,13 @@ const supabase = createClient(supabaseUrl, serviceRoleKey, {
 const directDb = supabaseDbUrl
   ? postgres(supabaseDbUrl, {
       ssl: 'require',
+    })
+  : null;
+
+const attendanceDb = attendanceDbUrl
+  ? postgres(attendanceDbUrl, {
+      ssl: 'require',
+      connect_timeout: 5,
     })
   : null;
 
@@ -677,6 +685,8 @@ async function replaceStudentEnrollments(studentId: string, payload: Record<stri
     throw error;
   }
 
+  const previousStudentState = await loadStudentEnrollmentState(studentId, studentResult.data.program || '');
+
   if (nextProgram && !['A Level', 'IB'].includes(nextProgram)) {
     const error = new Error(`Unsupported programme: ${nextProgram}`);
     error.statusCode = 400;
@@ -811,30 +821,35 @@ async function replaceStudentEnrollments(studentId: string, payload: Record<stri
     }
   }
 
-  const syncResult = await supabase.rpc('sync_student_slot_assignments_for_student', {
-    target_student_id: studentId,
-  });
-  if (syncResult.error) {
-    throw wrapSupabaseError(syncResult.error);
-  }
-
   try {
-    await syncAttendanceForStudent(studentId);
+    const syncResult = await supabase.rpc('sync_student_slot_assignments_for_student', {
+      target_student_id: studentId,
+    });
+    if (syncResult.error) {
+      throw wrapSupabaseError(syncResult.error);
+    }
+
+    const attendanceSync = await syncAttendanceForStudent(studentId);
+
+    const editorData = await loadStudentEditorData(studentId);
+    return {
+      ...editorData,
+      editorData,
+      attendanceSync,
+    };
   } catch (error) {
-    const syncError = new Error(`Timetable saved, but attendance database did not update. ${error.message || 'Attendance sync failed.'}`);
-    syncError.statusCode = error.statusCode || 502;
+    const rollbackError = await restoreStudentEnrollmentState(studentId, previousStudentState);
+    if (rollbackError) {
+      const syncError = new Error(`Save failed and the previous state could not be restored cleanly. Please check the timetable manually. Rollback error: ${rollbackError.message || 'Unknown rollback error.'}`);
+      syncError.statusCode = 500;
+      throw syncError;
+    }
+
+    // Rollback succeeded — the timetable was NOT saved.
+    const syncError = new Error(`Save cancelled. The timetable was not changed because the attendance database could not be updated. ${error.message || 'Attendance sync failed.'}`);
+    syncError.statusCode = 400;
     throw syncError;
   }
-
-  const editorData = await loadStudentEditorData(studentId);
-  return {
-    ...editorData,
-    editorData,
-    attendanceSync: {
-      ok: true,
-      message: 'Attendance database updated successfully.',
-    },
-  };
 }
 
 function formatAttendanceDate(rawDate: string) {
@@ -931,13 +946,122 @@ async function loadAttendanceSyncPayload(studentId: string) {
     ]),
   ).values()];
 
+  const attendanceTeacherByName = await loadAttendanceTeacherByName();
+  const knownTeacherNames = attendanceTeacherByName ? new Set(attendanceTeacherByName.keys()) : null;
+
+  const attendanceSessions = uniqueSessions.flatMap((session) => {
+    if (isAttendancePlaceholderSession(session)) {
+      return [];
+    }
+    // For co-taught classes stored as "Teacher A / Teacher B", expand into one
+    // session per teacher and keep only those the attendance DB recognises.
+    if (/\s*\/\s*/.test(session.teacherName)) {
+      const individualTeachers = session.teacherName
+        .split(/\s*\/\s*/)
+        .map((t) => t.trim())
+        .filter(Boolean);
+      return individualTeachers
+        .flatMap((teacher) => {
+          const teacherId = resolveAttendanceTeacherId(teacher, attendanceTeacherByName);
+          if (!teacherId) {
+            return [];
+          }
+          return [{ ...session, teacherName: teacher, teacherId }];
+        });
+    }
+    const teacherId = resolveAttendanceTeacherId(session.teacherName, attendanceTeacherByName);
+    if (!teacherId) {
+      return [];
+    }
+    return [{ ...session, teacherId }];
+  });
+
   return {
     student: {
       candidateNumber: String(student.student_id || '').trim(),
       name: String(student.full_name || '').trim(),
     },
-    sessions: uniqueSessions,
+    sessions: attendanceSessions,
   };
+}
+
+async function loadAttendanceTeacherByName(): Promise<Map<string, string> | null> {
+  if (!attendanceDb) {
+    return null;
+  }
+  try {
+    const rows = await attendanceDb`
+      SELECT id, name
+      FROM teachers
+      WHERE id IS NOT NULL
+        AND name IS NOT NULL
+    `;
+    const byName = new Map<string, string>();
+    for (const row of rows || []) {
+      const teacherName = String(row.name || '').trim();
+      const teacherId = String(row.id || '').trim();
+      if (!teacherName || !teacherId) {
+        continue;
+      }
+      byName.set(teacherName, teacherId);
+      byName.set(canonicalTeacherIdentityKey(teacherName), teacherId);
+    }
+    return byName;
+  } catch {
+    // If the direct DB query fails (e.g. wrong schema), fall through to placeholder-only filtering
+    return null;
+  }
+}
+
+function resolveAttendanceTeacherId(teacherName: string, teacherByName: Map<string, string> | null) {
+  if (!teacherByName) {
+    return '';
+  }
+  const trimmed = String(teacherName || '').trim();
+  if (!trimmed) {
+    return '';
+  }
+  return teacherByName.get(trimmed)
+    || teacherByName.get(canonicalTeacherIdentityKey(trimmed))
+    || '';
+}
+
+function canonicalTeacherIdentityKey(value: string) {
+  return String(value || '')
+    .trim()
+    .replace(/\s+/g, ' ')
+    .toLowerCase();
+}
+
+function isAttendancePlaceholderSession(session: { name: string; teacherName: string }) {
+  const courseName = String(session.name || '').trim();
+  const teacherName = String(session.teacherName || '').trim();
+
+  if (!courseName) {
+    return true;
+  }
+
+  const placeholderTeachers = new Set([
+    '',
+    'N/A',
+    'Teacher TBC',
+    'Block A Teachers',
+    'Block B Teachers',
+    'Block C Teachers',
+    'Block D Teachers',
+    'Block E Teachers',
+    'Block F Teachers',
+    'University Counsellors',
+  ]);
+
+  if (placeholderTeachers.has(teacherName)) {
+    return true;
+  }
+
+  return /^early dismissal$/i.test(courseName)
+    || /^graduation parade$/i.test(courseName)
+    || /^house activities$/i.test(courseName)
+    || /^university counselling$/i.test(courseName);
 }
 
 async function syncAttendanceForStudent(studentId: string) {
@@ -948,7 +1072,21 @@ async function syncAttendanceForStudent(studentId: string) {
   }
 
   const payload = await loadAttendanceSyncPayload(studentId);
+  const response = await postAttendanceSyncPayload(payload);
 
+  if (!response.ok) {
+    const error = new Error(response.message || 'Attendance sync failed.' );
+    error.statusCode = 502;
+    throw error;
+  }
+
+  return {
+    ok: true,
+    message: 'Attendance database updated successfully.',
+  };
+}
+
+async function postAttendanceSyncPayload(payload: { student: { candidateNumber: string; name: string }; sessions: Array<{ name: string; component: string; subject: string; paperCode: string; date: string; startTime: string; endTime: string; roomCode: string; teacherName: string; teacherId: string; type: string }> }) {
   const response = await fetch(`${attendanceSyncUrl.replace(/\/$/, '')}/api/sync/student`, {
     method: 'POST',
     headers: {
@@ -958,20 +1096,74 @@ async function syncAttendanceForStudent(studentId: string) {
     body: JSON.stringify(payload),
   });
 
-  if (!response.ok) {
-    let message = `Attendance sync failed: HTTP ${response.status}`;
-    try {
-      const body = await response.json();
-      if (body?.error) {
-        message = `Attendance sync failed: ${body.error}`;
-      }
-    } catch {
-      // ignore parse error
-    }
-    const error = new Error(message);
-    error.statusCode = 502;
-    throw error;
+  if (response.ok) {
+    return { ok: true as const, message: 'Attendance database updated successfully.' };
   }
+
+  let message = `Attendance sync failed: HTTP ${response.status}`;
+  try {
+    const body = await response.json();
+    if (body?.error) {
+      message = `Attendance sync failed: ${body.error}`;
+    }
+  } catch {
+    // ignore parse error
+  }
+
+  return { ok: false as const, message };
+}
+
+async function loadStudentEnrollmentState(studentId: string, program: string) {
+  const { data, error } = await supabase
+    .from('student_enrollments')
+    .select('course_id,block_code')
+    .eq('student_id', studentId)
+    .limit(500);
+
+  if (error) {
+    throw wrapSupabaseError(error);
+  }
+
+  return {
+    program: normaliseProgramValue(program || ''),
+    enrollments: (data || []).map((row) => ({
+      student_id: studentId,
+      course_id: row.course_id,
+      block_code: row.block_code,
+    })),
+  };
+}
+
+async function restoreStudentEnrollmentState(studentId: string, state: { program: string; enrollments: Array<{ student_id: string; course_id: number; block_code: string | null }> }) {
+  const deleteResult = await supabase.from('student_enrollments').delete().eq('student_id', studentId);
+  if (deleteResult.error) {
+    return wrapSupabaseError(deleteResult.error);
+  }
+
+  if (state.enrollments.length > 0) {
+    const insertResult = await supabase.from('student_enrollments').insert(state.enrollments);
+    if (insertResult.error) {
+      return wrapSupabaseError(insertResult.error);
+    }
+  }
+
+  const programResult = await supabase
+    .from('students')
+    .update({ program: state.program })
+    .eq('student_id', studentId);
+
+  if (programResult.error) {
+    return wrapSupabaseError(programResult.error);
+  }
+
+  const syncResult = await supabase.rpc('sync_student_slot_assignments_for_student', {
+    target_student_id: studentId,
+  });
+  if (syncResult.error) {
+    return wrapSupabaseError(syncResult.error);
+  }
+
+  return null;
 }
 
 function normaliseProgramValue(program: string) {

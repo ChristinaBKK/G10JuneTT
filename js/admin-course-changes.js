@@ -567,6 +567,28 @@ function collectSelections() {
 }
 
 function buildFailureModalContent(message) {
+  const saveCancelled = message.toLowerCase().includes('save cancelled');
+
+  if (saveCancelled) {
+    return {
+      tone: 'error',
+      kicker: 'Save Cancelled',
+      title: 'No changes were made',
+      body: 'The save was cancelled and the timetable was not changed. The attendance database must be reachable before course changes can be saved.',
+      details: [
+        {
+          label: 'Timetable database',
+          value: 'Not changed. The previous course selections are still in effect.',
+        },
+        {
+          label: 'Attendance database',
+          value: message,
+        },
+      ],
+    };
+  }
+
+  // Legacy path: old error messages that mention attendance but the save did commit.
   const attendanceFailure = message.toLowerCase().includes('attendance sync failed')
     || message.toLowerCase().includes('attendance database');
 
