@@ -920,11 +920,13 @@ async function loadAttendanceSyncPayload(studentId: string) {
   const normalizedSessions = (entries || []).map((entry) => {
     const startPeriod = periodById.get(String(entry.start_period_id || ''));
     const endPeriod = periodById.get(String(entry.end_period_id || ''));
+    const courseName = String(entry.course_name || '').trim();
+    const attendanceFields = buildAttendanceSessionFields(courseName);
     return {
-      name: String(entry.course_name || '').trim(),
-      component: String(entry.course_name || '').trim(),
-      subject: String(entry.course_name || '').trim(),
-      paperCode: '',
+      name: courseName,
+      component: attendanceFields.component,
+      subject: attendanceFields.subject,
+      paperCode: attendanceFields.paperCode,
       date: formatAttendanceDate(String(entry.term_name || '')),
       startTime: formatAttendanceTime(String(startPeriod?.starts_at || '')),
       endTime: formatAttendanceTime(String(endPeriod?.ends_at || '')),
@@ -977,6 +979,22 @@ async function loadAttendanceSyncPayload(studentId: string) {
       name: String(student.full_name || '').trim(),
     },
     sessions: attendanceSessions,
+  };
+}
+
+function buildAttendanceSessionFields(courseName: string) {
+  if (/^UC-\d+$/i.test(courseName)) {
+    return {
+      component: '',
+      subject: '',
+      paperCode: '',
+    };
+  }
+
+  return {
+    component: courseName,
+    subject: courseName,
+    paperCode: '',
   };
 }
 

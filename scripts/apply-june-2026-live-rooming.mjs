@@ -40,7 +40,6 @@ const rooming = [
   { coursePatterns: ['Geography'], slotOrders: slotGroups.blockA, teacher: 'Keith Seeley / Alex Oniango', room: 'B2039' },
 
   { coursePatterns: ['Physics B-1'], slotOrders: slotGroups.blockBCie, teacher: 'Chester Lim', room: 'B3005' },
-  { coursePatterns: ['Physics B-1'], slotOrders: slotGroups.blockC, teacher: 'Chester Lim', room: 'B3005' },
   { coursePatterns: ['Physics B-2'], slotOrders: slotGroups.blockBCie, teacher: 'Evelyn Yang', room: 'B3004' },
   {
     coursePatterns: ['Biology'],
