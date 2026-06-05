@@ -39,7 +39,7 @@ const rooming = [
   { coursePatterns: ['Physics A-3*'], slotOrders: slotGroups.blockA, teacher: 'Logan Tian', room: 'B3021' },
   { coursePatterns: ['Geography'], slotOrders: slotGroups.blockA, teacher: 'Keith Seeley / Alex Oniango', room: 'B2039' },
 
-  { coursePatterns: ['Physics B-1'], slotOrders: slotGroups.blockBCie, teacher: 'Chester Lim', room: 'B3005' },
+  { coursePatterns: ['Physics B-1'], slotOrders: slotGroups.blockBCie, teacher: 'Raufie Shafie', room: 'B3005' },
   { coursePatterns: ['Physics B-2'], slotOrders: slotGroups.blockBCie, teacher: 'Evelyn Yang', room: 'B3004' },
   {
     coursePatterns: ['Biology'],
@@ -115,7 +115,7 @@ const rooming = [
   { coursePatterns: ['Advanced Math D (CIE)'], slotOrders: slotGroups.blockD, teacher: 'Rajesh', room: 'B3043' },
   {
     coursePatterns: ['Physics D'],
-    teacher: 'Raufie Shafie',
+    teacher: 'Chester Lim',
     roomsBySlotOrder: {
       6103: 'B3009', 6104: 'B3009', 6113: 'B4038', 6114: 'B4038',
       6125: 'B4038', 6155: 'B4038', 6168: 'B4038', 6169: 'B4038',
@@ -192,7 +192,7 @@ const rooming = [
   { coursePatterns: ['PE-7'], slotOrders: [6127, 6128, 6166, 6167], teacher: 'Milan Saric', room: 'Gym' },
   {
     coursePatterns: ['English E-7*'],
-    teacher: 'Cordelia Jiao',
+    teacher: 'Kelly Ding',
     roomsBySlotOrder: {
       6111: 'B4011', 6112: 'B4011', 6121: 'B4011',
       6151: 'B4011', 6152: 'B4011', 6165: 'B4011',
