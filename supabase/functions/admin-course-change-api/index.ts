@@ -18,6 +18,44 @@ const NON_EDITABLE_UNBLOCKED_COURSES = new Set([
   'House Activities',
   'University Counselling',
 ]);
+const CHINESE_MANUAL_SYNC_SOURCE = 'manual-chinese-block-2026-06-admin-sync';
+const TOK_CAS_MANUAL_SYNC_SOURCE = 'manual-monday-p34-tok-cas-admin-sync';
+const CHINESE_PROTECTED_SLOT_IDS = [39, 40, 55, 84, 85];
+const TOK_CAS_PROTECTED_SLOT_IDS = [63, 64, 99, 100];
+const CHINESE_COURSE_NAMES = [
+  'Chinese A HL',
+  'Chinese A SL',
+  'Chinese AB SL',
+  'Chinese B HL',
+  'Chinese B SL',
+];
+const TOK_COURSE_NAMES = [
+  'TOK (Group 1)',
+  'TOK (Group 2)',
+];
+const CAS_COURSE_NAMES = [
+  'CAS (Group 1)',
+  'CAS (Group 2)',
+];
+const SPECIAL_COURSE_NAMES = [
+  ...CHINESE_COURSE_NAMES,
+  ...TOK_COURSE_NAMES,
+  ...CAS_COURSE_NAMES,
+];
+const TOK_CAS_SLOT_RULES = {
+  'TOK (Group 1)::CAS (Group 2)': [
+    { slotId: 63, courseName: 'TOK (Group 1)' },
+    { slotId: 64, courseName: 'CAS (Group 2)' },
+    { slotId: 99, courseName: 'TOK (Group 1)' },
+    { slotId: 100, courseName: 'CAS (Group 2)' },
+  ],
+  'TOK (Group 2)::CAS (Group 1)': [
+    { slotId: 63, courseName: 'CAS (Group 1)' },
+    { slotId: 64, courseName: 'TOK (Group 2)' },
+    { slotId: 99, courseName: 'CAS (Group 1)' },
+    { slotId: 100, courseName: 'TOK (Group 2)' },
+  ],
+};
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'GET,POST,OPTIONS',
@@ -245,9 +283,15 @@ async function loadStudentEditorData(studentId: string) {
   );
 
   const coursePreviewByName = await loadCoursePreviewByName(editableCourseNames);
+  const currentTokCourseName = currentUnblocked.find((courseName) => TOK_COURSE_NAMES.includes(courseName)) || '';
 
   return {
-    student: normalizeStudent(studentResult.data),
+    student: normalizeStudent({
+      ...studentResult.data,
+      has_tok: Boolean(currentTokCourseName),
+      tok_course: currentTokCourseName,
+      tok_block_code: currentTokCourseName ? 'C' : '',
+    }),
     editableCourseNames,
     blockPreviewSlotSignatureByCode,
     blocks: BLOCK_CODES.map((blockCode) => ({
@@ -677,7 +721,7 @@ async function replaceStudentEnrollments(studentId: string, payload: Record<stri
   const [courseCatalog, optionBuckets, studentResult] = await Promise.all([
     loadCourseCatalog(),
     loadOptionBuckets(),
-    supabase.from('students').select('student_id,program').eq('student_id', studentId).limit(1).maybeSingle(),
+    supabase.from('students').select('student_id,program,has_tok,tok_course,tok_block_code').eq('student_id', studentId).limit(1).maybeSingle(),
   ]);
 
   if (studentResult.error) {
@@ -689,23 +733,12 @@ async function replaceStudentEnrollments(studentId: string, payload: Record<stri
     throw error;
   }
 
-  const previousStudentState = await loadStudentEnrollmentState(studentId, studentResult.data.program || '');
+  const previousStudentState = await loadStudentEnrollmentState(studentId, studentResult.data);
 
   if (nextProgram && !['A Level', 'IB'].includes(nextProgram)) {
     const error = new Error(`Unsupported programme: ${nextProgram}`);
     error.statusCode = 400;
     throw error;
-  }
-
-  if (nextProgram && nextProgram !== normaliseProgramValue(studentResult.data.program || '')) {
-    const updateStudent = await supabase
-      .from('students')
-      .update({ program: nextProgram })
-      .eq('student_id', studentId);
-
-    if (updateStudent.error) {
-      throw wrapSupabaseError(updateStudent.error);
-    }
   }
 
   const normalizedBlockSelections: Record<string, string> = {};
@@ -738,6 +771,9 @@ async function replaceStudentEnrollments(studentId: string, payload: Record<stri
       .filter((courseName) => Boolean(courseName) && !NON_EDITABLE_UNBLOCKED_COURSES.has(courseName)),
   )].sort((left, right) => left.localeCompare(right));
 
+  validateSpecialCourseSelections(normalizedUnblocked);
+  const selectedTokCourseName = normalizedUnblocked.find((courseName) => TOK_COURSE_NAMES.includes(courseName)) || '';
+
   for (const courseName of normalizedUnblocked) {
     if (!courseCatalog.idsByName.has(courseName)) {
       const error = new Error(`Unknown non-block course selected: ${courseName}`);
@@ -750,88 +786,105 @@ async function replaceStudentEnrollments(studentId: string, payload: Record<stri
     // Course validity is still enforced by the FK on course_id.
   }
 
-  for (const blockCode of BLOCK_CODES) {
-    const { error } = await supabase
-      .from('student_enrollments')
-      .delete()
-      .eq('student_id', studentId)
-      .eq('block_code', blockCode);
+  try {
+    if (nextProgram && nextProgram !== normaliseProgramValue(studentResult.data.program || '')) {
+      const updateStudent = await supabase
+        .from('students')
+        .update({ program: nextProgram })
+        .eq('student_id', studentId);
 
-    if (error) {
-      throw wrapSupabaseError(error);
-    }
-  }
-
-  const existingUnblockedResult = await supabase
-    .from('student_enrollments')
-    .select('course_id,course:courses(name)')
-    .eq('student_id', studentId)
-    .is('block_code', null)
-    .limit(500);
-
-  if (existingUnblockedResult.error) {
-    throw wrapSupabaseError(existingUnblockedResult.error);
-  }
-
-  const removableUnblockedCourseIds = [...new Set((existingUnblockedResult.data || [])
-    .map((row) => {
-      const courseName = canonicalCourseName(row.course?.name);
-      if (!courseName || NON_EDITABLE_UNBLOCKED_COURSES.has(courseName)) {
-        return null;
+      if (updateStudent.error) {
+        throw wrapSupabaseError(updateStudent.error);
       }
-      return row.course_id;
-    })
-    .filter(Boolean))] as number[];
+    }
 
-  const deleteUnblocked = removableUnblockedCourseIds.length
-    ? await supabase
+    for (const blockCode of BLOCK_CODES) {
+      const { error } = await supabase
         .from('student_enrollments')
         .delete()
         .eq('student_id', studentId)
-        .is('block_code', null)
-        .in('course_id', removableUnblockedCourseIds)
-    : { error: null };
+        .eq('block_code', blockCode);
 
-  if (deleteUnblocked.error) {
-    throw wrapSupabaseError(deleteUnblocked.error);
-  }
-
-  const rowsToInsert = [];
-  for (const blockCode of BLOCK_CODES) {
-    const courseName = normalizedBlockSelections[blockCode];
-    if (!courseName) {
-      continue;
+      if (error) {
+        throw wrapSupabaseError(error);
+      }
     }
 
-    rowsToInsert.push({
-      student_id: studentId,
-      course_id: courseCatalog.idsByName.get(courseName),
-      block_code: blockCode,
-    });
-  }
+    const existingUnblockedResult = await supabase
+      .from('student_enrollments')
+      .select('course_id,course:courses(name)')
+      .eq('student_id', studentId)
+      .is('block_code', null)
+      .limit(500);
 
-  for (const courseName of normalizedUnblocked) {
-    rowsToInsert.push({
-      student_id: studentId,
-      course_id: courseCatalog.idsByName.get(courseName),
-      block_code: null,
-    });
-  }
-
-  if (rowsToInsert.length > 0) {
-    const insertResult = await supabase.from('student_enrollments').insert(rowsToInsert);
-    if (insertResult.error) {
-      throw wrapSupabaseError(insertResult.error);
+    if (existingUnblockedResult.error) {
+      throw wrapSupabaseError(existingUnblockedResult.error);
     }
-  }
 
-  try {
-    const syncResult = await supabase.rpc('sync_student_slot_assignments_for_student', {
-      target_student_id: studentId,
-    });
-    if (syncResult.error) {
-      throw wrapSupabaseError(syncResult.error);
+    const removableUnblockedCourseIds = [...new Set((existingUnblockedResult.data || [])
+      .map((row) => {
+        const courseName = canonicalCourseName(row.course?.name);
+        if (!courseName || NON_EDITABLE_UNBLOCKED_COURSES.has(courseName)) {
+          return null;
+        }
+        return row.course_id;
+      })
+      .filter(Boolean))] as number[];
+
+    const deleteUnblocked = removableUnblockedCourseIds.length
+      ? await supabase
+          .from('student_enrollments')
+          .delete()
+          .eq('student_id', studentId)
+          .is('block_code', null)
+          .in('course_id', removableUnblockedCourseIds)
+      : { error: null };
+
+    if (deleteUnblocked.error) {
+      throw wrapSupabaseError(deleteUnblocked.error);
     }
+
+    const updateTokMetadata = await supabase
+      .from('students')
+      .update(selectedTokCourseName
+        ? { has_tok: true, tok_course: selectedTokCourseName, tok_block_code: 'C' }
+        : { has_tok: false, tok_course: null, tok_block_code: null })
+      .eq('student_id', studentId);
+
+    if (updateTokMetadata.error) {
+      throw wrapSupabaseError(updateTokMetadata.error);
+    }
+
+    const rowsToInsert = [];
+    for (const blockCode of BLOCK_CODES) {
+      const courseName = normalizedBlockSelections[blockCode];
+      if (!courseName) {
+        continue;
+      }
+
+      rowsToInsert.push({
+        student_id: studentId,
+        course_id: courseCatalog.idsByName.get(courseName),
+        block_code: blockCode,
+      });
+    }
+
+    for (const courseName of normalizedUnblocked) {
+      rowsToInsert.push({
+        student_id: studentId,
+        course_id: courseCatalog.idsByName.get(courseName),
+        block_code: null,
+      });
+    }
+
+    if (rowsToInsert.length > 0) {
+      const insertResult = await supabase.from('student_enrollments').insert(rowsToInsert);
+      if (insertResult.error) {
+        throw wrapSupabaseError(insertResult.error);
+      }
+    }
+
+    await syncStudentTimetableFromEnrollments(studentId);
 
     const attendanceSync = await syncAttendanceForStudent(studentId);
 
@@ -850,10 +903,173 @@ async function replaceStudentEnrollments(studentId: string, payload: Record<stri
     }
 
     // Rollback succeeded — the timetable was NOT saved.
-    const syncError = new Error(`Save cancelled. The timetable was not changed because the attendance database could not be updated. ${error.message || 'Attendance sync failed.'}`);
+    const syncError = new Error(`Save cancelled. The timetable was not changed because the update did not complete. ${error.message || 'Update failed.'}`);
     syncError.statusCode = 400;
     throw syncError;
   }
+}
+
+function validateSpecialCourseSelections(courseNames: string[]) {
+  const selectedChinese = courseNames.filter((courseName) => CHINESE_COURSE_NAMES.includes(courseName));
+  const selectedTok = courseNames.filter((courseName) => TOK_COURSE_NAMES.includes(courseName));
+  const selectedCas = courseNames.filter((courseName) => CAS_COURSE_NAMES.includes(courseName));
+
+  if (selectedChinese.length > 1) {
+    const error = new Error(`Choose only one Chinese course. Selected: ${selectedChinese.join(', ')}.`);
+    error.statusCode = 400;
+    throw error;
+  }
+
+  if (selectedTok.length > 1) {
+    const error = new Error(`Choose only one TOK course. Selected: ${selectedTok.join(', ')}.`);
+    error.statusCode = 400;
+    throw error;
+  }
+
+  if (selectedCas.length > 1) {
+    const error = new Error(`Choose only one CAS course. Selected: ${selectedCas.join(', ')}.`);
+    error.statusCode = 400;
+    throw error;
+  }
+
+  if (selectedTok.length || selectedCas.length) {
+    if (selectedTok.length !== 1 || selectedCas.length !== 1) {
+      const error = new Error('TOK and CAS must be changed together: choose one TOK group and one CAS group, or choose neither.');
+      error.statusCode = 400;
+      throw error;
+    }
+
+    const pairKey = buildTokCasPairKey(selectedTok[0], selectedCas[0]);
+    if (!TOK_CAS_SLOT_RULES[pairKey]) {
+      const error = new Error('Invalid TOK/CAS pair. Use TOK (Group 1) with CAS (Group 2), or TOK (Group 2) with CAS (Group 1).');
+      error.statusCode = 400;
+      throw error;
+    }
+  }
+}
+
+async function syncStudentTimetableFromEnrollments(studentId: string) {
+  const courseCatalog = await loadCourseCatalog();
+  await clearSpecialManualSlotAssignments(studentId, courseCatalog);
+
+  const syncResult = await supabase.rpc('sync_student_slot_assignments_for_student', {
+    target_student_id: studentId,
+  });
+  if (syncResult.error) {
+    throw wrapSupabaseError(syncResult.error);
+  }
+
+  await reconcileSpecialManualSlotAssignments(studentId, courseCatalog);
+}
+
+async function clearSpecialManualSlotAssignments(studentId: string, courseCatalog: { idsByName: Map<string, number> }) {
+  const specialCourseIds = SPECIAL_COURSE_NAMES
+    .map((courseName) => courseCatalog.idsByName.get(courseName))
+    .filter((courseId) => Number.isFinite(Number(courseId))) as number[];
+
+  if (!specialCourseIds.length) {
+    return;
+  }
+
+  const deleteResult = await supabase
+    .from('student_slot_assignments')
+    .delete()
+    .eq('student_id', studentId)
+    .in('slot_id', [...CHINESE_PROTECTED_SLOT_IDS, ...TOK_CAS_PROTECTED_SLOT_IDS])
+    .in('course_id', specialCourseIds);
+
+  if (deleteResult.error) {
+    throw wrapSupabaseError(deleteResult.error);
+  }
+}
+
+async function reconcileSpecialManualSlotAssignments(studentId: string, courseCatalog: { idsByName: Map<string, number> }) {
+  const enrollmentResult = await supabase
+    .from('student_enrollments')
+    .select('course_id,course:courses(name)')
+    .eq('student_id', studentId)
+    .limit(500);
+
+  if (enrollmentResult.error) {
+    throw wrapSupabaseError(enrollmentResult.error);
+  }
+
+  const enrolledCourseNames = [...new Set((enrollmentResult.data || [])
+    .map((row) => canonicalCourseName(row.course?.name))
+    .filter(Boolean))];
+
+  const rowsToUpsert = [
+    ...buildChineseManualAssignmentRows(studentId, enrolledCourseNames, courseCatalog),
+    ...buildTokCasManualAssignmentRows(studentId, enrolledCourseNames, courseCatalog),
+  ];
+
+  if (!rowsToUpsert.length) {
+    return;
+  }
+
+  const upsertResult = await supabase
+    .from('student_slot_assignments')
+    .upsert(rowsToUpsert, { onConflict: 'student_id,slot_id' });
+
+  if (upsertResult.error) {
+    throw wrapSupabaseError(upsertResult.error);
+  }
+}
+
+function buildChineseManualAssignmentRows(studentId: string, enrolledCourseNames: string[], courseCatalog: { idsByName: Map<string, number> }) {
+  const chineseCourseName = CHINESE_COURSE_NAMES.find((courseName) => enrolledCourseNames.includes(courseName));
+  if (!chineseCourseName) {
+    return [];
+  }
+
+  const courseId = courseCatalog.idsByName.get(chineseCourseName);
+  if (!courseId) {
+    const error = new Error(`Could not reconcile Chinese timetable rows because ${chineseCourseName} is missing from courses.`);
+    error.statusCode = 500;
+    throw error;
+  }
+
+  return CHINESE_PROTECTED_SLOT_IDS.map((slotId) => ({
+    student_id: studentId,
+    slot_id: slotId,
+    course_id: courseId,
+    source: CHINESE_MANUAL_SYNC_SOURCE,
+  }));
+}
+
+function buildTokCasManualAssignmentRows(studentId: string, enrolledCourseNames: string[], courseCatalog: { idsByName: Map<string, number> }) {
+  const tokCourseName = TOK_COURSE_NAMES.find((courseName) => enrolledCourseNames.includes(courseName));
+  const casCourseName = CAS_COURSE_NAMES.find((courseName) => enrolledCourseNames.includes(courseName));
+  if (!tokCourseName || !casCourseName) {
+    return [];
+  }
+
+  const slotRules = TOK_CAS_SLOT_RULES[buildTokCasPairKey(tokCourseName, casCourseName)];
+  if (!slotRules) {
+    const error = new Error('Could not reconcile TOK/CAS timetable rows because the current TOK/CAS enrollment pair is invalid.');
+    error.statusCode = 500;
+    throw error;
+  }
+
+  return slotRules.map(({ slotId, courseName }) => {
+    const courseId = courseCatalog.idsByName.get(courseName);
+    if (!courseId) {
+      const error = new Error(`Could not reconcile TOK/CAS timetable rows because ${courseName} is missing from courses.`);
+      error.statusCode = 500;
+      throw error;
+    }
+
+    return {
+      student_id: studentId,
+      slot_id: slotId,
+      course_id: courseId,
+      source: TOK_CAS_MANUAL_SYNC_SOURCE,
+    };
+  });
+}
+
+function buildTokCasPairKey(tokCourseName: string, casCourseName: string) {
+  return `${tokCourseName}::${casCourseName}`;
 }
 
 function formatAttendanceDate(rawDate: string) {
@@ -1157,7 +1373,7 @@ function redactUrl(value: string) {
   }
 }
 
-async function loadStudentEnrollmentState(studentId: string, program: string) {
+async function loadStudentEnrollmentState(studentId: string, student: Record<string, unknown>) {
   const { data, error } = await supabase
     .from('student_enrollments')
     .select('course_id,block_code')
@@ -1169,7 +1385,10 @@ async function loadStudentEnrollmentState(studentId: string, program: string) {
   }
 
   return {
-    program: normaliseProgramValue(program || ''),
+    program: normaliseProgramValue(String(student.program || '')),
+    has_tok: typeof student.has_tok === 'boolean' ? student.has_tok : null,
+    tok_course: student.tok_course || null,
+    tok_block_code: student.tok_block_code || null,
     enrollments: (data || []).map((row) => ({
       student_id: studentId,
       course_id: row.course_id,
@@ -1178,7 +1397,7 @@ async function loadStudentEnrollmentState(studentId: string, program: string) {
   };
 }
 
-async function restoreStudentEnrollmentState(studentId: string, state: { program: string; enrollments: Array<{ student_id: string; course_id: number; block_code: string | null }> }) {
+async function restoreStudentEnrollmentState(studentId: string, state: { program: string; has_tok: boolean | null; tok_course: unknown; tok_block_code: unknown; enrollments: Array<{ student_id: string; course_id: number; block_code: string | null }> }) {
   const deleteResult = await supabase.from('student_enrollments').delete().eq('student_id', studentId);
   if (deleteResult.error) {
     return wrapSupabaseError(deleteResult.error);
@@ -1193,18 +1412,22 @@ async function restoreStudentEnrollmentState(studentId: string, state: { program
 
   const programResult = await supabase
     .from('students')
-    .update({ program: state.program })
+    .update({
+      program: state.program,
+      has_tok: state.has_tok,
+      tok_course: state.tok_course,
+      tok_block_code: state.tok_block_code,
+    })
     .eq('student_id', studentId);
 
   if (programResult.error) {
     return wrapSupabaseError(programResult.error);
   }
 
-  const syncResult = await supabase.rpc('sync_student_slot_assignments_for_student', {
-    target_student_id: studentId,
-  });
-  if (syncResult.error) {
-    return wrapSupabaseError(syncResult.error);
+  try {
+    await syncStudentTimetableFromEnrollments(studentId);
+  } catch (error) {
+    return error;
   }
 
   return null;
