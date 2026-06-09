@@ -37,7 +37,7 @@ async function supabase(path, options = {}) {
 function duplicateSummary(entries) {
   const counts = new Map();
   for (const entry of entries) {
-    const key = `${entry.day_name}|${entry.start_period_id}|${entry.end_period_id}`;
+    const key = `${entry.term_name}|${entry.day_name}|${entry.start_period_id}|${entry.end_period_id}`;
     counts.set(key, (counts.get(key) || 0) + 1);
   }
 
@@ -80,7 +80,7 @@ console.log(
   JSON.stringify(
     {
       total_students: students.length,
-      students_with_duplicate_payload_rows: duplicateStudents.length,
+      students_with_same_date_duplicate_payload_rows: duplicateStudents.length,
       students_with_empty_payload: emptyStudents.length,
       sample_duplicates: duplicateStudents.slice(0, 10),
       sample_empty: emptyStudents.slice(0, 10),
