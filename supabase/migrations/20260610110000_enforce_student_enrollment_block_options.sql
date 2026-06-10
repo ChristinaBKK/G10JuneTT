@@ -172,6 +172,16 @@ where not public.course_uses_non_block_enrollment(course.name)
 on conflict (course_id, block_code) do update
 set source = excluded.source;
 
+insert into public.course_block_options (course_id, block_code, source)
+select distinct
+  course.id,
+  'UC',
+  'june-2026-canonical'
+from public.courses as course
+where btrim(course.name) ~* '^UC-[0-9]+$'
+on conflict (course_id, block_code) do update
+set source = excluded.source;
+
 with canonical_slot_blocks(slot_order, block_code) as (
   values
     (6101, 'A'), (6102, 'A'), (6122, 'A'), (6156, 'A'), (6157, 'A'),
@@ -192,7 +202,9 @@ with canonical_slot_blocks(slot_order, block_code) as (
     (6111, 'E'), (6112, 'E'), (6121, 'E'), (6151, 'E'), (6152, 'E'),
     (6165, 'E'), (6181, 'E'), (6182, 'E'), (6185, 'E'), (6291, 'E'), (6292, 'E'),
 
-    (6127, 'F'), (6128, 'F'), (6166, 'F'), (6167, 'F')
+    (6127, 'F'), (6128, 'F'), (6166, 'F'), (6167, 'F'),
+
+    (6115, 'UC')
 )
 insert into public.timetable_slot_block_options (slot_order, block_code, source)
 select slot_order, block_code, 'june-2026-canonical'
@@ -243,6 +255,24 @@ where course.id = slot_course.course_id
     6108, 6109, 6116, 6117, 6153, 6154, 6161, 6162,
     6178, 6179, 6186, 6187, 6293, 6294
   );
+
+-- UC-## courses are student counseling buckets for the UC block. They should
+-- not appear as offers or assignments inside academic A-F block slots.
+delete from public.student_slot_assignments as assignment
+using public.courses as course,
+      public.timetable_slots as slot
+where course.id = assignment.course_id
+  and slot.id = assignment.slot_id
+  and btrim(course.name) ~* '^UC-[0-9]+$'
+  and slot.slot_order is distinct from 6115;
+
+delete from public.timetable_slot_courses as slot_course
+using public.courses as course,
+      public.timetable_slots as slot
+where course.id = slot_course.course_id
+  and slot.id = slot_course.slot_id
+  and btrim(course.name) ~* '^UC-[0-9]+$'
+  and slot.slot_order is distinct from 6115;
 
 create or replace function public.timetable_slot_block_code(target_slot_order integer)
 returns text
