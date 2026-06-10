@@ -4,11 +4,8 @@ import postgres from 'https://esm.sh/postgres@3.4.4';
 
 const FUNCTION_NAME = 'admin-course-change-api';
 const BLOCK_CODES = ['A', 'B', 'C', 'D', 'E', 'F', 'UC'];
-// Map of course name -> block code to force-assign in the admin UI even when
-// the underlying student_enrollments row has no block_code. Intentionally
-// empty: every course now derives its bucket from student_enrollments.block_code
-// directly. Add entries here only if a course needs to be pinned to a block
-// regardless of how the student is enrolled (none today).
+// Map of course name -> canonical block code for courses whose raw course
+// metadata/timetable slot offers do not otherwise expose a single clear block.
 const COURSE_BLOCK_OVERRIDES = new Map<string, string>([
   ['Business HL', 'E'],
 ]);
@@ -476,47 +473,96 @@ async function fetchCourseRowsWithBlockCode() {
     }));
   }
 
-  const { data: enrollmentRows, error: enrollmentsError } = await supabase
-    .from('student_enrollments')
-    .select('block_code,course:courses(id,name)')
-    .limit(5000);
-
-  if (enrollmentsError) {
-    throw wrapSupabaseError(enrollmentsError);
+  const blockOptionRows = await fetchCourseBlockOptionRows();
+  if (blockOptionRows) {
+    const blockCodesByCourseId = buildValidBlockCodesByCourseIdFromOptions(blockOptionRows, courseRows);
+    return expandCourseRowsWithBlockCodes(courseRows, blockCodesByCourseId);
   }
 
-  const inferredBlockCodes = new Map<number, string>();
-  const blockCountsByCourseId = new Map<number, Map<string, number>>();
+  const slotCourseSelect = courseRows.some((row) => Object.prototype.hasOwnProperty.call(row, 'block_code'))
+    ? 'slot_id,display_order,course:courses(id,name,block_code)'
+    : 'slot_id,display_order,course:courses(id,name)';
 
-  for (const row of enrollmentRows || []) {
-    const courseId = row.course?.id;
-    const blockCode = String(row.block_code || '').trim();
-    if (!courseId || !blockCode) {
+  const { data: slotCourseRows, error: slotCoursesError } = await supabase
+    .from('timetable_slot_courses')
+    .select(slotCourseSelect)
+    .limit(10000);
+
+  if (slotCoursesError) {
+    throw wrapSupabaseError(slotCoursesError);
+  }
+
+  const blockCodesByCourseId = buildValidBlockCodesByCourseId(slotCourseRows || [], courseRows);
+
+  return expandCourseRowsWithBlockCodes(courseRows, blockCodesByCourseId);
+}
+
+async function fetchCourseBlockOptionRows() {
+  const { data, error } = await supabase
+    .from('course_block_options')
+    .select('block_code,course:courses(id,name)')
+    .limit(10000);
+
+  if (error) {
+    const errorText = [
+      error.message,
+      error.details,
+      error.hint,
+      error.code,
+    ].map((value) => String(value || '').toLowerCase()).join(' ');
+
+    if (errorText.includes('course_block_options') && (
+      errorText.includes('schema cache') ||
+      errorText.includes('not find') ||
+      errorText.includes('does not exist') ||
+      errorText.includes('relation')
+    )) {
+      return null;
+    }
+
+    throw wrapSupabaseError(error);
+  }
+
+  return data || [];
+}
+
+function buildValidBlockCodesByCourseIdFromOptions(
+  blockOptionRows: Array<{ block_code?: string | null; course?: { id?: number | null; name?: string | null } | null }>,
+  courseRows: Array<{ id: number; name: string }>,
+) {
+  const knownCourseIds = new Set(courseRows.map((row) => row.id));
+  const blockCodesByCourseId = new Map<number, Set<string>>();
+
+  for (const row of blockOptionRows) {
+    const courseId = Number(row.course?.id || 0);
+    const courseName = canonicalCourseName(row.course?.name);
+    const blockCode = String(row.block_code || '').trim().toUpperCase();
+    if (
+      !knownCourseIds.has(courseId) ||
+      !BLOCK_CODES.includes(blockCode) ||
+      SPECIAL_COURSE_NAMES.includes(courseName)
+    ) {
       continue;
     }
 
-    if (!blockCountsByCourseId.has(courseId)) {
-      blockCountsByCourseId.set(courseId, new Map<string, number>());
+    if (!blockCodesByCourseId.has(courseId)) {
+      blockCodesByCourseId.set(courseId, new Set<string>());
     }
-    const blockCounts = blockCountsByCourseId.get(courseId)!;
-    blockCounts.set(blockCode, (blockCounts.get(blockCode) || 0) + 1);
+    blockCodesByCourseId.get(courseId)!.add(blockCode);
   }
 
-  for (const [courseId, counts] of blockCountsByCourseId.entries()) {
-    const rankedBlocks = [...counts.entries()].sort((left, right) => {
-      if (right[1] !== left[1]) {
-        return right[1] - left[1];
-      }
-      return left[0].localeCompare(right[0]);
-    });
-    inferredBlockCodes.set(courseId, rankedBlocks[0]?.[0] || '');
-  }
+  return blockCodesByCourseId;
+}
 
+function expandCourseRowsWithBlockCodes(
+  courseRows: Array<{ id: number; name: string }>,
+  blockCodesByCourseId: Map<number, Set<string>>,
+) {
   const expandedRows: Array<{ id: number; name: string; block_code: string | null }> = [];
   for (const row of courseRows || []) {
-    const enrollmentBlocks = [...(blockCountsByCourseId.get(row.id)?.keys() || [])].sort((left, right) => left.localeCompare(right));
-    if (enrollmentBlocks.length) {
-      for (const blockCode of enrollmentBlocks) {
+    const validBlockCodes = [...(blockCodesByCourseId.get(row.id) || [])].sort((left, right) => left.localeCompare(right));
+    if (validBlockCodes.length) {
+      for (const blockCode of validBlockCodes) {
         expandedRows.push({
           id: row.id,
           name: row.name,
@@ -529,11 +575,91 @@ async function fetchCourseRowsWithBlockCode() {
     expandedRows.push({
       id: row.id,
       name: row.name,
-      block_code: row.block_code || inferredBlockCodes.get(row.id) || null,
+      block_code: null,
     });
   }
 
   return expandedRows;
+}
+
+function buildValidBlockCodesByCourseId(
+  slotCourseRows: Array<{ slot_id?: number | null; display_order?: number | null; course?: { id?: number | null; name?: string | null; block_code?: string | null } | null }>,
+  courseRows: Array<{ id: number; name: string; block_code?: string | null }>,
+) {
+  const blockCodesByCourseId = new Map<number, Set<string>>();
+
+  for (const row of courseRows) {
+    if (SPECIAL_COURSE_NAMES.includes(canonicalCourseName(row.name))) {
+      continue;
+    }
+
+    const blockCode = getAdminBlockCodeForCourseName(row.name, row.block_code || null);
+    if (!blockCode) {
+      continue;
+    }
+    if (!blockCodesByCourseId.has(row.id)) {
+      blockCodesByCourseId.set(row.id, new Set<string>());
+    }
+    blockCodesByCourseId.get(row.id)!.add(blockCode);
+  }
+
+  const slotBlockCodeById = inferSlotBlockCodes(slotCourseRows);
+  for (const row of slotCourseRows) {
+    const courseId = Number(row.course?.id || 0);
+    const slotId = Number(row.slot_id || 0);
+    const blockCode = slotBlockCodeById.get(slotId);
+    if (!courseId || !blockCode || SPECIAL_COURSE_NAMES.includes(canonicalCourseName(row.course?.name))) {
+      continue;
+    }
+    if (!blockCodesByCourseId.has(courseId)) {
+      blockCodesByCourseId.set(courseId, new Set<string>());
+    }
+    blockCodesByCourseId.get(courseId)!.add(blockCode);
+  }
+
+  return blockCodesByCourseId;
+}
+
+function inferSlotBlockCodes(slotCourseRows: Array<{ slot_id?: number | null; display_order?: number | null; course?: { name?: string | null; block_code?: string | null } | null }>) {
+  const blockCountsBySlotId = new Map<number, Map<string, { count: number; firstDisplayOrder: number }>>();
+
+  for (const row of slotCourseRows) {
+    const slotId = Number(row.slot_id || 0);
+    const courseName = canonicalCourseName(row.course?.name);
+    if (SPECIAL_COURSE_NAMES.includes(courseName)) {
+      continue;
+    }
+
+    const blockCode = getAdminBlockCodeForCourseName(courseName, row.course?.block_code || null);
+    if (!slotId || !blockCode) {
+      continue;
+    }
+
+    if (!blockCountsBySlotId.has(slotId)) {
+      blockCountsBySlotId.set(slotId, new Map<string, { count: number; firstDisplayOrder: number }>());
+    }
+    const blockCounts = blockCountsBySlotId.get(slotId)!;
+    const existing = blockCounts.get(blockCode) || { count: 0, firstDisplayOrder: Number.POSITIVE_INFINITY };
+    existing.count += 1;
+    existing.firstDisplayOrder = Math.min(existing.firstDisplayOrder, Number(row.display_order || Number.POSITIVE_INFINITY));
+    blockCounts.set(blockCode, existing);
+  }
+
+  const slotBlockCodeById = new Map<number, string>();
+  for (const [slotId, counts] of blockCountsBySlotId.entries()) {
+    const rankedBlocks = [...counts.entries()].sort((left, right) => {
+      if (right[1].count !== left[1].count) {
+        return right[1].count - left[1].count;
+      }
+      if (left[1].firstDisplayOrder !== right[1].firstDisplayOrder) {
+        return left[1].firstDisplayOrder - right[1].firstDisplayOrder;
+      }
+      return left[0].localeCompare(right[0]);
+    });
+    slotBlockCodeById.set(slotId, rankedBlocks[0]?.[0] || '');
+  }
+
+  return slotBlockCodeById;
 }
 
 async function loadOptionTeacherByCourseName() {
@@ -796,7 +922,7 @@ async function replaceStudentEnrollments(studentId: string, payload: Record<stri
     }
 
     const courseBlockCodes = courseCatalog.coursesByName.get(rawValue) || new Set<string>();
-    if (courseBlockCodes.size && !courseBlockCodes.has(blockCode)) {
+    if (!courseBlockCodes.has(blockCode)) {
       const error = new Error(`Course ${rawValue} is not a valid option for Block ${blockCode}.`);
       error.statusCode = 400;
       throw error;

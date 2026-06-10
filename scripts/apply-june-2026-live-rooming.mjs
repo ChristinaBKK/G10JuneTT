@@ -68,7 +68,6 @@ const rooming = [
   { coursePatterns: ['Computer Science'], slotOrders: slotGroups.blockBCie, teacher: 'Bill Jiang', room: 'B1029' },
   { coursePatterns: ['Music'], slotOrders: slotGroups.blockBCie, teacher: 'Andy Clark', room: 'B2003' },
   { coursePatterns: ['Chinese B'], slotOrders: slotGroups.blockBCie, teacher: 'Ivy Zhu', room: 'B3009' },
-  { coursePatterns: ['Chinese B'], slotOrders: slotGroups.blockC, teacher: 'Ivy Zhu', room: 'B3009' },
   { coursePatterns: ['Economics B-2 (Summit)'], slotOrders: slotGroups.blockBCie, teacher: 'Fahran Nzamy', room: 'B4011' },
   { coursePatterns: ['Art & Design (Dual Dose)'], slotOrders: slotGroups.blockBCie, teacher: 'Mark Ford', room: 'B3028' },
 
